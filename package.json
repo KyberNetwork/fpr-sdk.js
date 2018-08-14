@@ -1,0 +1,23 @@
+{
+  "name": "reserve-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KyberNetwork/reserve-sdk.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"
+  },
+  "homepage": "https://github.com/KyberNetwork/reserve-sdk.js#readme",
+  "dependencies": {
+    "prettier": "^1.14.2",
+    "web3": "^1.0.0-beta.35"
+  }
+}
