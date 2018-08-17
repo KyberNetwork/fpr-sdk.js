@@ -7,11 +7,16 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --require babel-core/register --require babel-polyfill",
+    "test": "mocha --require babel-core/register --require babel-polyfill test/base_contract.test.js",
     "format": "prettier-standard 'src/**/*.js' 'test/**/*.js'",
     "lint": "standard",
     "doc": "jsdoc src",
     "build": "BABEL_ENV=production babel src --out-dir lib"
+  },
+  "standard": {
+    "env": {
+      "mocha": true
+    }
   },
   "repository": {
     "type": "git",
