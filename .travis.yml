@@ -4,6 +4,10 @@ node_js:
   - "6"
   - "8"
 
+cache:
+  directories:
+    - $HOME/.npm
+
 script:
   - npm install --dev
   - npm run doc
