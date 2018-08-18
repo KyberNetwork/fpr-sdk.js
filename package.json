@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "mocha --require babel-core/register --require babel-polyfill",
-    "format": "prettier --write 'src/**/*.js'",
-    "lint": "eslint src test",
+    "format": "prettier-standard 'src/**/*.js' 'test/**/*.js'",
+    "lint": "standard",
     "doc": "jsdoc src",
     "build": "BABEL_ENV=production babel src --out-dir lib"
   },
@@ -28,16 +28,11 @@
     "babel-minify": "^0.4.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.3.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-config-prettier": "^3.0.1",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-mocha": "^5.2.0",
-    "eslint-plugin-prettier": "^2.6.2",
     "ganache-cli": "^6.1.8",
     "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
-    "prettier": "^1.14.2"
+    "standard": "^11.0.1",
+    "prettier-standard": "^8.0.1"
   },
   "dependencies": {
     "web3": "^1.0.0-beta.35"
