@@ -12,7 +12,7 @@ class Deployer {
    * Create a deployer instance with given account parameter.
    * @param {object} provider - Web3 provider
    */
-  constructor(provider) {}
+  constructor (provider) {}
 
   /**
    * Deploy new reserver and pricing contracts.
@@ -21,5 +21,10 @@ class Deployer {
    * @param {boolean} [deploySanityRates=false] - If true, deploySanityRates contract will be deployed.
    * @return {Addresses} - Deployed reserve addresses set.
    */
-  deploy(account, network, deploySanityRates) {}
+  deploy (account, network, deploySanityRates) {
+    let a = 'this is a test'
+    let b = 'this is OK!'
+    console.log(b)
+    console.log(a)
+  }
 }
