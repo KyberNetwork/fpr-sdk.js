@@ -1,5 +1,4 @@
 /* eslint-env mocha */
-
 import assert from 'assert'
 import ganache from 'ganache-cli'
 import Web3 from 'web3'
@@ -16,14 +15,18 @@ beforeEach(async () => {
 })
 
 describe('Deployer', () => {
-  it('failed to deploy with no provider', async () => {
-      const dpl = new Deployer()
-      assert.throws(await dpl.deploy(accounts[0], kyberNetworkAddress, false))
+  it('failed to create a new instance with no provider', () => {
+    assert.throws(() => new Deployer())
   })
 
   it('failed to deploy with no account', async () => {
-      const dpl = new Deployer(provider)
-      assert.throws(await dpl.deploy(undefined, kyberNetworkAddress, false))
+    const dpl = new Deployer(provider)
+    try {
+      await dpl.deploy(undefined, kyberNetworkAddress, false)
+      assert.ok(false)
+    } catch (err) {
+      assert.equal(err.message, 'missing account')
+    }
   })
 
   it('deployed successfully with no sanityRates contract', async () => {
