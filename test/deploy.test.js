@@ -17,21 +17,13 @@ beforeEach(async () => {
 
 describe('Deployer', () => {
   it('failed to deploy with no provider', async () => {
-    try {
       const dpl = new Deployer()
-      await dpl.deploy(accounts[0], kyberNetworkAddress, false)
-    } catch (err) {
-      assert(false)
-    }
+      assert.throws(await dpl.deploy(accounts[0], kyberNetworkAddress, false))
   })
 
   it('failed to deploy with no account', async () => {
-    try {
       const dpl = new Deployer(provider)
-      await dpl.deploy(undefined, kyberNetworkAddress, false)
-    } catch (err) {
-      assert(false)
-    }
+      assert.throws(await dpl.deploy(undefined, kyberNetworkAddress, false))
   })
 
   it('deployed successfully with no sanityRates contract', async () => {
