@@ -35,6 +35,7 @@
     "prettier-standard": "^8.0.1"
   },
   "dependencies": {
+    "rlp": "^2.0.0",
     "web3": "^1.0.0-beta.35"
   }
 }
