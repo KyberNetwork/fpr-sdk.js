@@ -9,11 +9,6 @@ const provider = ganache.provider()
 const web3 = new Web3(provider)
 const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
-let accounts
-beforeEach(async () => {
-  accounts = web3.eth.getAccounts()
-})
-
 describe('Deployer', () => {
   it('failed to create a new instance with no provider', () => {
     assert.throws(() => new Deployer())
@@ -31,17 +26,31 @@ describe('Deployer', () => {
 
   it('deployed successfully with no sanityRates contract', async () => {
     const dpl = new Deployer(provider)
-    const addresses = await dpl.deploy(accounts[0], kyberNetworkAddress, false)
-    assert.NotEqual(addresses.getReserve(), '')
-    assert.NotEqual(addresses.getConversionRates(), '')
-    assert.Equal(addresses.getSanityRates(), '')
+    const account = await getTestAccount(provider)
+
+    const addresses = await dpl.deploy(account, kyberNetworkAddress, false)
+    assert.notEqual(addresses.getReserve(), '')
+    assert.notEqual(addresses.getConversionRates(), '')
+    assert.equal(addresses.getSanityRates(), null)
   })
 
   it('deployed successfully with sanityRates contract', async () => {
     const dpl = new Deployer(provider)
-    const addresses = await dpl.deploy(accounts[0], kyberNetworkAddress, true)
-    assert.NotEqual(addresses.getReserve(), '')
-    assert.NotEqual(addresses.getConversionRates(), '')
-    assert.NotEqual(addresses.getSanityRates(), '')
+    const account = await getTestAccount(provider)
+    const addresses = await dpl.deploy(account, kyberNetworkAddress, true)
+    assert.notEqual(addresses.getReserve(), '')
+    assert.notEqual(addresses.getConversionRates(), '')
+    assert.notEqual(addresses.getSanityRates(), '')
   })
 })
+
+async function getTestAccount(provider) {
+  const accounts = await provider.manager.state.accounts
+  const testAddress = Object.keys(accounts)[0]
+
+  const privateKey = "0x"+ accounts[testAddress].secretKey.toString("hex")
+  const account = await web3.eth.accounts.privateKeyToAccount(
+    privateKey
+  )
+  return account
+}
