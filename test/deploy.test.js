@@ -29,8 +29,8 @@ describe('Deployer', () => {
     const account = await getTestAccount(provider)
 
     const addresses = await dpl.deploy(account, kyberNetworkAddress, false)
-    assert.notEqual(addresses.getReserve(), '')
-    assert.notEqual(addresses.getConversionRates(), '')
+    assert.notEqual(addresses.getReserve(), null)
+    assert.notEqual(addresses.getConversionRates(), null)
     assert.equal(addresses.getSanityRates(), null)
   })
 
@@ -38,19 +38,17 @@ describe('Deployer', () => {
     const dpl = new Deployer(provider)
     const account = await getTestAccount(provider)
     const addresses = await dpl.deploy(account, kyberNetworkAddress, true)
-    assert.notEqual(addresses.getReserve(), '')
-    assert.notEqual(addresses.getConversionRates(), '')
-    assert.notEqual(addresses.getSanityRates(), '')
+    assert.notEqual(addresses.getReserve(), null)
+    assert.notEqual(addresses.getConversionRates(), null)
+    assert.notEqual(addresses.getSanityRates(), null)
   })
 })
 
-async function getTestAccount(provider) {
+async function getTestAccount (provider) {
   const accounts = await provider.manager.state.accounts
   const testAddress = Object.keys(accounts)[0]
 
-  const privateKey = "0x"+ accounts[testAddress].secretKey.toString("hex")
-  const account = await web3.eth.accounts.privateKeyToAccount(
-    privateKey
-  )
+  const privateKey = '0x' + accounts[testAddress].secretKey.toString('hex')
+  const account = await web3.eth.accounts.privateKeyToAccount(privateKey)
   return account
 }
