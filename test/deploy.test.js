@@ -29,26 +29,25 @@ describe('Deployer', () => {
     const account = await getTestAccount(provider)
 
     const addresses = await dpl.deploy(account, kyberNetworkAddress, false)
-    assert.notEqual(addresses.getReserve(), null)
-    assert.notEqual(addresses.getConversionRates(), null)
-    assert.equal(addresses.getSanityRates(), null)
+    assert.ok(addresses.getReserve())
+    assert.ok(addresses.getConversionRates())
+    assert.strictEqual(addresses.getSanityRates(), undefined)
   })
 
   it('deployed successfully with sanityRates contract', async () => {
     const dpl = new Deployer(provider)
     const account = await getTestAccount(provider)
     const addresses = await dpl.deploy(account, kyberNetworkAddress, true)
-    assert.notEqual(addresses.getReserve(), null)
-    assert.notEqual(addresses.getConversionRates(), null)
-    assert.notEqual(addresses.getSanityRates(), null)
+    assert.ok(addresses.getReserve())
+    assert.ok(addresses.getConversionRates())
+    assert.ok(addresses.getSanityRates())
   })
 })
 
 async function getTestAccount (provider) {
-  const accounts = await provider.manager.state.accounts
+  const accounts = provider.manager.state.accounts
   const testAddress = Object.keys(accounts)[0]
 
   const privateKey = '0x' + accounts[testAddress].secretKey.toString('hex')
-  const account = await web3.eth.accounts.privateKeyToAccount(privateKey)
-  return account
+  return web3.eth.accounts.privateKeyToAccount(privateKey)
 }
