@@ -38,7 +38,7 @@ export default class Deployer {
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
    * @return {Addresses} - Deployed reserve addresses set.
    */
-  async deploy (account, network, sanityRates) {
+  async deploy (account, network, sanityRates = false) {
     if (!account) {
       throw new Error('missing account')
     }
