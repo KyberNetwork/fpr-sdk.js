@@ -1,10 +1,10 @@
-const Web3 = require('web3')
-const fs = require('fs')
-const RLP = require('rlp')
-const path = require('path')
 import Addresses from './addresses.js'
-const deployGasLimit = 500 * 1000
+import Web3 from 'web3'
+import fs from 'fs'
+import RLP from 'rlp'
+import path from 'path'
 
+const deployGasLimit = 500 * 1000
 const contractPath = path.join(__dirname, './contracts/')
 
 /**
@@ -24,14 +24,15 @@ export default class Deployer {
    * @param {string} gasPrice  - gasPrice
    */
   constructor (provider, gasPrice) {
-    if (provider == undefined) {
+    if (provider === undefined) {
       throw new Error('provider is not set')
     }
     this.web3 = new Web3(provider)
-    async () => {
+    const initGasprice = async () => {
       this.gasPrice =
         gasPrice == null ? await this.web3.eth.getGasPrice() : gasPrice
     }
+    initGasprice()
   }
 
   /**
