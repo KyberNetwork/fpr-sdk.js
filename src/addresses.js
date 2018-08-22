@@ -2,28 +2,28 @@
  * Addresses contains addresses of all contracts of a KyberNetwork reserve.
  */
 export default class Addresses {
-  getSanityRates () {
-    return this.sanityRates
+  get sanityRates () {
+    return this._sanityRates
   }
 
-  setSanityRates (value) {
-    this.sanityRates = value
+  set sanityRates (value) {
+    this._sanityRates = value
   }
 
-  getConversionRates () {
-    return this.conversionRates
+  get conversionRates () {
+    return this._conversionRates
   }
 
-  setConversionRates (value) {
-    this.conversionRates = value
+  set conversionRates (value) {
+    this._conversionRates = value
   }
 
-  getReserve () {
-    return this.reserve
+  get reserve () {
+    return this._reserve
   }
 
-  setReserve (value) {
-    this.reserve = value
+  set reserve (value) {
+    this._reserve = value
   }
 
   /**
@@ -33,8 +33,8 @@ export default class Addresses {
    * @param {string} sanityRates - Address of pricing smart contract.
    */
   constructor (reserve, conversionRates, sanityRates) {
-    this.reserve = reserve
-    this.conversionRates = conversionRates
-    this.sanityRates = sanityRates
+    this._reserve = reserve
+    this._conversionRates = conversionRates
+    this._sanityRates = sanityRates
   }
 }

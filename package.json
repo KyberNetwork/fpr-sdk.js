@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --require babel-core/register --require babel-polyfill test/base_contract.test.js",
+    "test": "mocha --require babel-core/register --require babel-polyfill",
     "format": "prettier-standard 'src/**/*.js' 'test/**/*.js'",
     "lint": "standard",
     "doc": "jsdoc src",

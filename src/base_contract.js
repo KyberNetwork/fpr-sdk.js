@@ -53,7 +53,9 @@ export default class BaseContract {
    */
   transferAdmin (account, address) {
     validateAddress(address)
-    return this.contract.methods.transferAdmin(address).send({ from: account })
+    return this.contract.methods
+      .transferAdmin(address)
+      .send({ from: account.address })
   }
 
   /**
@@ -61,7 +63,7 @@ export default class BaseContract {
    * in pendingAdmin for this to works.
    */
   claimAdmin (account) {
-    return this.contract.methods.claimAdmin().send({ from: account })
+    return this.contract.methods.claimAdmin().send({ from: account.address })
   }
 
   /**
@@ -79,16 +81,21 @@ export default class BaseContract {
    */
   addOperator (account, address) {
     validateAddress(address)
-    return this.contract.methods.addOperator(address).send({ from: account })
+    return this.contract.methods
+      .addOperator(address)
+      .send({ from: account.address })
   }
 
   /**
    * Remove given address from operators list.
+   * @param {object} account - current admin account
    * @param {string} address - address to remove from operators list.
    */
-  removeOperator (address) {
+  removeOperator (account, address) {
     validateAddress(address)
-    return this.contract.methods.removeOperator(address).send({ from: account })
+    return this.contract.methods
+      .removeOperator(address)
+      .send({ from: account.address })
   }
 
   /**
@@ -106,7 +113,9 @@ export default class BaseContract {
    */
   addAlerter (account, address) {
     validateAddress(address)
-    return this.contract.methods.addAlerter(address).send({ from: account })
+    return this.contract.methods
+      .addAlerter(address)
+      .send({ from: account.address })
   }
 
   /**
@@ -114,8 +123,10 @@ export default class BaseContract {
    * @param {object} account - current admin account
    * @param {string} address - address to remove from alerters list.
    */
-  removeAlerter (address) {
+  removeAlerter (account, address) {
     validateAddress(address)
-    return this.contract.methods.removeAlerter(address).send({ from: account })
+    return this.contract.methods
+      .removeAlerter(address)
+      .send({ from: account.address })
   }
 }
