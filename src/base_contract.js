@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import baseContractABI from './base_contract_abi'
+import baseContractABI from '../contracts/base_contract_abi'
 
 const validateAddress = address => {
   if (!Web3.utils.isAddress(address)) {
