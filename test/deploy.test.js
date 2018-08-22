@@ -1,4 +1,3 @@
-/* eslint-env mocha */
 import assert from 'assert'
 import ganache from 'ganache-cli'
 import Web3 from 'web3'
@@ -23,7 +22,7 @@ describe('Deployer', () => {
       await dpl.deploy(undefined, kyberNetworkAddress, false)
       assert.ok(false)
     } catch (err) {
-      assert.equal(err.message, 'missing account')
+      assert.strictEqual(err.message, 'missing account')
     }
   })
 
@@ -32,13 +31,13 @@ describe('Deployer', () => {
     const account = await getTestAccount(provider)
 
     const addresses = await dpl.deploy(account, kyberNetworkAddress, false)
-    assert.ok(addresses.getReserve())
-    assert.ok(addresses.getConversionRates())
-    assert.strictEqual(addresses.getSanityRates(), undefined)
+    assert.ok(addresses.reserve)
+    assert.ok(addresses.conversionRates)
+    assert.strictEqual(addresses.sanityRates, undefined)
 
     const conversionRatesContract = new dpl.web3.eth.Contract(
       conversionRatesABI,
-      addresses.getConversionRates()
+      addresses.conversionRates
     )
     assert.strictEqual(
       await conversionRatesContract.methods.admin().call(),
@@ -46,12 +45,12 @@ describe('Deployer', () => {
     )
     assert.strictEqual(
       await conversionRatesContract.methods.reserveContract().call(),
-      addresses.getReserve()
+      addresses.reserve
     )
 
     const reserveContract = new dpl.web3.eth.Contract(
       kyberReserveContractABI,
-      addresses.getReserve()
+      addresses.reserve
     )
     assert.strictEqual(
       await reserveContract.methods.admin().call(),
@@ -59,7 +58,7 @@ describe('Deployer', () => {
     )
     assert.strictEqual(
       await reserveContract.methods.conversionRatesContract().call(),
-      addresses.getConversionRates()
+      addresses.conversionRates
     )
     assert.strictEqual(
       await reserveContract.methods.kyberNetwork().call(),
@@ -75,13 +74,13 @@ describe('Deployer', () => {
     const dpl = new Deployer(provider)
     const account = await getTestAccount(provider)
     const addresses = await dpl.deploy(account, kyberNetworkAddress, true)
-    assert.ok(addresses.getReserve())
-    assert.ok(addresses.getConversionRates())
-    assert.ok(addresses.getSanityRates())
+    assert.ok(addresses.reserve)
+    assert.ok(addresses.conversionRates)
+    assert.ok(addresses.sanityRates)
 
     const conversionRatesContract = new dpl.web3.eth.Contract(
       conversionRatesABI,
-      addresses.getConversionRates()
+      addresses.conversionRates
     )
     assert.strictEqual(
       await conversionRatesContract.methods.admin().call(),
@@ -89,12 +88,12 @@ describe('Deployer', () => {
     )
     assert.strictEqual(
       await conversionRatesContract.methods.reserveContract().call(),
-      addresses.getReserve()
+      addresses.reserve
     )
 
     const reserveContract = new dpl.web3.eth.Contract(
       kyberReserveContractABI,
-      addresses.getReserve()
+      addresses.reserve
     )
     assert.strictEqual(
       await reserveContract.methods.admin().call(),
@@ -102,7 +101,7 @@ describe('Deployer', () => {
     )
     assert.strictEqual(
       await reserveContract.methods.conversionRatesContract().call(),
-      addresses.getConversionRates()
+      addresses.conversionRates
     )
     assert.strictEqual(
       await reserveContract.methods.kyberNetwork().call(),
@@ -110,12 +109,12 @@ describe('Deployer', () => {
     )
     assert.strictEqual(
       await reserveContract.methods.sanityRatesContract().call(),
-      addresses.getSanityRates()
+      addresses.sanityRates
     )
 
     const sanityRatesContract = new dpl.web3.eth.Contract(
       sanityRatesContractABI,
-      addresses.getSanityRates()
+      addresses.sanityRates
     )
     assert.strictEqual(
       await sanityRatesContract.methods.admin().call(),
