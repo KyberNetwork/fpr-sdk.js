@@ -49,12 +49,11 @@ export default class Deployer {
         data: `0x${byteCode}`,
         arguments: args
       })
-      let result = await dpl.send({
+      return dpl.send({
         from: account.address,
         gas: await dpl.estimateGas(),
         gasPrice: this.gasPrice
       })
-      return result
     }
 
     const deployConversionRates = account => {
@@ -113,20 +112,11 @@ export default class Deployer {
       const setReserveAddressTx = await conversionRatesContract.methods.setReserveAddress(
         reserveAddress
       )
-      let gasLimit
-      try {
-        gasLimit = await setReserveAddressTx.estimateGas()
-      } catch (err) {
-        console.log(
-          'can not estimate gas for setReserveAddressTx: ',
-          err.message,
-          '. Use default gas limit instead'
-        )
-        gasLimit = 500 * 1000
-      }
       return setReserveAddressTx.send({
         from: account.address,
-        gas: gasLimit,
+        gas: await setReserveAddressTx.estimateGas({
+          from: account.address
+        }),
         gasPrice: this.gasPrice
       })
     }
@@ -154,20 +144,11 @@ export default class Deployer {
         rateAddress,
         sanityAddress
       )
-      let gasLimit
-      try {
-        gasLimit = await setContractsTx.estimateGas()
-      } catch (err) {
-        console.log(
-          'can not estimate gas for setContractAddresstx: ',
-          err.message,
-          '. Use default gas limit instead'
-        )
-        gasLimit = 500 * 1000
-      }
       return setContractsTx.send({
         from: account.address,
-        gas: gasLimit,
+        gas: await setContractsTx.estimateGas({
+          from: account.address
+        }),
         gasPrice: this.gasPrice
       })
     }
