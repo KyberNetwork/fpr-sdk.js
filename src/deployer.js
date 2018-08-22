@@ -3,10 +3,11 @@ import fs from 'fs'
 import path from 'path'
 
 import Addresses from './addresses'
-import conversionRatesABI from './contracts/ConversionRatesContract.abi'
-import kyberReserveContractABI from './contracts/KyberReserveContract.abi'
-import sanityRatesContractABI from './contracts/SanityRatesContract.abi'
-const contractPath = path.join(__dirname, 'contracts')
+import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
+import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
+import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
+
+const contractPath = path.join(__dirname, '..', 'contracts')
 
 /**
  * Deployer is used for deploying new KyberNetwork reserve contracts.
