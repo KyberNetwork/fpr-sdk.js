@@ -49,13 +49,11 @@ export default class Deployer {
         data: `0x${byteCode}`,
         arguments: args
       })
-
-      let result = await dpl.send({
+      return dpl.send({
         from: account.address,
         gas: await dpl.estimateGas(),
         gasPrice: this.gasPrice
       })
-      return result.options.address
     }
 
     const deployConversionRates = account => {
@@ -95,16 +93,80 @@ export default class Deployer {
     }
 
     // All the contract must be deployed sequentially
-    const conversionAddress = await deployConversionRates(account)
-    const reserveAddress = await deployReserve(
+    const conversionRatesContract = await deployConversionRates(account)
+    const reserveContract = await deployReserve(
       account,
       network,
-      conversionAddress
+      conversionRatesContract.options.address
     )
-    let sanityRatesAddress
+    let sanityRatesContract
     if (sanityRates) {
-      sanityRatesAddress = await deploySanityRates(account)
+      sanityRatesContract = await deploySanityRates(account)
     }
-    return new Addresses(reserveAddress, conversionAddress, sanityRatesAddress)
+
+    const setReserveAddressForConversionRates = async (
+      conversionRatesContract,
+      reserveAddress
+    ) => {
+      console.log('linking reserveContractAddress to conversionRateContract...')
+      const setReserveAddressTx = await conversionRatesContract.methods.setReserveAddress(
+        reserveAddress
+      )
+      return setReserveAddressTx.send({
+        from: account.address,
+        gas: await setReserveAddressTx.estimateGas({
+          from: account.address
+        }),
+        gasPrice: this.gasPrice
+      })
+    }
+
+    const setReserveAddressTxResult = await setReserveAddressForConversionRates(
+      conversionRatesContract,
+      reserveContract.options.address
+    )
+    console.log(
+      'setReserveAddressTx: ',
+      setReserveAddressTxResult.transactionHash
+    )
+
+    const setContractAddressesForReserve = async (
+      reserveContract,
+      networkAddress,
+      rateAddress,
+      sanityAddress
+    ) => {
+      console.log(
+        'linking network, rate and sanity contract address to reserveContract...'
+      )
+      const setContractsTx = await reserveContract.methods.setContracts(
+        networkAddress,
+        rateAddress,
+        sanityAddress
+      )
+      return setContractsTx.send({
+        from: account.address,
+        gas: await setContractsTx.estimateGas({
+          from: account.address
+        }),
+        gasPrice: this.gasPrice
+      })
+    }
+    const setContractAddressesTxResult = await setContractAddressesForReserve(
+      reserveContract,
+      network,
+      conversionRatesContract.options.address,
+      !sanityRatesContract ? undefined : sanityRatesContract.options.address
+    )
+    console.log(
+      'setContractAddressesTx: ',
+      setContractAddressesTxResult.transactionHash
+    )
+
+    return new Addresses(
+      reserveContract.options.address,
+      conversionRatesContract.options.address,
+      !sanityRatesContract ? undefined : sanityRatesContract.options.address
+    )
   }
 }

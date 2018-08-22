@@ -4,6 +4,9 @@ import ganache from 'ganache-cli'
 import Web3 from 'web3'
 
 import Deployer from '../src/deployer'
+import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
+import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
+import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
@@ -32,6 +35,40 @@ describe('Deployer', () => {
     assert.ok(addresses.getReserve())
     assert.ok(addresses.getConversionRates())
     assert.strictEqual(addresses.getSanityRates(), undefined)
+
+    const conversionRatesContract = new dpl.web3.eth.Contract(
+      conversionRatesABI,
+      addresses.getConversionRates()
+    )
+    assert.strictEqual(
+      await conversionRatesContract.methods.admin().call(),
+      account.address
+    )
+    assert.strictEqual(
+      await conversionRatesContract.methods.reserveContract().call(),
+      addresses.getReserve()
+    )
+
+    const reserveContract = new dpl.web3.eth.Contract(
+      kyberReserveContractABI,
+      addresses.getReserve()
+    )
+    assert.strictEqual(
+      await reserveContract.methods.admin().call(),
+      account.address
+    )
+    assert.strictEqual(
+      await reserveContract.methods.conversionRatesContract().call(),
+      addresses.getConversionRates()
+    )
+    assert.strictEqual(
+      await reserveContract.methods.kyberNetwork().call(),
+      kyberNetworkAddress
+    )
+    assert.strictEqual(
+      await reserveContract.methods.sanityRatesContract().call(),
+      '0x0000000000000000000000000000000000000000'
+    )
   })
 
   it('deployed successfully with sanityRates contract', async () => {
@@ -41,6 +78,49 @@ describe('Deployer', () => {
     assert.ok(addresses.getReserve())
     assert.ok(addresses.getConversionRates())
     assert.ok(addresses.getSanityRates())
+
+    const conversionRatesContract = new dpl.web3.eth.Contract(
+      conversionRatesABI,
+      addresses.getConversionRates()
+    )
+    assert.strictEqual(
+      await conversionRatesContract.methods.admin().call(),
+      account.address
+    )
+    assert.strictEqual(
+      await conversionRatesContract.methods.reserveContract().call(),
+      addresses.getReserve()
+    )
+
+    const reserveContract = new dpl.web3.eth.Contract(
+      kyberReserveContractABI,
+      addresses.getReserve()
+    )
+    assert.strictEqual(
+      await reserveContract.methods.admin().call(),
+      account.address
+    )
+    assert.strictEqual(
+      await reserveContract.methods.conversionRatesContract().call(),
+      addresses.getConversionRates()
+    )
+    assert.strictEqual(
+      await reserveContract.methods.kyberNetwork().call(),
+      kyberNetworkAddress
+    )
+    assert.strictEqual(
+      await reserveContract.methods.sanityRatesContract().call(),
+      addresses.getSanityRates()
+    )
+
+    const sanityRatesContract = new dpl.web3.eth.Contract(
+      sanityRatesContractABI,
+      addresses.getSanityRates()
+    )
+    assert.strictEqual(
+      await sanityRatesContract.methods.admin().call(),
+      account.address
+    )
   })
 })
 
