@@ -43,7 +43,8 @@ describe('BaseContract', () => {
   it('could view admin address', async () => {
     const baseContract = new BaseContract(provider, addresses.conversionRates)
     const admin = await baseContract.admin()
-    assert.ok(Web3.utils.isAddress(admin))
+    const accounts = await web3.eth.getAccounts()
+    assert.strictEqual(admin, accounts[0])
 
     const pendingAdmin = await baseContract.pendingAdmin()
     assert.ok(Web3.utils.isAddress(pendingAdmin))
