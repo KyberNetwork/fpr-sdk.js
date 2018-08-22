@@ -124,7 +124,7 @@ export default class Deployer {
         )
         gasLimit = 500 * 1000
       }
-      return await setReserveAddressTx.send({
+      return setReserveAddressTx.send({
         from: account.address,
         gas: gasLimit,
         gasPrice: this.gasPrice
@@ -165,7 +165,7 @@ export default class Deployer {
         )
         gasLimit = 500 * 1000
       }
-      return await setContractsTx.send({
+      return setContractsTx.send({
         from: account.address,
         gas: gasLimit,
         gasPrice: this.gasPrice
