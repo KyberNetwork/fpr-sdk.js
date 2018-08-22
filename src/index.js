@@ -1,1 +1,1 @@
-export default () => {}
+import 'babel-polyfill'

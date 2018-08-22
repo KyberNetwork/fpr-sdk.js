@@ -1,5 +1,4 @@
 /* eslint-env mocha */
-
 import assert from 'assert'
 import ganache from 'ganache-cli'
 import Web3 from 'web3'
@@ -10,43 +9,45 @@ const provider = ganache.provider()
 const web3 = new Web3(provider)
 const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
-let accounts
-beforeEach(async () => {
-  accounts = web3.eth.getAccounts()
-})
-
 describe('Deployer', () => {
-  it('failed to deploy with no provider', async () => {
-    try {
-      const dpl = new Deployer()
-      await dpl.deploy(accounts[0], kyberNetworkAddress, false)
-    } catch (err) {
-      assert(false)
-    }
+  it('failed to create a new instance with no provider', () => {
+    assert.throws(() => new Deployer())
   })
 
   it('failed to deploy with no account', async () => {
+    const dpl = new Deployer(provider)
     try {
-      const dpl = new Deployer(provider)
       await dpl.deploy(undefined, kyberNetworkAddress, false)
+      assert.ok(false)
     } catch (err) {
-      assert(false)
+      assert.equal(err.message, 'missing account')
     }
   })
 
   it('deployed successfully with no sanityRates contract', async () => {
     const dpl = new Deployer(provider)
-    const addresses = await dpl.deploy(accounts[0], kyberNetworkAddress, false)
-    assert.NotEqual(addresses.getReserve(), '')
-    assert.NotEqual(addresses.getConversionRates(), '')
-    assert.Equal(addresses.getSanityRates(), '')
+    const account = await getTestAccount(provider)
+
+    const addresses = await dpl.deploy(account, kyberNetworkAddress, false)
+    assert.ok(addresses.getReserve())
+    assert.ok(addresses.getConversionRates())
+    assert.strictEqual(addresses.getSanityRates(), undefined)
   })
 
   it('deployed successfully with sanityRates contract', async () => {
     const dpl = new Deployer(provider)
-    const addresses = await dpl.deploy(accounts[0], kyberNetworkAddress, true)
-    assert.NotEqual(addresses.getReserve(), '')
-    assert.NotEqual(addresses.getConversionRates(), '')
-    assert.NotEqual(addresses.getSanityRates(), '')
+    const account = await getTestAccount(provider)
+    const addresses = await dpl.deploy(account, kyberNetworkAddress, true)
+    assert.ok(addresses.getReserve())
+    assert.ok(addresses.getConversionRates())
+    assert.ok(addresses.getSanityRates())
   })
 })
+
+async function getTestAccount (provider) {
+  const accounts = provider.manager.state.accounts
+  const testAddress = Object.keys(accounts)[0]
+
+  const privateKey = '0x' + accounts[testAddress].secretKey.toString('hex')
+  return web3.eth.accounts.privateKeyToAccount(privateKey)
+}
