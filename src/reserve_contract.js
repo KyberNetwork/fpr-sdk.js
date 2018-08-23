@@ -2,7 +2,6 @@ import Web3 from 'web3'
 import reserveContractABI from '../contracts/KyberReserveContract.abi'
 import BaseContract from './base_contract'
 
-
 const validateAddress = address => {
   if (!Web3.utils.isAddress(address)) {
     throw new Error(`invalid address: '${address}'`)
@@ -19,7 +18,7 @@ export default class ReserveContract extends BaseContract {
    * @param {string} address - address of kyber reserver smart contract.
    */
   constructor (provider, address) {
-    super(provider,address)
+    super(provider, address)
     const web3 = new Web3(provider)
     this.contract = new web3.eth.Contract(reserveContractABI, address)
   }
@@ -41,22 +40,23 @@ export default class ReserveContract extends BaseContract {
    * @param {string} sanitys (optional) - address of sanity rates contract.
    * @returns {txObject} - the tx object of send() command from this contract method
    */
-  setContracts(account, network, conversion, sanity) {
+  setContracts (account, network, conversion, sanity) {
     validateAddress(network)
     validateAddress(conversion)
-    return this.contract.methods.setContracts(network, conversion, sanity).send({from : account.address})
-  }
-  
-  conversionRatesContract() {
-      return this.contract.methods.conversionRatesContract().call()
+    return this.contract.methods
+      .setContracts(network, conversion, sanity)
+      .send({ from: account.address })
   }
 
-  sanityRatesContract() {
-      return this.contract.methods.sanityRatesContract().call() 
+  conversionRatesContract () {
+    return this.contract.methods.conversionRatesContract().call()
   }
 
-  kyberNetwork() {
-      return this.contract.methods.kyberNetwork().call() 
+  sanityRatesContract () {
+    return this.contract.methods.sanityRatesContract().call()
   }
 
+  kyberNetwork () {
+    return this.contract.methods.kyberNetwork().call()
+  }
 }
