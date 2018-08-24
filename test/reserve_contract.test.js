@@ -4,7 +4,7 @@ import ganache from 'ganache-cli'
 
 import ReserveContract from '../src/reserve_contract'
 import Deployer from '../src/deployer'
-
+import ERC20TokenDeployer from './deploy_erc20'
 const provider = ganache.provider()
 const web3 = new Web3(provider)
 const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
@@ -42,7 +42,7 @@ describe('ReserveContract', () => {
 
   it('is able to alter trade status', async () => {
     const reserveContract = new ReserveContract(provider, addresses.reserve)
-    const accounts = await web3.eth.getAccounts()
+    const accounts = await reserveContract.web3.eth.getAccounts()
     const account = { address: accounts[0] }
     await assert.ok(await reserveContract.enableTrade(account))
     await assert.strictEqual(await reserveContract.tradeEnabled(), true)
@@ -99,6 +99,50 @@ describe('ReserveContract', () => {
       )
     )
   })
+
+  it('is able to change withdrawal approvement status', async () => {
+    console.log('testing approval status...')
+    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const accounts = await web3.eth.getAccounts()
+    const tokenAddr = await ERC20TokenDeployer(provider)
+    await assert.ok(
+      await reserveContract.approveWithdrawAddress(
+        { address: accounts[0] },
+        tokenAddr,
+        accounts[1],
+        true
+      )
+    )
+    await assert.strictEqual(
+      await reserveContract.approvedWithdrawAddresses(accounts[1], tokenAddr),
+      true
+    )
+    await assert.ok(
+      await reserveContract.approveWithdrawAddress(
+        { address: accounts[0] },
+        tokenAddr,
+        accounts[1],
+        false
+      )
+    )
+    await assert.strictEqual(
+      await reserveContract.approvedWithdrawAddresses(accounts[1], tokenAddr),
+      false
+    )
+  })
+
+  //    console.log(await web3.eth.getBalance(accounts[0]))
+  //    console.log(await web3.eth.getBalance(accounts[1]))
+
+  //    const restx =await web3.eth.sendTransaction({
+  //        from : accounts[0],
+  //        to : addresses.reserve,
+  //        value : "1"
+  //    })
+  //    console.log(restx)
+  //    console.log(await web3.eth.getBalance(accounts[0]))
+  //    await reserveContract.withdrawEther({address: accounts[0]}, "1", accounts[1])
+  //    console.log(await web3.eth.getBalance(accounts[1]))
 })
 
 async function assertThrowAsync (fn) {
