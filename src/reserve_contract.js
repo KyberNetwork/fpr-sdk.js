@@ -8,6 +8,7 @@ const validateAddress = address => {
   }
 }
 
+
 /**
  * ReserveContract contains extended methods for KyberReserveContract
  */
@@ -113,24 +114,6 @@ export default class ReserveContract extends BaseContract {
   approvedWithdrawAddresses (address, tokenAddress) {
     const addressHash = Web3.utils.soliditySha3(tokenAddress, address)
     return this.contract.methods.approvedWithdrawAddresses(addressHash).call()
-  }
-
-  /**
-   * withdraw ether
-   * @param {object} account - admin account.
-   * @param {int} amount - amount to withdraw (BN|String|int), must be in wei.
-   * @param {string} toAddress - address for withdrawal.
-   * @returns {txObject} - the tx object of send() command from this contract method
-   */
-  async withdrawEther (account, amount, toAddress) {
-    const med = this.contract.methods.withdrawEther(amount, toAddress)
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
-        from: account.address,
-        value : amount,
-      })
-    })
   }
 
   /**
