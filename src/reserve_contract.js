@@ -105,23 +105,6 @@ export default class ReserveContract extends BaseContract {
   }
 
   /**
-   * withdraw ether
-   * @param {object} account - admin account.
-   * @param {string} amount - amount to withdraw, must be in wei.
-   * @param {string} address - address for withdrawal.
-   * @returns {txObject} - the tx object of send() command from this contract method
-   */
-  async withdrawEther (account, amount, address) {
-    const med = this.contract.methods.withdrawEther(amount, address)
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
-        from: account.address
-      })
-    })
-  }
-
-  /**
    * check for approval status of a token address to a particular address
    * @param {object} address - address to withdraw the token to
    * @param {string} tokenAddress - address of the token's smart contract. Must be deployed already.
@@ -130,5 +113,41 @@ export default class ReserveContract extends BaseContract {
   approvedWithdrawAddresses (address, tokenAddress) {
     const addressHash = Web3.utils.soliditySha3(tokenAddress, address)
     return this.contract.methods.approvedWithdrawAddresses(addressHash).call()
+  }
+
+  /**
+   * withdraw ether
+   * @param {object} account - admin account.
+   * @param {int} amount - amount to withdraw (BN|String|int), must be in wei.
+   * @param {string} toAddress - address for withdrawal.
+   * @returns {txObject} - the tx object of send() command from this contract method
+   */
+  async withdrawEther (account, amount, toAddress) {
+    const med = this.contract.methods.withdrawEther(amount, toAddress)
+    return med.send({
+      from: account.address,
+      gas: await med.estimateGas({
+        from: account.address,
+        value : amount,
+      })
+    })
+  }
+
+  /**
+   * withdraw token
+   * @param {object} account - admin account.
+   * @param {string} tokenAddress - address of the token's smart contract. Must be deployed already.
+   * @param {object} amount - amount to withdraw (BN|String|int), must be in wei.
+   * @param {string} toAddress - address for withdrawal.
+   * @returns {txObject} - the tx object of send() command from this contract method
+   */
+  async withdrawToken (account, tokenAddress, amount, toAddress) {
+    const med = this.contract.methods.withdrawToken(tokenAddress, amount, toAddress)
+    return med.send({
+      from: account.address,
+      gas: await med.estimateGas({
+        from: account.address
+      })  
+    })
   }
 }
