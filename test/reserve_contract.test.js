@@ -4,7 +4,11 @@ import ganache from 'ganache-cli'
 
 import ReserveContract from '../src/reserve_contract'
 import Deployer from '../src/deployer'
-import ERC20TokenDeployer from './deploy_erc20'
+import {
+  default as ERC20TokenDeployer,
+  exampleERC20Contract
+} from './deploy_erc20'
+
 const provider = ganache.provider()
 const web3 = new Web3(provider)
 const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
@@ -47,9 +51,7 @@ describe('ReserveContract', () => {
     await assert.ok(await reserveContract.enableTrade(account))
     await assert.strictEqual(await reserveContract.tradeEnabled(), true)
     // it cannot disableTrade from a non alerter account
-    await assertThrowAsync(
-      async () => await reserveContract.disableTrade(account)
-    )
+    await assertThrowAsync(async () => reserveContract.disableTrade(account))
     // it can disableTrade from an alerter account
     await reserveContract.addAlerter(account, accounts[1])
     await assert.ok(
@@ -80,14 +82,13 @@ describe('ReserveContract', () => {
       accounts[2]
     )
     // it should throw if kybernetwork and conversionRate is not valid
-    await assertThrowAsync(
-      async () =>
-        await setContracts(
-          { address: accounts[0] },
-          'random',
-          'random',
-          accounts[2]
-        )
+    await assertThrowAsync(async () =>
+      reserveContract.setContracts(
+        { address: accounts[0] },
+        'random',
+        'random',
+        accounts[2]
+      )
     )
     // it should run ok without sanity Rates
     await assert.ok(
@@ -109,8 +110,7 @@ describe('ReserveContract', () => {
       await reserveContract.approveWithdrawAddress(
         { address: accounts[0] },
         tokenAddr,
-        accounts[1],
-        true
+        accounts[1]
       )
     )
     await assert.strictEqual(
@@ -118,11 +118,10 @@ describe('ReserveContract', () => {
       true
     )
     await assert.ok(
-      await reserveContract.approveWithdrawAddress(
+      await reserveContract.disapproveWithdrawAddress(
         { address: accounts[0] },
         tokenAddr,
-        accounts[1],
-        false
+        accounts[1]
       )
     )
     await assert.strictEqual(
@@ -131,18 +130,78 @@ describe('ReserveContract', () => {
     )
   })
 
-  //    console.log(await web3.eth.getBalance(accounts[0]))
-  //    console.log(await web3.eth.getBalance(accounts[1]))
+  it('is able to withdraw Token', async () => {
+    console.log('testing token withdrawal...')
+    const testAmount = 1000
+    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const accounts = await reserveContract.web3.eth.getAccounts()
+    const tokenAddr = await ERC20TokenDeployer(provider)
+    const tokenContract = new reserveContract.web3.eth.Contract(
+      JSON.parse(exampleERC20Contract.abi),
+      tokenAddr
+    )
 
-  //    const restx =await web3.eth.sendTransaction({
-  //        from : accounts[0],
-  //        to : addresses.reserve,
-  //        value : "1"
-  //    })
-  //    console.log(restx)
-  //    console.log(await web3.eth.getBalance(accounts[0]))
-  //    await reserveContract.withdrawEther({address: accounts[0]}, "1", accounts[1])
-  //    console.log(await web3.eth.getBalance(accounts[1]))
+    // send some token to reserve
+    await tokenContract.methods
+      .transfer(addresses.reserve, testAmount)
+      .send({ from: accounts[0] })
+    assert.equal(await reserveContract.getBalance(tokenAddr), testAmount)
+
+    // should throw since accounts[1] is not approved yet
+    await assertThrowAsync(async () =>
+      reserveContract.withdraw(
+        { address: accounts[0] },
+        tokenAddr,
+        testAmount,
+        accounts[1]
+      )
+    )
+    // approve accounts[1] to receive testToken
+    await assert.ok(
+      await reserveContract.approveWithdrawAddress(
+        { address: accounts[0] },
+        tokenAddr,
+        accounts[1]
+      )
+    )
+    await assert.strictEqual(
+      await reserveContract.approvedWithdrawAddresses(accounts[1], tokenAddr),
+      true
+    )
+    // withdraw can only be called from operator..
+    await assert.ok(
+      await reserveContract.addOperator({ address: accounts[0] }, accounts[0])
+    )
+    // after approval, testToken should be able to withdraw
+    await assert.ok(
+      await reserveContract.withdraw(
+        { address: accounts[0] },
+        tokenAddr,
+        testAmount,
+        accounts[1]
+      )
+    )
+    assert.equal(
+      await tokenContract.methods.balanceOf(accounts[1]).call(),
+      testAmount
+    )
+  })
+
+  it('get the correct balance of a token in reserve', async () => {
+    console.log('testing getBalance...')
+    const testAmount = 1000
+    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const tokenAddr = await ERC20TokenDeployer(provider)
+    const accounts = await reserveContract.web3.eth.getAccounts()
+    const tokenContract = new reserveContract.web3.eth.Contract(
+      JSON.parse(exampleERC20Contract.abi),
+      tokenAddr
+    )
+    await tokenContract.methods
+      .transfer(addresses.reserve, testAmount)
+      .send({ from: accounts[0] })
+    assert.equal(await reserveContract.getBalance(tokenAddr), testAmount)
+  })
 })
 
 async function assertThrowAsync (fn) {

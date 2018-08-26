@@ -10,8 +10,8 @@ export const exampleERC20Contract = {
 }
 
 export default async provider => {
-   const web3 = new Web3(provider)
-   const dpl = new web3.eth.Contract(
+  const web3 = new Web3(provider)
+  const dpl = new web3.eth.Contract(
     JSON.parse(exampleERC20Contract.abi)
   ).deploy({
     data: `0x${exampleERC20Contract.byteCode}`

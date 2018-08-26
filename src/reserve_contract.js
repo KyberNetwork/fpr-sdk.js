@@ -8,7 +8,6 @@ const validateAddress = address => {
   }
 }
 
-
 /**
  * ReserveContract contains extended methods for KyberReserveContract
  */
@@ -79,23 +78,38 @@ export default class ReserveContract extends BaseContract {
   }
 
   /**
-   * approve/disapprove withdraw address for a token on reserve.
+   * approve withdraw address for a token on reserve.
    * @param {object} account - admin account.
    * @param {string} tokenAddress - contract address of the modifying token.
    * @param {string} withdrawAddress - address for withdrawal.
-   * @param {boolean} approve - true if approving, false for disapproving.
    * @returns {txObject} - the tx object of send() command from this contract method
    */
-  async approveWithdrawAddress (
-    account,
-    tokenAddress,
-    withdrawAddress,
-    approve
-  ) {
+  async approveWithdrawAddress (account, tokenAddress, withdrawAddress) {
     const med = this.contract.methods.approveWithdrawAddress(
       tokenAddress,
       withdrawAddress,
-      approve
+      true
+    )
+    return med.send({
+      from: account.address,
+      gas: await med.estimateGas({
+        from: account.address
+      })
+    })
+  }
+
+  /**
+   * disapprove withdraw address for a token on reserve.
+   * @param {object} account - admin account.
+   * @param {string} tokenAddress - contract address of the modifying token.
+   * @param {string} withdrawAddress - address for withdrawal.
+   * @returns {txObject} - the tx object of send() command from this contract method
+   */
+  async disapproveWithdrawAddress (account, tokenAddress, withdrawAddress) {
+    const med = this.contract.methods.approveWithdrawAddress(
+      tokenAddress,
+      withdrawAddress,
+      false
     )
     return med.send({
       from: account.address,
@@ -117,20 +131,29 @@ export default class ReserveContract extends BaseContract {
   }
 
   /**
-   * withdraw token
+   * withdraw an amount of token to specified account
    * @param {object} account - admin account.
    * @param {string} tokenAddress - address of the token's smart contract. Must be deployed already.
    * @param {object} amount - amount to withdraw (BN|String|int), must be in wei.
-   * @param {string} toAddress - address for withdrawal.
+   * @param {string} toAddress - address for withdrawal. Must be approved already.
    * @returns {txObject} - the tx object of send() command from this contract method
    */
-  async withdrawToken (account, tokenAddress, amount, toAddress) {
-    const med = this.contract.methods.withdrawToken(tokenAddress, amount, toAddress)
+  async withdraw (account, tokenAddress, amount, toAddress) {
+    const med = this.contract.methods.withdraw(tokenAddress, amount, toAddress)
     return med.send({
       from: account.address,
       gas: await med.estimateGas({
         from: account.address
-      })  
+      })
     })
+  }
+
+  /**
+   * Return balance of given token.
+   * @param {string} token - address of token to check balance.
+   * @return {number} - balance of given token
+   */
+  getBalance (token) {
+    return this.contract.methods.getBalance(token).call()
   }
 }
