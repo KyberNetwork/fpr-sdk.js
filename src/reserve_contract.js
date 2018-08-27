@@ -1,12 +1,8 @@
 import Web3 from 'web3'
+
 import reserveContractABI from '../contracts/KyberReserveContract.abi'
 import BaseContract from './base_contract'
-
-const validateAddress = address => {
-  if (!Web3.utils.isAddress(address)) {
-    throw new Error(`invalid address: '${address}'`)
-  }
-}
+import { validateAddress } from './validate'
 
 /**
  * ReserveContract contains extended methods for KyberReserveContract

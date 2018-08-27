@@ -1,11 +1,7 @@
 import Web3 from 'web3'
-import baseContractABI from '../contracts/base_contract_abi'
 
-const validateAddress = address => {
-  if (!Web3.utils.isAddress(address)) {
-    throw new Error(`invalid address: '${address}'`)
-  }
-}
+import baseContractABI from '../contracts/base_contract_abi'
+import { validateAddress } from './validate'
 
 /**
  * BaseContract contains common methods for all contracts of a KyberNetwork
