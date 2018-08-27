@@ -13,6 +13,19 @@ const provider = ganache.provider()
 const web3 = new Web3(provider)
 const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
+const assertThrowAsync = async fn => {
+  let dummy = () => {}
+  try {
+    await fn()
+  } catch (err) {
+    dummy = () => {
+      throw err
+    }
+  } finally {
+    assert.throws(dummy)
+  }
+}
+
 let addresses
 beforeEach(async () => {
   const dpl = new Deployer(provider)
@@ -48,23 +61,21 @@ describe('ReserveContract', () => {
     const reserveContract = new ReserveContract(provider, addresses.reserve)
     const accounts = await reserveContract.web3.eth.getAccounts()
     const account = { address: accounts[0] }
-    await assert.ok(await reserveContract.enableTrade(account))
-    await assert.strictEqual(await reserveContract.tradeEnabled(), true)
+    assert.ok(await reserveContract.enableTrade(account))
+    assert.strictEqual(await reserveContract.tradeEnabled(), true)
     // it cannot disableTrade from a non alerter account
-    await assertThrowAsync(async () => reserveContract.disableTrade(account))
+    await assertThrowAsync(() => reserveContract.disableTrade(account))
     // it can disableTrade from an alerter account
     await reserveContract.addAlerter(account, accounts[1])
-    await assert.ok(
-      await reserveContract.disableTrade({ address: accounts[1] })
-    )
-    await assert.strictEqual(await reserveContract.tradeEnabled(), false)
+    assert.ok(await reserveContract.disableTrade({ address: accounts[1] }))
+    assert.strictEqual(await reserveContract.tradeEnabled(), false)
   })
 
   it('is able to setContracts addresses', async () => {
     const reserveContract = new ReserveContract(provider, addresses.reserve)
     const accounts = await web3.eth.getAccounts()
     // it should run Ok with valid addresses
-    await assert.ok(
+    assert.ok(
       await reserveContract.setContracts(
         { address: accounts[0] },
         accounts[0],
@@ -72,17 +83,14 @@ describe('ReserveContract', () => {
         accounts[2]
       )
     )
-    await assert.strictEqual(await reserveContract.kyberNetwork(), accounts[0])
-    await assert.strictEqual(
+    assert.strictEqual(await reserveContract.kyberNetwork(), accounts[0])
+    assert.strictEqual(
       await reserveContract.conversionRatesContract(),
       accounts[1]
     )
-    await assert.strictEqual(
-      await reserveContract.sanityRatesContract(),
-      accounts[2]
-    )
+    assert.strictEqual(await reserveContract.sanityRatesContract(), accounts[2])
     // it should throw if kybernetwork and conversionRate is not valid
-    await assertThrowAsync(async () =>
+    await assertThrowAsync(() =>
       reserveContract.setContracts(
         { address: accounts[0] },
         'random',
@@ -91,12 +99,22 @@ describe('ReserveContract', () => {
       )
     )
     // it should run ok without sanity Rates
-    await assert.ok(
+    assert.ok(
       await reserveContract.setContracts(
         { address: accounts[0] },
         accounts[0],
         accounts[1],
         undefined
+      )
+    )
+
+    // it should throw an error if sanity rates address is invalid
+    await assertThrowAsync(() =>
+      reserveContract.setContracts(
+        { address: accounts[0] },
+        accounts[0],
+        accounts[1],
+        'invalid-address'
       )
     )
   })
@@ -106,25 +124,25 @@ describe('ReserveContract', () => {
     const reserveContract = new ReserveContract(provider, addresses.reserve)
     const accounts = await web3.eth.getAccounts()
     const tokenAddr = await ERC20TokenDeployer(provider)
-    await assert.ok(
+    assert.ok(
       await reserveContract.approveWithdrawAddress(
         { address: accounts[0] },
         tokenAddr,
         accounts[1]
       )
     )
-    await assert.strictEqual(
+    assert.strictEqual(
       await reserveContract.approvedWithdrawAddresses(accounts[1], tokenAddr),
       true
     )
-    await assert.ok(
+    assert.ok(
       await reserveContract.disapproveWithdrawAddress(
         { address: accounts[0] },
         tokenAddr,
         accounts[1]
       )
     )
-    await assert.strictEqual(
+    assert.strictEqual(
       await reserveContract.approvedWithdrawAddresses(accounts[1], tokenAddr),
       false
     )
@@ -148,7 +166,7 @@ describe('ReserveContract', () => {
     assert.equal(await reserveContract.getBalance(tokenAddr), testAmount)
 
     // should throw since accounts[1] is not approved yet
-    await assertThrowAsync(async () =>
+    await assertThrowAsync(() =>
       reserveContract.withdraw(
         { address: accounts[0] },
         tokenAddr,
@@ -157,23 +175,23 @@ describe('ReserveContract', () => {
       )
     )
     // approve accounts[1] to receive testToken
-    await assert.ok(
+    assert.ok(
       await reserveContract.approveWithdrawAddress(
         { address: accounts[0] },
         tokenAddr,
         accounts[1]
       )
     )
-    await assert.strictEqual(
+    assert.strictEqual(
       await reserveContract.approvedWithdrawAddresses(accounts[1], tokenAddr),
       true
     )
     // withdraw can only be called from operator..
-    await assert.ok(
+    assert.ok(
       await reserveContract.addOperator({ address: accounts[0] }, accounts[0])
     )
     // after approval, testToken should be able to withdraw
-    await assert.ok(
+    assert.ok(
       await reserveContract.withdraw(
         { address: accounts[0] },
         tokenAddr,
@@ -203,16 +221,3 @@ describe('ReserveContract', () => {
     assert.equal(await reserveContract.getBalance(tokenAddr), testAmount)
   })
 })
-
-async function assertThrowAsync (fn) {
-  let dummy = () => {}
-  try {
-    await fn()
-  } catch (err) {
-    dummy = () => {
-      throw err
-    }
-  } finally {
-    assert.throws(dummy)
-  }
-}

@@ -29,9 +29,6 @@ export default class ReserveContract extends BaseContract {
     })
   }
 
-  tradeEnabled () {
-    return this.contract.methods.tradeEnabled().call()
-  }
   async disableTrade (account) {
     const med = this.contract.methods.disableTrade()
     return med.send({
@@ -41,6 +38,11 @@ export default class ReserveContract extends BaseContract {
       })
     })
   }
+
+  tradeEnabled () {
+    return this.contract.methods.tradeEnabled().call()
+  }
+
   /**
    * set Contract addresses for reserver contract.
    * @param {object} account - admin account.
@@ -52,6 +54,11 @@ export default class ReserveContract extends BaseContract {
   async setContracts (account, network, conversion, sanity) {
     validateAddress(network)
     validateAddress(conversion)
+
+    if (sanity !== undefined) {
+      validateAddress(sanity)
+    }
+
     const med = this.contract.methods.setContracts(network, conversion, sanity)
     return med.send({
       from: account.address,
