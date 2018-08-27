@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --require babel-core/register --require babel-polyfill",
+    "test": "mocha --require babel-core/register --require babel-polyfill --timeout 10s",
     "format": "prettier-standard 'src/**/*.js' 'test/**/*.js'",
     "lint": "standard",
     "doc": "jsdoc src",
@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "bignumber.js": "^7.2.1",
     "web3": "^1.0.0-beta.35"
   }
 }

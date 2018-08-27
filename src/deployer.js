@@ -63,6 +63,7 @@ export default class Deployer {
       const byteCode = fs
         .readFileSync(path.join(contractPath, 'ConversionRates'))
         .toString()
+        .trim()
       return deployContract(account, conversionRatesABI, byteCode, [
         account.address
       ])
