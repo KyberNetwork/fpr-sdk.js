@@ -47,7 +47,7 @@ export default class ReserveContract extends BaseContract {
    * @param {string} network - address of kyber network smart contract.
    * @param {string} conversion - address of kyber network smart contract.
    * @param {string} sanity (optional) - address of sanity rates contract.
-   * @returns {txObject} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method
    */
   async setContracts (account, network, conversion, sanity) {
     validateAddress(network)
@@ -78,7 +78,7 @@ export default class ReserveContract extends BaseContract {
    * @param {object} account - admin account.
    * @param {string} tokenAddress - contract address of the modifying token.
    * @param {string} withdrawAddress - address for withdrawal.
-   * @returns {txObject} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method
    */
   async approveWithdrawAddress (account, tokenAddress, withdrawAddress) {
     const med = this.contract.methods.approveWithdrawAddress(
@@ -99,7 +99,7 @@ export default class ReserveContract extends BaseContract {
    * @param {object} account - admin account.
    * @param {string} tokenAddress - contract address of the modifying token.
    * @param {string} withdrawAddress - address for withdrawal.
-   * @returns {txObject} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method
    */
   async disapproveWithdrawAddress (account, tokenAddress, withdrawAddress) {
     const med = this.contract.methods.approveWithdrawAddress(
@@ -119,7 +119,7 @@ export default class ReserveContract extends BaseContract {
    * check for approval status of a token address to a particular address
    * @param {object} address - address to withdraw the token to
    * @param {string} tokenAddress - address of the token's smart contract. Must be deployed already.
-   * @returns {bool} - true for approved, false otherwise
+   * @returns {boolean} - true for approved, false otherwise
    */
   approvedWithdrawAddresses (address, tokenAddress) {
     const addressHash = Web3.utils.soliditySha3(tokenAddress, address)
@@ -132,7 +132,7 @@ export default class ReserveContract extends BaseContract {
    * @param {string} tokenAddress - address of the token's smart contract. Must be deployed already.
    * @param {object} amount - amount to withdraw (BN|String|int), must be in wei.
    * @param {string} toAddress - address for withdrawal. Must be approved already.
-   * @returns {txObject} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method
    */
   async withdraw (account, tokenAddress, amount, toAddress) {
     const med = this.contract.methods.withdraw(tokenAddress, amount, toAddress)
