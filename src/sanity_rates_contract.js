@@ -24,7 +24,7 @@ export default class SanityRatesContract extends BaseContract {
    * Return the sanity Rate of a pair of token
    * @param {string} src - ERC20 token contract address of source token
    * @param {string} dest - ERC20 token contract address of destination token
-   * @returns {string} - the uint rate in strings format. 
+   * @returns {string} - the uint rate in strings format.
    */
   getSanityRate (src, dest) {
     validateAddress(src)
