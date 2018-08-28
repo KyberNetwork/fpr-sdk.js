@@ -3,7 +3,6 @@ import BaseContract from './base_contract'
 import { validateAddress } from './validate'
 import Web3 from 'web3'
 
-
 /**
  * SanityRatesContract represents the KyberNetwork sanity rates smart contract.
  * It's purpose is to prevent unusual rates from conversion rates contract
@@ -15,8 +14,8 @@ export default class SanityRatesContract extends BaseContract {
    * @param {object} provider - Web3 provider
    * @param {string} address - address of smart contract.
    */
-  constructor(provider, address) {
-    super(provider, address);
+  constructor (provider, address) {
+    super(provider, address)
     this.web3 = new Web3(provider)
     this.contract = new this.web3.eth.Contract(SanityRatesContractABI, address)
   }
@@ -26,48 +25,48 @@ export default class SanityRatesContract extends BaseContract {
    * @param {string} src - ERC20 token contract address of source token
    * @param {string} dest - ERC20 token contract address of destination token
    */
-  getSanityRate(src, dest) {
+  getSanityRate (src, dest) {
     validateAddress(src)
     validateAddress(dest)
     return this.contract.methods.getSanityRate(src, dest).call()
   }
   /**
    * Set Sanity Rate for the contract
-   * @param {account} account - operator account 
-   * @param {strings[]} srcs - list of source ERC20 token contract addresses 
-   * @param {uint[]} rates - list of Rates in ETH weit 
+   * @param {account} account - operator account
+   * @param {strings[]} srcs - list of source ERC20 token contract addresses
+   * @param {uint[]} rates - list of Rates in ETH weit
    */
-  async setSanityRates(account, srcs, rates) {
+  async setSanityRates (account, srcs, rates) {
     const med = this.contract.methods.setSanityRates(srcs, rates)
     return med.send({
-        from: account.address,
-        gas: await med.estimateGas({
-          from: account.address
-        })
+      from: account.address,
+      gas: await med.estimateGas({
+        from: account.address
       })
+    })
   }
   /**
-   * resonableDiffInBps return the list of reasonableDiffs in basis points (bps) 
+   * resonableDiffInBps return the list of reasonableDiffs in basis points (bps)
    * @param {string} address - ERC20 token contract address to query
    * @memberof SanityRatesContract
    */
-  reasonableDiffInBps(address) {
+  reasonableDiffInBps (address) {
     validateAddress(address)
     return this.contract.methods.reasonableDiffInBps(address).call()
   }
 
   /**
-   * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).  
+   * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).
    * @param {any} account - admin account
    * @param {any} addresses - list of ERC20 token contract to set
    * @param {any} diffs - list of diffs in bps (1 bps = 0.01%)
-   * @returns 
+   * @returns
    * @memberof SanityRatesContract
    */
-  async setReasonableDiff(account, addresses, diffs) {
+  async setReasonableDiff (account, addresses, diffs) {
     const med = this.contract.methods.setReasonableDiff(addresses, diffs)
     return med.send({
-      from : account.address,
+      from: account.address,
       gas: await med.estimateGas({
         from: account.address
       })
