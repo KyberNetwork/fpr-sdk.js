@@ -46,5 +46,31 @@ export default class SanityRatesContract extends BaseContract {
         })
       })
   }
+  /**
+   * resonableDiffInBps return the list of reasonableDiffs in basis points (bps) 
+   * @param {string} address - ERC20 token contract address to query
+   * @memberof SanityRatesContract
+   */
+  reasonableDiffInBps(address) {
+    validateAddress(address)
+    return this.contract.methods.reasonableDiffInBps(address).call()
+  }
 
+  /**
+   * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).  
+   * @param {any} account - admin account
+   * @param {any} addresses - list of ERC20 token contract to set
+   * @param {any} diffs - list of diffs in bps (1 bps = 0.01%)
+   * @returns 
+   * @memberof SanityRatesContract
+   */
+  async setReasonableDiff(account, addresses, diffs) {
+    const med = this.contract.methods.setReasonableDiff(addresses, diffs)
+    return med.send({
+      from : account.address,
+      gas: await med.estimateGas({
+        from: account.address
+      })
+    })
+  }
 }

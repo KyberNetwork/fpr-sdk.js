@@ -44,11 +44,10 @@ describe('SanityRatesContract', () => {
     assert.ok(sanityRatesContract.contract)
   })
 
-  it('set sanity rates sucessfully', async () => {
+  it('set sanity rates successfully', async () => {
     const TestRate=1000
     console.log('testing set sanity rates...')
     const sanityRatesContract = new SanityRatesContract(provider, addresses.sanityRates)
-    console.log(Object.getOwnPropertyNames(sanityRatesContract.contract.methods))
     const accounts = await sanityRatesContract.web3.eth.getAccounts()
     const tokenAddr = await ERC20TokenDeployer(provider)
     // sanityRates can only be set from operator
@@ -67,26 +66,20 @@ describe('SanityRatesContract', () => {
   assert.equal(rate, TestRate)
   })
 
-  it('set sanity rates sucessfully', async () => {
-    const TestRate=1000
-    console.log('testing set sanity rates...')
+  it('set reasonableDiffInBps rates successfully', async () => {
+    const testDiff =100
+    console.log('testing set reasonableDiffinBps rates...')
     const sanityRatesContract = new SanityRatesContract(provider, addresses.sanityRates)
-    console.log(Object.getOwnPropertyNames(sanityRatesContract.contract.methods))
     const accounts = await sanityRatesContract.web3.eth.getAccounts()
     const tokenAddr = await ERC20TokenDeployer(provider)
-    // sanityRates can only be set from operator
-    assert.ok(
-      await sanityRatesContract.addOperator({ address: accounts[0] }, accounts[0])
-    )
-    assert.ok(await sanityRatesContract.setSanityRates(
+    assert.ok(await sanityRatesContract.setReasonableDiff(
       {address : accounts[0]},
       [tokenAddr],
-      [TestRate]
+      [testDiff]
     ))
-   const rate = await sanityRatesContract.getSanityRate(
+   const diff = await sanityRatesContract.reasonableDiffInBps(
     tokenAddr,
-    "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
   )
-  assert.equal(rate, TestRate)
+  assert.equal(diff, testDiff)
   })
 })
