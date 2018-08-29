@@ -33,7 +33,7 @@ export default class Deployer {
   }
 
   /**
-   * Deploy new reserver and pricing contracts.
+   * Deploy new reserve and pricing contracts.
    * @param {object} account - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
    * @param {string} network - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.

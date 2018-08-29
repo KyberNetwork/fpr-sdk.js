@@ -52,7 +52,7 @@ describe('ReserveContract', () => {
     })
   })
 
-  it('created an reserver contract instance successfully', () => {
+  it('created an reserve contract instance successfully', () => {
     const reserveContract = new ReserveContract(provider, addresses.reserve)
     assert.ok(reserveContract.contract)
   })
