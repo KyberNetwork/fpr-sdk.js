@@ -51,7 +51,9 @@ export default class Deployer {
       })
       return dpl.send({
         from: account.address,
-        gas: await dpl.estimateGas(),
+        gas: await dpl.estimateGas({
+          from: account.address
+        }),
         gasPrice: this.gasPrice
       })
     }
