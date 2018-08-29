@@ -11,7 +11,7 @@ export default class ReserveContract extends BaseContract {
   /**
    * Create new BaseContract instance.
    * @param {object} provider - Web3 provider
-   * @param {string} address - address of kyber reserver smart contract.
+   * @param {string} address - address of kyber reserve smart contract.
    */
   constructor (provider, address) {
     super(provider, address)
@@ -44,7 +44,7 @@ export default class ReserveContract extends BaseContract {
   }
 
   /**
-   * set Contract addresses for reserver contract.
+   * set Contract addresses for reserve contract.
    * @param {object} account - admin account.
    * @param {string} network - address of kyber network smart contract.
    * @param {string} conversion - address of kyber network smart contract.

@@ -33,8 +33,8 @@ export default class SanityRatesContract extends BaseContract {
   }
   /**
    * Set Sanity Rate for the contract
-   * @param {account} account - operator account
-   * @param {strings[]} srcs - list of source ERC20 token contract addresses
+   * @param {object} account - operator account
+   * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH weit
    * @returns {object} - the tx object of send() command from this contract method
    */
@@ -59,9 +59,9 @@ export default class SanityRatesContract extends BaseContract {
 
   /**
    * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).
-   * @param {any} account - admin account
-   * @param {any} addresses - list of ERC20 token contract to set
-   * @param {any} diffs - list of diffs in bps (1 bps = 0.01%)
+   * @param {object} account - admin account
+   * @param {string[]} addresses - list of ERC20 token contract to set
+   * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
    * @returns {object} - the tx object of send() command from this contract method
    */
   async setReasonableDiff (account, addresses, diffs) {

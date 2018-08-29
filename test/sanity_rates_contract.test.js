@@ -34,7 +34,7 @@ describe('SanityRatesContract', () => {
     })
   })
 
-  it('created an reserver contract instance successfully', () => {
+  it('created an reserve contract instance successfully', () => {
     const sanityRatesContract = new SanityRatesContract(
       provider,
       addresses.sanityRates
@@ -74,7 +74,7 @@ describe('SanityRatesContract', () => {
 
   it('set reasonableDiffInBps rates successfully', async () => {
     const testDiff = 100
-    console.log('testing set reasonableDiffinBps rates...')
+    console.log('testing set reasonableDiffInBps rates...')
     const sanityRatesContract = new SanityRatesContract(
       provider,
       addresses.sanityRates
