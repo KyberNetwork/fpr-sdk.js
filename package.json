@@ -1,5 +1,5 @@
 {
-  "name": "reserve-sdk",
+  "name": "@kyber.network/reserve-sdk",
   "version": "0.0.1",
   "description": "JavaScript Reserve SDK",
   "main": "./dist/index.js",
