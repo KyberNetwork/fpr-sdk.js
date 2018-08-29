@@ -1,13 +1,12 @@
 import Web3 from 'web3'
-import fs from 'fs'
-import path from 'path'
 
 import Addresses from './addresses'
+import conversionRatesByteCode from '../contracts/ConversionRatesContract'
 import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
 import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
+import kyberReserveContractByteCode from '../contracts/KyberReserveContract'
 import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
-
-const contractPath = path.join(__dirname, '..', 'contracts')
+import sanityRatesContractByteCode from '../contracts/SanityRatesContract'
 
 /**
  * Deployer is used for deploying new KyberNetwork reserve contracts.
@@ -33,7 +32,7 @@ export default class Deployer {
   }
 
   /**
-   * Deploy new reserver and pricing contracts.
+   * Deploy new reserve and pricing contracts.
    * @param {object} account - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
    * @param {string} network - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
@@ -51,7 +50,9 @@ export default class Deployer {
       })
       return dpl.send({
         from: account.address,
-        gas: await dpl.estimateGas(),
+        gas: await dpl.estimateGas({
+          from: account.address
+        }),
         gasPrice: this.gasPrice
       })
     }
@@ -60,24 +61,25 @@ export default class Deployer {
       console.log(
         'Deploying conversion ... This might take a while for the tx to be mined'
       )
-      const byteCode = fs
-        .readFileSync(path.join(contractPath, 'ConversionRates'))
-        .toString()
-        .trim()
-      return deployContract(account, conversionRatesABI, byteCode, [
-        account.address
-      ])
+      return deployContract(
+        account,
+        conversionRatesABI,
+        conversionRatesByteCode,
+        [account.address]
+      )
     }
 
     const deployReserve = (account, network, conversionAddress) => {
       console.log(
         'Deploying reserve ... This might take a while for the tx to be mined'
       )
-      const byteCode = fs
-        .readFileSync(path.join(contractPath, 'KyberReserve'))
-        .toString()
       const args = [network, conversionAddress, account.address]
-      return deployContract(account, kyberReserveContractABI, byteCode, args)
+      return deployContract(
+        account,
+        kyberReserveContractABI,
+        kyberReserveContractByteCode,
+        args
+      )
     }
 
     const deploySanityRates = account => {
@@ -85,12 +87,12 @@ export default class Deployer {
         'Deploying sanity ...This might take a while for the tx to be mined'
       )
 
-      const byteCode = fs
-        .readFileSync(path.join(contractPath, 'SanityRates'))
-        .toString()
-      return deployContract(account, sanityRatesContractABI, byteCode, [
-        account.address
-      ])
+      return deployContract(
+        account,
+        sanityRatesContractABI,
+        sanityRatesContractByteCode,
+        [account.address]
+      )
     }
 
     // All the contract must be deployed sequentially
