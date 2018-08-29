@@ -2,7 +2,7 @@
   "name": "reserve-sdk",
   "version": "0.0.1",
   "description": "JavaScript Reserve SDK",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "directories": {
     "test": "test"
   },
@@ -11,7 +11,8 @@
     "format": "prettier-standard 'src/**/*.js' 'test/**/*.js'",
     "lint": "standard",
     "doc": "jsdoc src",
-    "build": "BABEL_ENV=production babel src --out-dir lib"
+    "build": "BABEL_ENV=production babel src --out-dir dist",
+    "prepublish": "npm run build"
   },
   "standard": {
     "env": {
@@ -22,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/KyberNetwork/reserve-sdk.js.git"
   },
-  "author": "",
+  "author": "Diep Pham <diep@kyber.network>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"

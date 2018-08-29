@@ -1,0 +1,7 @@
+test/
+out
+src
+.travis.yml
+.babelrc
+.dir-locals.el
+.editorconfig
