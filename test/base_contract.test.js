@@ -3,18 +3,17 @@ import Web3 from 'web3'
 import ganache from 'ganache-cli'
 
 import BaseContract from '../src/base_contract'
-import Deployer from '../src/deployer'
+import Deployer, { KyberNetworkAddress } from '../src/deployer'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
-const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
 let addresses
 beforeEach(async () => {
   const dpl = new Deployer(provider)
   addresses = await dpl.deploy(
     { address: (await dpl.web3.eth.getAccounts())[0] },
-    kyberNetworkAddress,
+    KyberNetworkAddress,
     false
   )
 })

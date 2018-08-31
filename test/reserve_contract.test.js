@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import ganache from 'ganache-cli'
 
 import ReserveContract from '../src/reserve_contract'
-import Deployer from '../src/deployer'
+import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import {
   default as ERC20TokenDeployer,
   exampleERC20Contract
@@ -11,7 +11,6 @@ import {
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
-const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
 const assertThrowAsync = async fn => {
   let dummy = () => {}
@@ -31,7 +30,7 @@ beforeEach(async () => {
   const dpl = new Deployer(provider)
   addresses = await dpl.deploy(
     { address: (await dpl.web3.eth.getAccounts())[0] },
-    kyberNetworkAddress,
+    KyberNetworkAddress,
     false
   )
 })

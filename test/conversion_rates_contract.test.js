@@ -11,12 +11,11 @@ import ConversionRatesContract, {
   StepFunctionDataPoint,
   TokenControlInfo
 } from '../src/conversion_rates_contract'
-import Deployer from '../src/deployer'
+import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import { BigNumber } from 'bignumber.js'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
-const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
 let addresses
 let accounts
@@ -24,7 +23,7 @@ beforeEach(async () => {
   const dpl = new Deployer(provider)
   addresses = await dpl.deploy(
     { address: (await dpl.web3.eth.getAccounts())[0] },
-    kyberNetworkAddress,
+    KyberNetworkAddress,
     false
   )
   accounts = await web3.eth.getAccounts()

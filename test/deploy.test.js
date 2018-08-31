@@ -2,14 +2,13 @@ import assert from 'assert'
 import ganache from 'ganache-cli'
 import Web3 from 'web3'
 
-import Deployer from '../src/deployer'
+import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
 import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
 import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
-const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
 describe('Deployer', () => {
   it('failed to create a new instance with no provider', () => {
@@ -19,18 +18,28 @@ describe('Deployer', () => {
   it('failed to deploy with no account', async () => {
     const dpl = new Deployer(provider)
     try {
-      await dpl.deploy(undefined, kyberNetworkAddress, false)
+      await dpl.deploy(undefined, KyberNetworkAddress, false)
       assert.ok(false)
     } catch (err) {
       assert.strictEqual(err.message, 'missing account')
     }
   })
 
+  it('deployed successfully with default network address', async () => {
+    const dpl = new Deployer(provider)
+    const account = await getTestAccount(provider)
+
+    const addresses = await dpl.deploy(account)
+    assert.ok(addresses.reserve)
+    assert.ok(addresses.conversionRates)
+    assert.strictEqual(addresses.sanityRates, undefined)
+  })
+
   it('deployed successfully with no sanityRates contract', async () => {
     const dpl = new Deployer(provider)
     const account = await getTestAccount(provider)
 
-    const addresses = await dpl.deploy(account, kyberNetworkAddress, false)
+    const addresses = await dpl.deploy(account, KyberNetworkAddress, false)
     assert.ok(addresses.reserve)
     assert.ok(addresses.conversionRates)
     assert.strictEqual(addresses.sanityRates, undefined)
@@ -62,7 +71,7 @@ describe('Deployer', () => {
     )
     assert.strictEqual(
       await reserveContract.methods.kyberNetwork().call(),
-      kyberNetworkAddress
+      KyberNetworkAddress
     )
     assert.strictEqual(
       await reserveContract.methods.sanityRatesContract().call(),
@@ -73,7 +82,7 @@ describe('Deployer', () => {
   it('deployed successfully with sanityRates contract', async () => {
     const dpl = new Deployer(provider)
     const account = await getTestAccount(provider)
-    const addresses = await dpl.deploy(account, kyberNetworkAddress, true)
+    const addresses = await dpl.deploy(account, KyberNetworkAddress, true)
     assert.ok(addresses.reserve)
     assert.ok(addresses.conversionRates)
     assert.ok(addresses.sanityRates)
@@ -105,7 +114,7 @@ describe('Deployer', () => {
     )
     assert.strictEqual(
       await reserveContract.methods.kyberNetwork().call(),
-      kyberNetworkAddress
+      KyberNetworkAddress
     )
     assert.strictEqual(
       await reserveContract.methods.sanityRatesContract().call(),

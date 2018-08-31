@@ -2,18 +2,17 @@ import assert from 'assert'
 import ganache from 'ganache-cli'
 
 import SanityRatesContract from '../src/sanity_rates_contract'
-import Deployer from '../src/deployer'
+import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import { default as ERC20TokenDeployer } from './deploy_erc20'
 
 const provider = ganache.provider()
-const kyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 
 let addresses
 beforeEach(async () => {
   const dpl = new Deployer(provider)
   addresses = await dpl.deploy(
     { address: (await dpl.web3.eth.getAccounts())[0] },
-    kyberNetworkAddress,
+    KyberNetworkAddress,
     true
   )
 })
