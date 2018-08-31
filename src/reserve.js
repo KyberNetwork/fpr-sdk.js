@@ -2,6 +2,11 @@ import ReserveContract from './reserve_contract'
 import SanityRatesContract from './sanity_rates_contract'
 import ConversionRatesContract from './conversion_rates_contract'
 
+/**
+ * Reserve Class is the wrapper to call all methods related to
+ * managing a reserve. It required a provider and the addresses of
+ * reserve contract, conversionRates contract and optionally, SanityRates contract
+ */
 export default class Reserve {
   /**
    *
