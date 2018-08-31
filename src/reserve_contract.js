@@ -20,7 +20,7 @@ export default class ReserveContract extends BaseContract {
   }
   /**
    * enableTrade allow the reserve to continue trading
-   * @param {account} - Admin account
+   * @param {object} account - Admin account
    * @return {object} - the tx object of send() command from this contract method
    */
   async enableTrade (account) {
@@ -35,7 +35,7 @@ export default class ReserveContract extends BaseContract {
 
   /**
    * disableTrade stop the reserve from trading
-   * @param {account} - Alerter account
+   * @param {object} account - Alerter account
    * @return {object} - the tx object of send() command from this contract method
    */
   async disableTrade (account) {
@@ -50,7 +50,7 @@ export default class ReserveContract extends BaseContract {
 
   /**
    * tradeEnabled return true if the reserve is tradeEnabled, false otherwise
-   * @return {bool} - tradeEnabled status of the reserve
+   * @return {boolean} - tradeEnabled status of the reserve
    */
   tradeEnabled () {
     return this.contract.methods.tradeEnabled().call()
