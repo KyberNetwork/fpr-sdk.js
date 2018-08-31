@@ -87,6 +87,21 @@ export class CompactData {
   }
 }
 
+/**
+ * Build the compact data input.
+ * In ConversionRates contract, the compact data is stored in two dimensions
+ * array with location:
+ *   - bulkIndex
+ *   - indexInBulk
+ *
+ * When setting compact data, user needs to submit the whole bulk along with
+ * its index.
+ *
+ * @param newBuys - buy compact data
+ * @param newSells - sell compact data
+ * @param indices - map of address to its bulk index
+ * @return {{buyResults: Array, sellResults: Array, indexResults: Array}}
+ */
 export const buildCompactBulk = (newBuys, newSells, indices) => {
   let buyResults = []
   let sellResults = []
@@ -144,6 +159,14 @@ export class TokenControlInfo {
     this._minimalRecordResolution = value
   }
 
+  /**
+   * Create a new TokenControlInfo instance.
+   * @param minimalRecordResolution {uint} - minimum denominator in token wei that can be changed
+   * @param maxPerBlockImbalance {uint} - maximum wei amount of net absolute (+/-) change for a token in an ethereum
+   * block
+   * @param maxTotalImbalance {uint} - wei amount of the maximum net token change allowable that happens between 2
+   * price updates
+   */
   constructor (
     minimalRecordResolution,
     maxPerBlockImbalance,
@@ -173,6 +196,11 @@ export class StepFunctionDataPoint {
     this._x = value
   }
 
+  /**
+   * Create a new StepFunctionDataPoint.
+   * @param x {int} - buy step in wei amount
+   * @param y {int} - impact on buy rate in basis points (bps). 1 bps = 0.01%
+   */
   constructor (x, y) {
     this._x = x
     this._y = y
@@ -180,7 +208,7 @@ export class StepFunctionDataPoint {
 }
 
 /**
- * RateSetting is a rate setting of a ERC20 token.
+ * RateSetting represents the buy sell rates of a ERC20 token.
  */
 export class RateSetting {
   get sell () {
@@ -224,6 +252,12 @@ export class RateSetting {
   }
 }
 
+/**
+ * CompactDataLocation is the location of compact data of a token in
+ * ConversionRates contract. When adding a new token, ConversionRatesContract
+ * allocated a fixed location in compact data array for it, this can't be
+ * changed.
+ */
 export class CompactDataLocation {
   get indexInBulk () {
     return this._indexInBulk
