@@ -9,6 +9,13 @@ import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
 import sanityRatesContractByteCode from '../contracts/SanityRatesContract'
 
 /**
+ * KyberNetworkAddress is the smart contract address of KyberNetwork.</br>
+ * *Last updated*: 2018, August 31
+ * @type {string}
+ */
+export const KyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
+
+/**
  * Deployer is used for deploying new KyberNetwork reserve contracts.
  * It deployed all requires smart contracts for running a reserve:
  * <ul>
@@ -34,11 +41,11 @@ export default class Deployer {
   /**
    * Deploy new reserve and pricing contracts.
    * @param {object} account - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
-   * @param {string} network - Address of KyberNetwork smart contract.
+   * @param {string} [network=KyberNetworkAddress] - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
    * @return {Addresses} - Deployed reserve addresses set.
    */
-  async deploy (account, network, sanityRates = false) {
+  async deploy (account, network = KyberNetworkAddress, sanityRates = false) {
     if (!account) {
       throw new Error('missing account')
     }
