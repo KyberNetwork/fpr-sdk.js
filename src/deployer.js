@@ -46,7 +46,12 @@ export default class Deployer {
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    * @return {Addresses} - Deployed reserve addresses set.
    */
-  async deploy (account, network = KyberNetworkAddress, sanityRates = false,gasPriceInput = undefined) {
+  async deploy (
+    account,
+    network = KyberNetworkAddress,
+    sanityRates = false,
+    gasPriceInput = undefined
+  ) {
     if (!account) {
       throw new Error('missing account')
     }

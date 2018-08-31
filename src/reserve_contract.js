@@ -24,7 +24,7 @@ export default class ReserveContract extends BaseContract {
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  async enableTrade (account,gasPriceInput=undefined) {
+  async enableTrade (account, gasPriceInput = undefined) {
     const med = this.contract.methods.enableTrade()
     return this.contract.methods.enableTrade().send({
       from: account.address,
@@ -41,7 +41,7 @@ export default class ReserveContract extends BaseContract {
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  async disableTrade (account,gasPriceInput=undefined) {
+  async disableTrade (account, gasPriceInput = undefined) {
     const med = this.contract.methods.disableTrade()
     return med.send({
       from: account.address,
@@ -69,7 +69,13 @@ export default class ReserveContract extends BaseContract {
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setContracts (account, network, conversion, sanity,gasPriceInput=undefined) {
+  async setContracts (
+    account,
+    network,
+    conversion,
+    sanity,
+    gasPriceInput = undefined
+  ) {
     validateAddress(network)
     validateAddress(conversion)
 
@@ -119,7 +125,12 @@ export default class ReserveContract extends BaseContract {
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async approveWithdrawAddress (account, tokenAddress, withdrawAddress,gasPriceInput=undefined) {
+  async approveWithdrawAddress (
+    account,
+    tokenAddress,
+    withdrawAddress,
+    gasPriceInput = undefined
+  ) {
     const med = this.contract.methods.approveWithdrawAddress(
       tokenAddress,
       withdrawAddress,
@@ -142,7 +153,12 @@ export default class ReserveContract extends BaseContract {
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async disapproveWithdrawAddress (account, tokenAddress, withdrawAddress,gasPriceInput=undefined) {
+  async disapproveWithdrawAddress (
+    account,
+    tokenAddress,
+    withdrawAddress,
+    gasPriceInput = undefined
+  ) {
     const med = this.contract.methods.approveWithdrawAddress(
       tokenAddress,
       withdrawAddress,
@@ -177,7 +193,13 @@ export default class ReserveContract extends BaseContract {
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async withdraw (account, tokenAddress, amount, toAddress,gasPriceInput=undefined) {
+  async withdraw (
+    account,
+    tokenAddress,
+    amount,
+    toAddress,
+    gasPriceInput = undefined
+  ) {
     const med = this.contract.methods.withdraw(tokenAddress, amount, toAddress)
     return med.send({
       from: account.address,
