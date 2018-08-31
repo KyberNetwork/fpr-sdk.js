@@ -284,16 +284,16 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {object} account - Web3 account
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
 
-  async addToken (account, token, tokenControlInfo, gasPriceInput = undefined) {
+  async addToken (account, token, tokenControlInfo, gasPrice = undefined) {
     validateAddress(token)
     let tx = this.contract.methods.addToken(token)
     await tx.send({
       from: account.address,
       gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPriceInput
+      gasPrice: gasPrice
     })
 
     tx = this.contract.methods.setTokenControlInfo(
@@ -305,14 +305,14 @@ export default class ConversionRatesContract extends BaseContract {
     await tx.send({
       from: account.address,
       gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPriceInput
+      gasPrice: gasPrice
     })
 
     tx = this.contract.methods.enableTokenTrade(token)
     await tx.send({
       from: account.address,
       gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPriceInput
+      gasPrice: gasPrice
     })
 
     return this.getTokenIndices(token)
@@ -325,14 +325,14 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
   async setImbalanceStepFunction (
     account,
     token,
     buy,
     sell,
-    gasPriceInput = undefined
+    gasPrice = undefined
   ) {
     validateAddress(token)
     const xBuy = buy.map(val => val.x)
@@ -349,7 +349,7 @@ export default class ConversionRatesContract extends BaseContract {
     return tx.send({
       from: account.address,
       gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPriceInput
+      gasPrice: gasPrice
     })
   }
 
@@ -360,14 +360,14 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
   async setQtyStepFunction (
     account,
     token,
     buy,
     sell,
-    gasPriceInput = undefined
+    gasPrice = undefined
   ) {
     validateAddress(token)
     const xBuy = buy.map(val => val.x)
@@ -386,7 +386,7 @@ export default class ConversionRatesContract extends BaseContract {
     return tx.send({
       from: account.address,
       gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPriceInput
+      gasPrice: gasPrice
     })
   }
 
@@ -424,13 +424,13 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {object} account - Web3 account
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
   async setRate (
     account,
     rates,
     currentBlockNumber = 0,
-    gasPriceInput = undefined
+    gasPrice = undefined
   ) {
     const indices = await rates.reduce(async (acc, val) => {
       const accumulator = await acc.then()
@@ -508,7 +508,7 @@ export default class ConversionRatesContract extends BaseContract {
     return tx.send({
       from: account.address,
       gas,
-      gasPrice: gasPriceInput
+      gasPrice: gasPrice
     })
   }
 }
