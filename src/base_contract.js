@@ -46,14 +46,16 @@ export default class BaseContract {
    * transfer admin privilege to given address.
    * @param {object} account - current admin account
    * @param {string} address - new admin address
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
    */
-  async transferAdmin (account, address) {
+  async transferAdmin (account, address,gasPriceInput) {
     validateAddress(address)
     const med = this.contract.methods.transferAdmin(address)
     return med.send({
       from: account.address,
       gas: await med.estimateGas({
-        from: account.address
+        from: account.address,
+        gasPrice: gasPriceInput
       })
     })
   }
@@ -61,13 +63,16 @@ export default class BaseContract {
   /**
    * Claim admin privilege. The account address should be in already placed
    * in pendingAdmin for this to works.
+   * @param {object} account - the pending admin account
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
    */
-  async claimAdmin (account) {
+  async claimAdmin (account, gasPriceInput) {
     const med = this.contract.methods.claimAdmin()
     return med.send({
       from: account.address,
       gas: await med.estimateGas({
-        from: account.address
+        from: account.address,
+        gasPrice: gasPriceInput
       })
     })
   }
@@ -84,14 +89,16 @@ export default class BaseContract {
    * Add given address from operators list.
    * @param {object} account - current admin account
    * @param {string} address - address to remove from operators list.
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
    */
-  async addOperator (account, address) {
+  async addOperator (account, address,gasPriceInput) {
     validateAddress(address)
     const med = this.contract.methods.addOperator(address)
     return med.send({
       from: account.address,
       gas: await med.estimateGas({
-        from: account.address
+        from: account.address,
+        gasPrice: gasPriceInput
       })
     })
   }
@@ -100,14 +107,16 @@ export default class BaseContract {
    * Remove given address from operators list.
    * @param {object} account - current admin account
    * @param {string} address - address to remove from operators list.
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
    */
-  async removeOperator (account, address) {
+  async removeOperator (account, address,gasPriceInput) {
     validateAddress(address)
     const med = this.contract.methods.removeOperator(address)
     return med.send({
       from: account.address,
       gas: await med.estimateGas({
-        from: account.address
+        from: account.address,
+        gasPrice: gasPriceInput
       })
     })
   }
@@ -124,14 +133,16 @@ export default class BaseContract {
    * Add new address to alerters list.
    * @param {object} account - current admin account
    * @param {string} address - address to add to alerters list.
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async addAlerter (account, address) {
+  async addAlerter (account, address,gasPriceInput) {
     validateAddress(address)
     const med = this.contract.methods.addAlerter(address)
     return med.send({
       from: account.address,
       gas: await med.estimateGas({
-        from: account.address
+        from: account.address,
+        gasPrice: gasPriceInput
       })
     })
   }
@@ -140,14 +151,16 @@ export default class BaseContract {
    * Remove address from alerters list.
    * @param {object} account - current admin account
    * @param {string} address - address to remove from alerters list.
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async removeAlerter (account, address) {
+  async removeAlerter (account, address,gasPriceInput) {
     validateAddress(address)
     const med = this.contract.methods.removeAlerter(address)
     return med.send({
       from: account.address,
       gas: await med.estimateGas({
-        from: account.address
+        from: account.address,
+        gasPrice: gasPriceInput
       })
     })
   }
