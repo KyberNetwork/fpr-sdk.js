@@ -1,6 +1,6 @@
 import ReserveContract from './reserve_contract'
-import SanityRate from './sanity_rates_contract'
-import conversionRates from './conversion_rates_contract'
+import SanityRatesContract from './sanity_rates_contract'
+import ConversionRatesContract from './conversion_rates_contract'
 
 export default class Reserve {
   /**
@@ -9,13 +9,17 @@ export default class Reserve {
    * @param {Addresses} addresses - addresses of the contracts
    */
   constructor (provider, addresses) {
-    const web3 = new Web3(provider)
     this.reserve = new ReserveContract(provider, addresses.reserve)
-    this.sanityRates = new this.Sanity(provider, addresses.sanityRates)
-    this.conversionRates = new this.conversionRates(
+    this.conversionRates = new ConversionRatesContract(
       provider,
       addresses.conversionRates
     )
+    if (addresses.sanityRates) {
+      this.sanityRates = new SanityRatesContract(
+        provider,
+        addresses.sanityRates
+      )
+    }
   }
 
   /**
@@ -146,7 +150,10 @@ export default class Reserve {
    * @returns {object} - the tx object of send() command from this contract method
    */
   setSanityRates (account, srcs, rates) {
-    return this.setSanityRates(account, srcs, rates)
+    if (!this.sanityRates) {
+      return undefined
+    }
+    return this.sanityRates.setSanityRates(account, srcs, rates)
   }
 
   /**
@@ -156,6 +163,9 @@ export default class Reserve {
    * @returns {string} - the uint rate in strings format.
    */
   getSanityRate (src, dest) {
+    if (!this.sanityRates) {
+      return undefined
+    }
     return this.sanityRates.getSanityRate(src, dest)
   }
 
@@ -165,6 +175,9 @@ export default class Reserve {
    * @returns {string} - the uint reasonable diff in string formatgi
    */
   reasonableDiffInBps (address) {
+    if (!this.sanityRates) {
+      return undefined
+    }
     return this.sanityRates.reasonableDiffInBps(address)
   }
 
@@ -176,6 +189,9 @@ export default class Reserve {
    * @returns {object} - the tx object of send() command from this contract method
    */
   setReasonableDiff (account, addresses, diffs) {
+    if (!this.sanityRates) {
+      return undefined
+    }
     return this.sanityRates.setReasonableDiff(account, addresses, diffs)
   }
 

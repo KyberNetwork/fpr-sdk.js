@@ -18,7 +18,11 @@ export default class ReserveContract extends BaseContract {
     this.web3 = new Web3(provider)
     this.contract = new this.web3.eth.Contract(reserveContractABI, address)
   }
-
+  /**
+   * enableTrade allow the reserve to continue trading
+   * @param {account} - Admin account
+   * @return {object} - the tx object of send() command from this contract method
+   */
   async enableTrade (account) {
     const med = this.contract.methods.enableTrade()
     return this.contract.methods.enableTrade().send({
@@ -29,6 +33,11 @@ export default class ReserveContract extends BaseContract {
     })
   }
 
+  /**
+   * disableTrade stop the reserve from trading
+   * @param {account} - Alerter account
+   * @return {object} - the tx object of send() command from this contract method
+   */
   async disableTrade (account) {
     const med = this.contract.methods.disableTrade()
     return med.send({
@@ -39,6 +48,10 @@ export default class ReserveContract extends BaseContract {
     })
   }
 
+  /**
+   * tradeEnabled return true if the reserve is tradeEnabled, false otherwise
+   * @return {bool} - tradeEnabled status of the reserve
+   */
   tradeEnabled () {
     return this.contract.methods.tradeEnabled().call()
   }
@@ -68,14 +81,26 @@ export default class ReserveContract extends BaseContract {
     })
   }
 
+  /**
+   * conversionRatesContract return the address of conversion rates of this reserve
+   * @return {string} - address of conversion rates contract
+   */
   conversionRatesContract () {
     return this.contract.methods.conversionRatesContract().call()
   }
 
+  /**
+   * sanityRatesContract return the address of sanity rates of this reserve
+   * @return {string} - address of sanity rates contract
+   */
   sanityRatesContract () {
     return this.contract.methods.sanityRatesContract().call()
   }
 
+  /**
+   * kyberNetwork return the address of kyberNetwork contract of this reserve
+   * @return {string} - address of kyberNetwork contract
+   */
   kyberNetwork () {
     return this.contract.methods.kyberNetwork().call()
   }
