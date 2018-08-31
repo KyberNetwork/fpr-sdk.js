@@ -333,10 +333,10 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {object} account - Web3 account
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
 
-  async addToken (account, token, tokenControlInfo, gasPrice = undefined) {
+  async addToken (account, token, tokenControlInfo, gasPrice) {
     validateAddress(token)
     let tx = this.contract.methods.addToken(token)
     await tx.send({
@@ -409,15 +409,9 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setQtyStepFunction (
-    account,
-    token,
-    buy,
-    sell,
-    gasPrice = undefined
-  ) {
+  async setQtyStepFunction (account, token, buy, sell, gasPrice) {
     validateAddress(token)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
@@ -473,14 +467,9 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {object} account - Web3 account
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setRate (
-    account,
-    rates,
-    currentBlockNumber = 0,
-    gasPrice = undefined
-  ) {
+  async setRate (account, rates, currentBlockNumber = 0, gasPrice) {
     const indices = await rates.reduce(async (acc, val) => {
       const accumulator = await acc.then()
       accumulator[val.address] = await this.getTokenIndices(val.address)

@@ -21,10 +21,10 @@ export default class ReserveContract extends BaseContract {
   /**
    * enableTrade allow the reserve to continue trading
    * @param {object} account - Admin account
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  async enableTrade (account, gasPrice = undefined) {
+  async enableTrade (account, gasPrice) {
     const med = this.contract.methods.enableTrade()
     return this.contract.methods.enableTrade().send({
       from: account.address,
@@ -38,10 +38,10 @@ export default class ReserveContract extends BaseContract {
   /**
    * disableTrade stop the reserve from trading
    * @param {object} account - Alerter account
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  async disableTrade (account, gasPrice = undefined) {
+  async disableTrade (account, gasPrice) {
     const med = this.contract.methods.disableTrade()
     return med.send({
       from: account.address,

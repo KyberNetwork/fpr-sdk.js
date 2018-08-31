@@ -31,15 +31,16 @@ export default class SanityRatesContract extends BaseContract {
     validateAddress(dest)
     return this.contract.methods.getSanityRate(src, dest).call()
   }
+
   /**
    * Set Sanity Rate for the contract
    * @param {object} account - operator account
    * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH wei
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setSanityRates (account, srcs, rates, gasPrice = undefined) {
+  async setSanityRates (account, srcs, rates, gasPrice) {
     const med = this.contract.methods.setSanityRates(srcs, rates)
     return med.send({
       from: account.address,
@@ -49,6 +50,7 @@ export default class SanityRatesContract extends BaseContract {
       gasPrice: gasPrice
     })
   }
+
   /**
    * resonableDiffInBps return the list of reasonableDiffs in basis points (bps)
    * @param {string} address - ERC20 token contract address to query
@@ -67,12 +69,7 @@ export default class SanityRatesContract extends BaseContract {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setReasonableDiff (
-    account,
-    addresses,
-    diffs,
-    gasPrice = undefined
-  ) {
+  async setReasonableDiff (account, addresses, diffs, gasPrice = undefined) {
     const med = this.contract.methods.setReasonableDiff(addresses, diffs)
     return med.send({
       from: account.address,

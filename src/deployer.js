@@ -41,10 +41,15 @@ export default class Deployer {
    * @param {object} account - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
    * @param {string} [network=KyberNetworkAddress] - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {Addresses} - Deployed reserve addresses set.
    */
-  async deploy (account, network = KyberNetworkAddress, sanityRates = false,gasPrice = undefined) {
+  async deploy (
+    account,
+    network = KyberNetworkAddress,
+    sanityRates = false,
+    gasPrice
+  ) {
     if (!account) {
       throw new Error('missing account')
     }

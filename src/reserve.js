@@ -30,19 +30,19 @@ export default class Reserve {
   /**
    * enableTrade allow the reserve to continue trading
    * @param {object} account - Admin account
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  enableTrade (account, gasPrice = undefined) {
+  enableTrade (account, gasPrice) {
     return this.reserve.enableTrade(account, gasPrice)
   }
   /**
    * disableTrade stop the reserve from trading
    * @param {object} account - Alerter account
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  disableTrade (account, gasPrice = undefined) {
+  disableTrade (account, gasPrice) {
     return this.reserve.disableTrade(account, gasPrice)
   }
   /**
@@ -62,13 +62,7 @@ export default class Reserve {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  setContracts (
-    account,
-    network,
-    conversion,
-    sanity,
-    gasPrice = undefined
-  ) {
+  setContracts (account, network, conversion, sanity, gasPrice = undefined) {
     return this.reserve.setContracts(
       account,
       network,
@@ -164,13 +158,7 @@ export default class Reserve {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  withdraw (
-    account,
-    tokenAddress,
-    amount,
-    toAddress,
-    gasPrice = undefined
-  ) {
+  withdraw (account, tokenAddress, amount, toAddress, gasPrice = undefined) {
     return this.reserve.withdraw(
       account,
       tokenAddress,
@@ -194,10 +182,10 @@ export default class Reserve {
    * @param {object} account - operator account
    * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH weit
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  setSanityRates (account, srcs, rates, gasPrice = undefined) {
+  setSanityRates (account, srcs, rates, gasPrice) {
     if (!this.sanityRates) {
       return undefined
     }
@@ -234,10 +222,10 @@ export default class Reserve {
    * @param {object} account - admin account
    * @param {string[]} addresses - list of ERC20 token contract to set
    * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  setReasonableDiff (account, addresses, diffs, gasPrice = undefined) {
+  setReasonableDiff (account, addresses, diffs, gasPrice) {
     if (!this.sanityRates) {
       return undefined
     }
@@ -255,11 +243,11 @@ export default class Reserve {
    * @param {object} account - Web3 account
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
 
-  addToken (account, token, tokenControlInfo, gasPrice = undefined) {
+  addToken (account, token, tokenControlInfo, gasPrice) {
     return this.conversionRates.addToken(
       account,
       token,
@@ -275,15 +263,9 @@ export default class Reserve {
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  setImbalanceStepFunction (
-    account,
-    token,
-    buy,
-    sell,
-    gasPrice = undefined
-  ) {
+  setImbalanceStepFunction (account, token, buy, sell, gasPrice) {
     return this.conversionRates.setImbalanceStepFunction(
       account,
       token,
@@ -300,9 +282,9 @@ export default class Reserve {
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  setQtyStepFunction (account, token, buy, sell, gasPrice = undefined) {
+  setQtyStepFunction (account, token, buy, sell, gasPrice) {
     return this.conversionRates.setQtyStepFunction(
       account,
       token,
@@ -342,9 +324,9 @@ export default class Reserve {
    * @param {object} account - Web3 account
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
-   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  setRate (account, rates, currentBlockNumber = 0, gasPrice = undefined) {
+  setRate (account, rates, currentBlockNumber = 0, gasPrice) {
     return this.conversionRates.setRate(
       account,
       rates,
