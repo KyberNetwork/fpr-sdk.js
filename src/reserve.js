@@ -3,7 +3,7 @@ import SanityRatesContract from './sanity_rates_contract'
 import ConversionRatesContract from './conversion_rates_contract'
 
 /**
- * Reserve Class is the wrapper to call all methods related to
+ * Reserve is the wrapper to call all methods related to
  * managing a reserve. It required a provider and the addresses of
  * reserve contract, conversionRates contract and optionally, SanityRates contract
  */
@@ -29,7 +29,7 @@ export default class Reserve {
 
   /**
    * enableTrade allow the reserve to continue trading
-   * @param {account} - Admin account
+   * @param {object} account - Admin account
    * @return {object} - the tx object of send() command from this contract method
    */
   enableTrade (account) {
@@ -37,7 +37,7 @@ export default class Reserve {
   }
   /**
    * disableTrade stop the reserve from trading
-   * @param {account} - Alerter account
+   * @param {object} account - Alerter account
    * @return {object} - the tx object of send() command from this contract method
    */
   disableTrade (account) {
@@ -45,7 +45,7 @@ export default class Reserve {
   }
   /**
    * tradeEnabled return true if the reserve is tradeEnabled, false otherwise
-   * @return {bool} - tradeEnabled status of the reserve
+   * @return {boolean} - tradeEnabled status of the reserve
    */
   tradeEnabled () {
     return this.contract.methods.tradeEnabled().call()
@@ -149,8 +149,8 @@ export default class Reserve {
 
   /**
    * Set Sanity Rate for the sanity Ratescontract
-   * @param {account} account - operator account
-   * @param {strings[]} srcs - list of source ERC20 token contract addresses
+   * @param {object} account - operator account
+   * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH weit
    * @returns {object} - the tx object of send() command from this contract method
    */
@@ -188,9 +188,9 @@ export default class Reserve {
 
   /**
    * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).
-   * @param {any} account - admin account
-   * @param {any} addresses - list of ERC20 token contract to set
-   * @param {any} diffs - list of diffs in bps (1 bps = 0.01%)
+   * @param {object} account - admin account
+   * @param {string[]} addresses - list of ERC20 token contract to set
+   * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
    * @returns {object} - the tx object of send() command from this contract method
    */
   setReasonableDiff (account, addresses, diffs) {
