@@ -28,14 +28,12 @@ export default class Deployer {
   /**
    * Create a deployer instance with given account parameter.
    * @param {object} provider - Web3 provider
-   * @param {string} gasPrice  - gasPrice
    */
-  constructor (provider, gasPrice) {
+  constructor (provider) {
     if (!provider) {
       throw new Error('provider is not set')
     }
     this.web3 = new Web3(provider)
-    this.gasPrice = gasPrice
   }
 
   /**
@@ -43,9 +41,15 @@ export default class Deployer {
    * @param {object} account - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
    * @param {string} [network=KyberNetworkAddress] - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {Addresses} - Deployed reserve addresses set.
    */
-  async deploy (account, network = KyberNetworkAddress, sanityRates = false) {
+  async deploy (
+    account,
+    network = KyberNetworkAddress,
+    sanityRates = false,
+    gasPrice
+  ) {
     if (!account) {
       throw new Error('missing account')
     }
@@ -60,7 +64,7 @@ export default class Deployer {
         gas: await dpl.estimateGas({
           from: account.address
         }),
-        gasPrice: this.gasPrice
+        gasPrice: gasPrice
       })
     }
 
@@ -127,7 +131,7 @@ export default class Deployer {
         gas: await setReserveAddressTx.estimateGas({
           from: account.address
         }),
-        gasPrice: this.gasPrice
+        gasPrice: gasPrice
       })
     }
 
@@ -159,7 +163,7 @@ export default class Deployer {
         gas: await setContractsTx.estimateGas({
           from: account.address
         }),
-        gasPrice: this.gasPrice
+        gasPrice: gasPrice
       })
     }
     const setContractAddressesTxResult = await setContractAddressesForReserve(
