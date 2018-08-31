@@ -178,4 +178,80 @@ export default class Reserve {
   setReasonableDiff (account, addresses, diffs) {
     return this.sanityRates.setReasonableDiff(account, addresses, diffs)
   }
+
+  /**
+   * Add a ERC20 token and its pricing configurations to reserve contract and
+   * enable it for trading.
+   * @param {object} account - Web3 account
+   * @param {string} token - ERC20 token address
+   * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
+   */
+
+  addToken (account, token, tokenControlInfo) {
+    return this.conversionRates.addToken(account, token, tokenControlInfo)
+  }
+
+  /**
+   * Set adjustments for tokens' buy and sell rates depending on the net traded
+   * amounts. Only operator can invoke.
+   * @param {object} account - Web3 account
+   * @param {string} token - ERC20 token address
+   * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
+   * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
+   */
+  setImbalanceStepFunction (account, token, buy, sell) {
+    return this.conversionRates.setImbalanceStepFunction(
+      account,
+      token,
+      buy,
+      sell
+    )
+  }
+
+  /**
+   * Set adjustments for tokens' buy and sell rates depending on the size of a
+   * buy / sell order. Only operator can invoke.
+   * @param {object} account - Web3 account
+   * @param {string} token - ERC20 token address
+   * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
+   * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
+   */
+  setQtyStepFunction (account, token, buy, sell) {
+    return this.conversionRates.setQtyStepFunction(account, token, buy, sell)
+  }
+
+  /**
+   * Return the buying ETH based rate. The rate might be vary with
+   * different quantity.
+   * @param {string} token - token address
+   * @param {number} qty - quantity of token
+   * @param {number} [currentBlockNumber=0] - current block number, default to
+   * use latest known block number.
+   * @return {number} - buy rate
+   */
+  getBuyRates (token, qty, currentBlockNumber = 0) {
+    return this.conversionRates.getBuyRates(token, qty, currentBlockNumber)
+  }
+
+  /**
+   * Return the buying ETH based rate. The rate might be vary with
+   * different quantity.
+   * @param {string} token - token address
+   * @param {number} qty - quantity of token
+   * @param {number} [currentBlockNumber=0] - current block number
+   * known block number.
+   */
+  getSellRates (token, qty, currentBlockNumber = 0) {
+    return this.conversionRates.getSellRates(token, qty, currentBlockNumber)
+  }
+
+  /**
+   * Set the buying rate for given token.
+   * @param {object} account - Web3 account
+   * @param {RateSetting[]} rates - token address
+   * @param {number} [currentBlockNumber=0] - current block number
+   */
+  setRate (account, rates, currentBlockNumber = 0) {
+    return this.conversionRates.setRate(account, rates, currentBlockNumber)
+  }
 }
