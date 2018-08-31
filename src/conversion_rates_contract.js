@@ -5,6 +5,14 @@ import BaseContract from './base_contract'
 import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
 import { validateAddress } from './validate'
 
+/**
+ * CompactData is used to save gas on get, set rates operations.
+ * Instead of sending the whole buy, sell rates every time, only the different
+ * is sent if possible.
+ * The compact rate is calculated by following formula:
+ *
+ *      compact = ((rate / base) - 1) * 1000
+ */
 export class CompactData {
   get isBaseChanged () {
     return this._isBaseChanged
@@ -13,6 +21,7 @@ export class CompactData {
   set isBaseChanged (value) {
     this._isBaseChanged = value
   }
+
   get compact () {
     return this._compact
   }
@@ -20,6 +29,7 @@ export class CompactData {
   set compact (value) {
     this._compact = value
   }
+
   get base () {
     return this._base
   }
@@ -27,51 +37,71 @@ export class CompactData {
   set base (value) {
     this._base = value
   }
+
+  /**
+   * Create a new CompactData instance.
+   * @param {BigNumber} rate - the total rate
+   * @param {BigNumber} base - the base to generate compact data
+   */
   constructor (rate, base) {
-    const compactData = buildCompactData(rate, base)
-    this._base = compactData.base
-    this._isBaseChanged = !compactData.base.isEqualTo(base)
-    this._compact = compactData.compact
+    // const compactData = buildCompactData(rate, base)
+    const minInt8 = -128
+    const maxInt8 = 127
+
+    rate = new BigNumber(rate)
+    base = new BigNumber(base)
+
+    let compact
+
+    if (base.isEqualTo(0)) {
+      base = rate
+      this.isBaseChanged = true
+      compact = new BigNumber(0)
+    } else {
+      compact = rate
+        .dividedBy(base)
+        .minus(new BigNumber(1))
+        .multipliedBy(1000.0)
+        .integerValue()
+
+      // compact data is fit in a byte
+      if (
+        compact.isGreaterThanOrEqualTo(minInt8) &&
+        compact.isLessThanOrEqualTo(maxInt8)
+      ) {
+        // overflowed, convert from int8 to byte so
+        // * -1 --> 255
+        // * -128 --> 128
+        if (compact.isLessThan(0)) {
+          compact = new BigNumber(2 ** 8).plus(compact)
+        }
+      } else {
+        base = rate
+        this.isBaseChanged = true
+        compact = new BigNumber(0)
+      }
+    }
+
+    this._base = base
+    this._compact = compact
   }
 }
 
 /**
- * buildCompactData returns a CompactRate instance with given rate and base.
- * It returns undefined if it is impossible to use compact data.
- * compact = ((rate / base) - 1) * 1000
- * @param {BigNumber} rate - the total rate
- * @param {BigNumber} base - the base to generate compact data
+ * Build the compact data input.
+ * In ConversionRates contract, the compact data is stored in two dimensions
+ * array with location:
+ *   - bulkIndex
+ *   - indexInBulk
+ *
+ * When setting compact data, user needs to submit the whole bulk along with
+ * its index.
+ *
+ * @param newBuys - buy compact data
+ * @param newSells - sell compact data
+ * @param indices - map of address to its bulk index
+ * @return {{buyResults: Array, sellResults: Array, indexResults: Array}}
  */
-const buildCompactData = (rate, base) => {
-  rate = new BigNumber(rate)
-  base = new BigNumber(base)
-
-  if (base.isEqualTo(0)) {
-    return { base: rate, compact: new BigNumber(0) }
-  }
-
-  let compact = rate
-    .dividedBy(base)
-    .minus(new BigNumber(1))
-    .multipliedBy(1000.0)
-    .integerValue()
-
-  // check if compact is fit in a byte
-  if (
-    compact.isGreaterThanOrEqualTo(-128) &&
-    compact.isLessThanOrEqualTo(127)
-  ) {
-    // convert to byte, so if compact < 0
-    if (compact.isLessThan(0)) {
-      compact = new BigNumber(2 ** 8).plus(compact)
-    }
-    return { base, compact }
-  }
-
-  // compact is not fit in a byte, changing base
-  return { base: rate, compact: new BigNumber(0) }
-}
-
 export const buildCompactBulk = (newBuys, newSells, indices) => {
   let buyResults = []
   let sellResults = []
@@ -129,6 +159,14 @@ export class TokenControlInfo {
     this._minimalRecordResolution = value
   }
 
+  /**
+   * Create a new TokenControlInfo instance.
+   * @param minimalRecordResolution {uint} - minimum denominator in token wei that can be changed
+   * @param maxPerBlockImbalance {uint} - maximum wei amount of net absolute (+/-) change for a token in an ethereum
+   * block
+   * @param maxTotalImbalance {uint} - wei amount of the maximum net token change allowable that happens between 2
+   * price updates
+   */
   constructor (
     minimalRecordResolution,
     maxPerBlockImbalance,
@@ -158,6 +196,11 @@ export class StepFunctionDataPoint {
     this._x = value
   }
 
+  /**
+   * Create a new StepFunctionDataPoint.
+   * @param x {int} - buy step in wei amount
+   * @param y {int} - impact on buy rate in basis points (bps). 1 bps = 0.01%
+   */
   constructor (x, y) {
     this._x = x
     this._y = y
@@ -165,7 +208,7 @@ export class StepFunctionDataPoint {
 }
 
 /**
- * RateSetting is a rate setting of a ERC20 token.
+ * RateSetting represents the buy sell rates of a ERC20 token.
  */
 export class RateSetting {
   get sell () {
@@ -209,6 +252,12 @@ export class RateSetting {
   }
 }
 
+/**
+ * CompactDataLocation is the location of compact data of a token in
+ * ConversionRates contract. When adding a new token, ConversionRatesContract
+ * allocated a fixed location in compact data array for it, this can't be
+ * changed.
+ */
 export class CompactDataLocation {
   get indexInBulk () {
     return this._indexInBulk

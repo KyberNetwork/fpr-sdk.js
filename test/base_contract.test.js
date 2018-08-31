@@ -77,7 +77,7 @@ describe('BaseContract', () => {
     let operators
 
     operators = await baseContract.getOperators()
-    assert.equal(operators.length, 0)
+    assert.strictEqual(operators.length, 0)
   })
 
   it('could change operator address', async () => {
