@@ -46,9 +46,9 @@ export default class BaseContract {
    * transfer admin privilege to given address.
    * @param {object} account - current admin account
    * @param {string} address - new admin address
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async transferAdmin (account, address,gasPriceInput) {
+  async transferAdmin (account, address, gasPriceInput = undefined) {
     validateAddress(address)
     const med = this.contract.methods.transferAdmin(address)
     return med.send({
@@ -64,9 +64,9 @@ export default class BaseContract {
    * Claim admin privilege. The account address should be in already placed
    * in pendingAdmin for this to works.
    * @param {object} account - the pending admin account
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async claimAdmin (account, gasPriceInput) {
+  async claimAdmin (account, gasPriceInput = undefined) {
     const med = this.contract.methods.claimAdmin()
     return med.send({
       from: account.address,
@@ -89,9 +89,9 @@ export default class BaseContract {
    * Add given address from operators list.
    * @param {object} account - current admin account
    * @param {string} address - address to remove from operators list.
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async addOperator (account, address,gasPriceInput) {
+  async addOperator (account, address, gasPriceInput = undefined) {
     validateAddress(address)
     const med = this.contract.methods.addOperator(address)
     return med.send({
@@ -107,9 +107,9 @@ export default class BaseContract {
    * Remove given address from operators list.
    * @param {object} account - current admin account
    * @param {string} address - address to remove from operators list.
-   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx 
+   * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async removeOperator (account, address,gasPriceInput) {
+  async removeOperator (account, address, gasPriceInput = undefined) {
     validateAddress(address)
     const med = this.contract.methods.removeOperator(address)
     return med.send({
@@ -135,7 +135,7 @@ export default class BaseContract {
    * @param {string} address - address to add to alerters list.
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async addAlerter (account, address,gasPriceInput) {
+  async addAlerter (account, address, gasPriceInput = undefined) {
     validateAddress(address)
     const med = this.contract.methods.addAlerter(address)
     return med.send({
@@ -153,7 +153,7 @@ export default class BaseContract {
    * @param {string} address - address to remove from alerters list.
    * @param {number} [gasPriceInput=undefined] - the gasPrice desired for the tx
    */
-  async removeAlerter (account, address,gasPriceInput) {
+  async removeAlerter (account, address, gasPriceInput = undefined) {
     validateAddress(address)
     const med = this.contract.methods.removeAlerter(address)
     return med.send({
