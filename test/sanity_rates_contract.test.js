@@ -68,7 +68,7 @@ describe('SanityRatesContract', () => {
       tokenAddr,
       '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
     )
-    assert.equal(rate, TestRate)
+    assert.strictEqual(rate, TestRate.toString())
   })
 
   it('set reasonableDiffInBps rates successfully', async () => {
@@ -88,6 +88,6 @@ describe('SanityRatesContract', () => {
       )
     )
     const diff = await sanityRatesContract.reasonableDiffInBps(tokenAddr)
-    assert.equal(diff, testDiff)
+    assert.strictEqual(diff, testDiff.toString())
   })
 })
