@@ -373,13 +373,13 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Return the buying ETH based rate. The rate might be vary with
    * different quantity.
-   * @param {string} token- token address
+   * @param {string} token - token address
    * @param {number} qty - quantity of token
-   * @param {number} [currentBlockNumber=0] - current block number, default to use latest
-   * known block number.
+   * @param {number} [currentBlockNumber=0] - current block number, default to
+   * use latest known block number.
    * @return {number} - buy rate
    */
-  getBuyRates (token, qty = 0, currentBlockNumber = 0) {
+  getBuyRates (token, qty, currentBlockNumber = 0) {
     return this.contract.methods
       .getRate(token, currentBlockNumber, true, qty)
       .call()
