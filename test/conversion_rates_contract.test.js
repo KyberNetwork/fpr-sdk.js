@@ -56,7 +56,7 @@ describe('ConversionRatesContract', () => {
   it('built compact rate correctly', () => {
     let compactData = new CompactData(new BigNumber(40), new BigNumber(30))
     assert.ok(compactData.base.isEqualTo(40))
-    assert.equal(compactData.compact, 0)
+    assert.ok(compactData.compact.isEqualTo(0))
 
     compactData = new CompactData(new BigNumber(31), new BigNumber(30))
     assert.ok(compactData.base.isEqualTo(30))
@@ -158,13 +158,13 @@ describe('ConversionRatesContract', () => {
       (await web3.eth.getBlockNumber()) + 1
     )
 
-    assert.equal(
+    assert.ok(
       await crc.getBuyRates(tokens[0], 1, await web3.eth.getBlockNumber()),
-      buyRates[0]
+      buyRates[0].toString()
     )
-    assert.equal(
+    assert.strictEqual(
       await crc.getSellRates(tokens[0], 1, await web3.eth.getBlockNumber()),
-      sellRates[0]
+      sellRates[0].toString()
     )
 
     await crc.setRate(
@@ -173,13 +173,13 @@ describe('ConversionRatesContract', () => {
       (await web3.eth.getBlockNumber()) + 1
     )
 
-    assert.equal(
+    assert.strictEqual(
       await crc.getBuyRates(tokens[1], 1, await web3.eth.getBlockNumber()),
-      buyRates[1]
+      buyRates[1].toString()
     )
-    assert.equal(
+    assert.strictEqual(
       await crc.getSellRates(tokens[1], 1, await web3.eth.getBlockNumber()),
-      sellRates[1]
+      sellRates[1].toString()
     )
 
     await crc.setRate(
@@ -194,13 +194,13 @@ describe('ConversionRatesContract', () => {
     await Promise.all(
       tokens.map(async (token, index) => {
         let currentBlock = await web3.eth.getBlockNumber()
-        assert.equal(
+        assert.strictEqual(
           await crc.getBuyRates(token, 1, currentBlock),
-          buyRates[index] + 1
+          (buyRates[index] + 1).toString()
         )
-        assert.equal(
+        assert.strictEqual(
           await crc.getSellRates(token, 1, currentBlock),
-          sellRates[index] + 2
+          (sellRates[index] + 2).toString()
         )
       })
     )
@@ -217,13 +217,13 @@ describe('ConversionRatesContract', () => {
     await Promise.all(
       tokens.map(async (token, index) => {
         let currentBlock = await web3.eth.getBlockNumber()
-        assert.equal(
+        assert.strictEqual(
           await crc.getBuyRates(token, 1, currentBlock),
-          buyRates[index] + 1000
+          (buyRates[index] + 1000).toString()
         )
-        assert.equal(
+        assert.strictEqual(
           await crc.getSellRates(token, 1, currentBlock),
-          sellRates[index] + 2
+          (sellRates[index] + 2).toString()
         )
       })
     )
@@ -240,13 +240,13 @@ describe('ConversionRatesContract', () => {
     await Promise.all(
       tokens.map(async (token, index) => {
         let currentBlock = await web3.eth.getBlockNumber()
-        assert.equal(
+        assert.strictEqual(
           await crc.getBuyRates(token, 1, currentBlock),
-          buyRates[index] + 500
+          (buyRates[index] + 500).toString()
         )
-        assert.equal(
+        assert.strictEqual(
           await crc.getSellRates(token, 1, currentBlock),
-          sellRates[index] + 600
+          (sellRates[index] + 600).toString()
         )
       })
     )

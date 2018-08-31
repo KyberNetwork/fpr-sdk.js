@@ -5,6 +5,14 @@ import BaseContract from './base_contract'
 import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
 import { validateAddress } from './validate'
 
+/**
+ * CompactData is used to save gas on get, set rates operations.
+ * Instead of sending the whole buy, sell rates every time, only the different
+ * is sent if possible.
+ * The compact rate is calculated by following formula:
+ *
+ *      compact = ((rate / base) - 1) * 1000
+ */
 export class CompactData {
   get isBaseChanged () {
     return this._isBaseChanged
@@ -13,6 +21,7 @@ export class CompactData {
   set isBaseChanged (value) {
     this._isBaseChanged = value
   }
+
   get compact () {
     return this._compact
   }
@@ -20,6 +29,7 @@ export class CompactData {
   set compact (value) {
     this._compact = value
   }
+
   get base () {
     return this._base
   }
@@ -27,49 +37,54 @@ export class CompactData {
   set base (value) {
     this._base = value
   }
+
+  /**
+   * Create a new CompactData instance.
+   * @param {BigNumber} rate - the total rate
+   * @param {BigNumber} base - the base to generate compact data
+   */
   constructor (rate, base) {
-    const compactData = buildCompactData(rate, base)
-    this._base = compactData.base
-    this._isBaseChanged = !compactData.base.isEqualTo(base)
-    this._compact = compactData.compact
-  }
-}
+    // const compactData = buildCompactData(rate, base)
+    const minInt8 = -128
+    const maxInt8 = 127
 
-/**
- * buildCompactData returns a CompactRate instance with given rate and base.
- * It returns undefined if it is impossible to use compact data.
- * compact = ((rate / base) - 1) * 1000
- * @param {BigNumber} rate - the total rate
- * @param {BigNumber} base - the base to generate compact data
- */
-const buildCompactData = (rate, base) => {
-  rate = new BigNumber(rate)
-  base = new BigNumber(base)
+    rate = new BigNumber(rate)
+    base = new BigNumber(base)
 
-  if (base.isEqualTo(0)) {
-    return { base: rate, compact: new BigNumber(0) }
-  }
+    let compact
 
-  let compact = rate
-    .dividedBy(base)
-    .minus(new BigNumber(1))
-    .multipliedBy(1000.0)
-    .integerValue()
+    if (base.isEqualTo(0)) {
+      base = rate
+      this.isBaseChanged = true
+      compact = new BigNumber(0)
+    } else {
+      compact = rate
+        .dividedBy(base)
+        .minus(new BigNumber(1))
+        .multipliedBy(1000.0)
+        .integerValue()
 
-  // check if compact is fit in a byte
-  if (
-    compact.isGreaterThanOrEqualTo(-128) &&
-    compact.isLessThanOrEqualTo(127)
-  ) {
-    // convert to byte, so if compact < 0
-    if (compact.isLessThan(0)) {
-      compact = new BigNumber(2 ** 8).plus(compact)
+      // compact data is fit in a byte
+      if (
+        compact.isGreaterThanOrEqualTo(minInt8) &&
+        compact.isLessThanOrEqualTo(maxInt8)
+      ) {
+        // overflowed, convert from int8 to byte so
+        // * -1 --> 255
+        // * -128 --> 128
+        if (compact.isLessThan(0)) {
+          compact = new BigNumber(2 ** 8).plus(compact)
+        }
+      } else {
+        base = rate
+        this.isBaseChanged = true
+        compact = new BigNumber(0)
+      }
     }
-    return { base, compact }
-  }
 
-  // compact is not fit in a byte, changing base
-  return { base: rate, compact: new BigNumber(0) }
+    this._base = base
+    this._compact = compact
+  }
 }
 
 export const buildCompactBulk = (newBuys, newSells, indices) => {

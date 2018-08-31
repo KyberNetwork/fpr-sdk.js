@@ -162,7 +162,10 @@ describe('ReserveContract', () => {
     await tokenContract.methods
       .transfer(addresses.reserve, testAmount)
       .send({ from: accounts[0] })
-    assert.equal(await reserveContract.getBalance(tokenAddr), testAmount)
+    assert.strictEqual(
+      await reserveContract.getBalance(tokenAddr),
+      testAmount.toString()
+    )
 
     // should throw since accounts[1] is not approved yet
     await assertThrowAsync(() =>
@@ -198,9 +201,9 @@ describe('ReserveContract', () => {
         accounts[1]
       )
     )
-    assert.equal(
+    assert.strictEqual(
       await tokenContract.methods.balanceOf(accounts[1]).call(),
-      testAmount
+      testAmount.toString()
     )
   })
 
@@ -217,6 +220,9 @@ describe('ReserveContract', () => {
     await tokenContract.methods
       .transfer(addresses.reserve, testAmount)
       .send({ from: accounts[0] })
-    assert.equal(await reserveContract.getBalance(tokenAddr), testAmount)
+    assert.strictEqual(
+      await reserveContract.getBalance(tokenAddr),
+      testAmount.toString()
+    )
   })
 })
