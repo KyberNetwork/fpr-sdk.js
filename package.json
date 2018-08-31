@@ -24,6 +24,7 @@
     "url": "git+https://github.com/KyberNetwork/reserve-sdk.js.git"
   },
   "author": "Diep Pham <diep@kyber.network>",
+  "contributors": ["Liem D. Nguyen <liem@kyber.network>"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"
