@@ -21,9 +21,9 @@ Install the package with:
 Reserve SDK allows you to interact with KyberNetwork's reserve smart contracts as if they were JavaScript objects. It's composed of two main class: 
 
 - [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class  provides an easy way of deploying a Reserve. It needs only the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html)  to init and after deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
-- [Reserve object](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) which allows user to manage the basic tasks regarding SDK,of which are: 
+- [Reserve](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) class which allows user to manage the basic tasks regarding SDK,of which are: 
   * Permission management via [baseContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html) property
-  * set rates and get rates from the contracts. More on set Rates operations at [Kyber's developer guide](https://developer.kyber.network/docs/ReservesGuide#step-3-setting-token-conversion-rates-prices). These set rates operations are methods implemented in this Reserve Object.
+  * control conversion and sanity rates and get rates from the contracts. More on set Rates operations at [Kyber's developer guide](https://developer.kyber.network/docs/ReservesGuide#step-3-setting-token-conversion-rates-prices). These set rates operations are methods implemented in this Reserve Object.
   * secure funds, which is to control fund withdrawal and enable/ disable trade at desired. These operations are methods implemented in this Reserve Object. 
 
 Detailed APIs can be seen from here [Reserve SDK.js docs](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js).
@@ -76,18 +76,20 @@ const dpl = new Deployer(window.web3.currentProvider);
 The deployed contract addresses will be used for creating a `Reserve` instance to interact with reserver smart 
 contracts.
 
+#### Permission Control
+
+More on permission control at [setting permission](https://developer.kyber.network/docs/ReservesGuide#setting-permissions). To set permission with SDK, call to the contract that needs to change account's role with these methods from [baseContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html). The following example add Operator 0x0a4c79cE84202b03e95B7a692E5D728d83C44c76 to ConversionRates contract
 
 ```js
 const reserve = new Reserve(provider, addresses);
+const adminAccount = web3.eth.accounts.privateKeyToAccount('AdminAccountPrivateKey');
+
 (async () => {
   // admin operations
-  await reserve.enableTrade();
-  await reserve.disableTrade();
-  await reserve.setRate(account, rates, 1000);
+  await reserve.ConversionRates.addOperator(adminAccount, '0x0a4c79cE84202b03e95B7a692E5D728d83C44c76');
+  console.log(await reserve.ConversionRates.getOperators())
 })();
 ```
-
-Please consult documentation for detail operation instructions.
  
 
 ## Development
