@@ -6,6 +6,9 @@
 Reserve SDK library provides convenient methods to create and operate a [KyberNetwork](https://kyber.network/) reserve.
 This package is desinged to work for both client and server side JavaScript application.
 
+It allows developers to set up and manage a reserve pool of tokens for instant token trade with KyberNetwork's smart contract. More information about KyberNetwork's reserve can be seens at [Reserve Use case](https://developer.kyber.network/docs/ReservesUseCase)
+
+
 *Warning*: This is pre-released software, use it at your own risk.
 
 ## Installation
@@ -15,8 +18,15 @@ Install the package with:
     npm install --save @kyber.network/reserve-sdk
     
 ## Documentation
+Reserve SDK allows you to interact with KyberNetwork's reserve smart contracts as if they were JavaScript objects. It's composed of two main class: 
 
-See the [Reserve SDK.s docs](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js).
+- [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class  provides an easy way of deploying a Reserve. It needs only the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html)  to init and after deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
+- [Reserve object](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) which allows user to manage the basic tasks regarding SDK,of which are: 
+  * Permission management via [baseContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html) property
+  * set rates and get rates from the contracts. More on set Rates operations at [Kyber's developer guide](https://developer.kyber.network/docs/ReservesGuide#step-3-setting-token-conversion-rates-prices). These set rates operations are methods implemented in this Reserve Object.
+  * secure funds, which is to control fund withdrawal and enable/ disable trade at desired. These operations are methods implemented in this Reserve Object. 
+
+Detailed APIs can be seen from here [Reserve SDK.js docs](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js).
 
 ## Usage
 
