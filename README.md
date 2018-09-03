@@ -11,13 +11,13 @@ It allows developers to set up and manage a reserve pool of tokens for instant t
 
 *Warning*: This is pre-released software, use it at your own risk.
 
-## Installation
+# Installation
 
 Install the package with:
 
     npm install --save @kyber.network/reserve-sdk
     
-## Documentation
+# Documentation
 Reserve SDK allows you to interact with KyberNetwork's reserve smart contracts as if they were JavaScript objects. It's composed of two main class: 
 
 - [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class  provides an easy way of deploying a Reserve. It needs only the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html)  to init and after deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
@@ -28,9 +28,9 @@ Reserve SDK allows you to interact with KyberNetwork's reserve smart contracts a
 
 Detailed APIs can be seen from here [Reserve SDK.js docs](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js).
 
-## Usage
+# Usage
 
-### Creating New Contract
+## Creating New Contract
 
 Deploying a new [KyberNetwork](https://kyber.network/) will create a number of smart contracts. 
 The returned addresses should be saved to persistent storage to use in operation later.
@@ -71,12 +71,12 @@ const dpl = new Deployer(window.web3.currentProvider);
 })();
 ```
 
-### Reserve Operations
+## Reserve Operations
 
 The deployed contract addresses will be used for creating a `Reserve` instance to interact with reserver smart 
 contracts.
 
-#### Permission Control
+### Permission Control
 
 More on permission control at [setting permission](https://developer.kyber.network/docs/ReservesGuide#setting-permissions). To set permission with SDK, call to the contract that needs to change account's role with these methods from [baseContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html). The following example add Operator 0x0a4c79cE84202b03e95B7a692E5D728d83C44c76 to ConversionRates contract
 
@@ -90,9 +90,31 @@ const adminAccount = web3.eth.accounts.privateKeyToAccount('AdminAccountPrivateK
   console.log(await reserve.ConversionRates.getOperators())
 })();
 ```
- 
 
-## Development
+### Control Rates
+Control rates operations can be called directly as [reserve Object](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html)'s methods. There are 5 operations regarding set rates: [setRate](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setRate), [setSanityRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setSanityRates), [setReasonableDiff](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setReasonableDiff), [setQtyStepFuncion](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setQtyStepFunction) and [setImbalanceStepFunction](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setImbalanceStepFunction). More about the meaning of these operations can be view in [Kyber's Developer guide](https://developer.kyber.network/docs/ReservesGuide#step-3-setting-token-conversion-rates-prices).
+The following example set the base rate for KNC token.
+
+```js
+const reserve = new Reserve(provider, addresses);
+const operatorAccount = web3.eth.accounts.privateKeyToAccount('operatorAccountPrivateKey');
+const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
+
+(async () => {
+  // create rateSetting object and set base buy/ sell rate.
+  rate = new RateSetting(KNCTokenAddress, 10000000, 1100000)
+  await reserve.setRate( 
+    operatorAccount,
+    [rate],
+    (await web3.eth.getBlockNumber()) + 1
+  )
+  // should log 10000000 and 1100000 as buy/sell rate
+  console.log(await reserve.getBuyRates(KNCTokenAddress, 1,await web3.eth.getBlockNumber()))
+  console.log(await reserve.getSellRates(KNCTokenAddress, 1,await web3.eth.getBlockNumber()))
+})();
+```
+
+Please consult documentation for detail operation instructions.## Development
 
 Run all tests:
 
