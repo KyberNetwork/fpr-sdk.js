@@ -67,12 +67,7 @@ export default class SanityRatesContract extends BaseContract {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setReasonableDiff (
-    account,
-    addresses,
-    diffs,
-    gasPrice = undefined
-  ) {
+  async setReasonableDiff (account, addresses, diffs, gasPrice = undefined) {
     const med = this.contract.methods.setReasonableDiff(addresses, diffs)
     return med.send({
       from: account.address,

@@ -62,13 +62,7 @@ export default class Reserve {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  setContracts (
-    account,
-    network,
-    conversion,
-    sanity,
-    gasPrice = undefined
-  ) {
+  setContracts (account, network, conversion, sanity, gasPrice = undefined) {
     return this.reserve.setContracts(
       account,
       network,
@@ -164,13 +158,7 @@ export default class Reserve {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  withdraw (
-    account,
-    tokenAddress,
-    amount,
-    toAddress,
-    gasPrice = undefined
-  ) {
+  withdraw (account, tokenAddress, amount, toAddress, gasPrice = undefined) {
     return this.reserve.withdraw(
       account,
       tokenAddress,
@@ -277,13 +265,7 @@ export default class Reserve {
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
-  setImbalanceStepFunction (
-    account,
-    token,
-    buy,
-    sell,
-    gasPrice = undefined
-  ) {
+  setImbalanceStepFunction (account, token, buy, sell, gasPrice = undefined) {
     return this.conversionRates.setImbalanceStepFunction(
       account,
       token,
