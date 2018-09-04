@@ -8,9 +8,10 @@
 - [Usage](#usage)
   - [Creating New Contract](#creating-new-contract)
   - [Reserve Operations](#reserve-operations)
-    - [Contract States](#contract-states)
+    - [Contract States infos](#contract-states-infos)
     - [Permission Control](#permission-control)
     - [Control Rates](#control-rates)
+    - [Fund Secure](#fund-secure)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -92,13 +93,28 @@ const dpl = new Deployer(window.web3.currentProvider);
 The deployed contract addresses will be used for creating a `Reserve` instance to interact with reserver smart 
 contracts.
 
-### Contract States 
+### Contract States infos
 
 Reserve object allow users to make call to the smart contracts and query its state on the blockchain. These functions are:
 - Permission infos: calling through baseContract's medthods: [admin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-admin), [getAlerters](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getAlerters), [getOperators](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getOperators) and [pendingAdmin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-pendingAdmin)
 - Smart Contract addresses info: can be called as reserve's methods, which are: [conversionRatesContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-conversionRatesContract), [KyberNetwork](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-kyberNetwork), and [sanityRatesContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-sanityRatesContract) for this reserve
 - Rate infos: can be called as reserve's object methods, which are: [getBuyRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBuyRates), [getSanityRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSanityRate), [getSellRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSellRates), and [reasonableDiffInBps](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-reasonableDiffInBps) 
 - Funds secure related infos: can be called as reserve's methods, which are: [tradeEnabled](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-tradeEnabled), [getBalance](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBalance) and [approvedWithdrawAddresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approvedWithdrawAddresses)
+
+The following example queries the sanityRatesContract's admin and the SanityRates contract:
+
+```js
+const reserve = new Reserve(provider, addresses);
+const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
+const ETHTokenAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+
+(async () => {
+  // get sanityContract address
+  console.log('SanityRates contract address is ', await reserve.sanityRates.admin())
+  const sanityRates = await reserve.getSanityRate(KNCTokenAddress, ETHTokenAddress)
+  console.log('SanityRates for KNC-ETH is ', sanityRates)
+})();
+```
 
 
 ### Permission Control
@@ -107,7 +123,6 @@ More on permission control at [setting permission](https://developer.kyber.netwo
 
 ```js
 const reserve = new Reserve(provider, addresses);
-const adminAccount = web3.eth.accounts.privateKeyToAccount('AdminAccountPrivateKey');
 
 (async () => {
   // admin operations
@@ -139,7 +154,33 @@ const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
 })();
 ```
 
-Please consult documentation for detail operation instructions.## Development
+### Fund Secure  
+To secure reserve's fund, there are two main operations:
+- withdrawal management: can be called as reserve's methods, which are: [approveWithdrawAddress](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approveWithdrawAddress) and [withdraw](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-withdraw).
+- and trade managementControl: can be called as reserve's methods, which are: [disableTrade](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-disableTrade) and [enableTrade](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-enableTrade)
+
+The following example show how to stop trade from the reserve and withdraw 1000 KNC from reserve to a receiver account to secure the fund: 
+
+```js
+  const reserve = new Reserve(provider, addresses);
+  const adminAccount = web3.eth.accounts.privateKeyToAccount('adminAccountPrivateKey');
+  const operatorAccount = web3.eth.accounts.privateKeyToAccount('operatorAccountPrivateKey');
+  const alerterAccount = web3.eth.accounts.privateKeyToAccount('alerterAccountPrivateKey');
+  const receiverAddress = '0x69E3D8B2AE1613bEe2De17C5101E58CDae8a59D4' 
+  const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
+
+  (async () => {
+    // stop trade. 
+    await reserveContract.disableTrade(alerterAccount)
+    // approve receiver to receive KNC from this reserve
+    await reserveContract.approveWithdrawAddress(operatorAccount,KNCTokenAddress, receiverAddress)
+    if (await reserveContract.approvedWithdrawAddresses(receiverAddress, KNCTokenAddress) == true) {
+      await reserveContract.withdraw(adminAccount, KNCTokenAddress, 1000)
+    } else {
+      console.log('cannot withdraw KNC at this moment, please retry again later')
+    }
+  })();
+```
 
 Run all tests:
 
