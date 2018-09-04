@@ -23,18 +23,18 @@
 Reserve SDK library provides convenient methods to create and operate a [KyberNetwork](https://kyber.network/) reserve.
 This package is desinged to work for both client and server side JavaScript application.
 
-It allows developers to set up and manage a reserve pool of tokens for instant token trade with KyberNetwork's smart contract. More information about KyberNetwork's reserve can be seens at [Reserve Use case](https://developer.kyber.network/docs/ReservesUseCase)
+It allows developers to set up and manage a reserve pool of tokens for instant token trade with KyberNetwork's smart contract. More information about KyberNetwork's reserve can be seen at [Reserve Use case](https://developer.kyber.network/docs/ReservesUseCase)
 
 
 *Warning*: This is pre-released software, use it at your own risk.
 
-# Installation
+## Installation
 
 Install the package with:
 
     npm install --save @kyber.network/reserve-sdk
     
-# Documentation
+## Documentation
 Reserve SDK allows you to interact with KyberNetwork's reserve smart contracts as if they were JavaScript objects. It's composed of two main class: 
 
 - [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class  provides an easy way of deploying a Reserve. It needs only the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html)  to init and after deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
@@ -45,9 +45,9 @@ Reserve SDK allows you to interact with KyberNetwork's reserve smart contracts a
 
 Detailed APIs can be seen from here [Reserve SDK.js docs](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js).
 
-# Usage
+## Usage
 
-## Creating New Contract
+### Creating New Contract
 
 Deploying a new [KyberNetwork](https://kyber.network/) will create a number of smart contracts. 
 The returned addresses should be saved to persistent storage to use in operation later.
@@ -88,15 +88,15 @@ const dpl = new Deployer(window.web3.currentProvider);
 })();
 ```
 
-## Reserve Operations
+### Reserve Operations
 
 The deployed contract addresses will be used for creating a `Reserve` instance to interact with reserver smart 
 contracts.
 
-### Contract States infos
+#### Contract States information
 
 Reserve object allow users to make call to the smart contracts and query its state on the blockchain. These functions are:
-- Permission infos: calling through baseContract's medthods: [admin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-admin), [getAlerters](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getAlerters), [getOperators](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getOperators) and [pendingAdmin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-pendingAdmin)
+- Permission infos: calling through baseContract's medthods: [admin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-admin), [getAlerters](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getAlerters), [getOperators](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getOperators) and [pendingAdmin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-pendingAdmin). There are 3 contracts in Reserver object, all of these contracts came with these same methods. 
 - Smart Contract addresses info: can be called as reserve's methods, which are: [conversionRatesContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-conversionRatesContract), [KyberNetwork](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-kyberNetwork), and [sanityRatesContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-sanityRatesContract) for this reserve
 - Rate infos: can be called as reserve's object methods, which are: [getBuyRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBuyRates), [getSanityRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSanityRate), [getSellRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSellRates), and [reasonableDiffInBps](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-reasonableDiffInBps) 
 - Funds secure related infos: can be called as reserve's methods, which are: [tradeEnabled](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-tradeEnabled), [getBalance](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBalance) and [approvedWithdrawAddresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approvedWithdrawAddresses)
@@ -105,8 +105,8 @@ The following example queries the sanityRatesContract's admin and the SanityRate
 
 ```js
 const reserve = new Reserve(provider, addresses);
-const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
-const ETHTokenAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27";
+const ETHTokenAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 
 (async () => {
   // get sanityContract address
@@ -117,7 +117,7 @@ const ETHTokenAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
 ```
 
 
-### Permission Control
+#### Permission Control
 
 More on permission control at [setting permission](https://developer.kyber.network/docs/ReservesGuide#setting-permissions). To set permission with SDK, call to the contract that needs to change account's role with these methods from [baseContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html). The following example add Operator 0x0a4c79cE84202b03e95B7a692E5D728d83C44c76 to ConversionRates contract
 
@@ -131,14 +131,14 @@ const reserve = new Reserve(provider, addresses);
 })();
 ```
 
-### Control Rates
+#### Control Rates
 Control rates operations can be called directly as [reserve Object](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html)'s methods. There are 5 operations regarding set rates: [setRate](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setRate), [setSanityRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setSanityRates), [setReasonableDiff](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setReasonableDiff), [setQtyStepFuncion](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setQtyStepFunction) and [setImbalanceStepFunction](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setImbalanceStepFunction). More about the meaning of these operations can be viewed in [Kyber's Developer guide](https://developer.kyber.network/docs/ReservesGuide#step-3-setting-token-conversion-rates-prices).
 The following example set the base rate for KNC token.
 
 ```js
 const reserve = new Reserve(provider, addresses);
 const operatorAccount = web3.eth.accounts.privateKeyToAccount('operatorAccountPrivateKey');
-const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
+const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27";
 
 (async () => {
   // create rateSetting object and set base buy/ sell rate.
@@ -154,7 +154,7 @@ const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
 })();
 ```
 
-### Fund Secure  
+#### Fund Secure  
 To secure reserve's fund, there are two main operations:
 - withdrawal management: can be called as reserve's methods, which are: [approveWithdrawAddress](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approveWithdrawAddress) and [withdraw](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-withdraw).
 - and trade managementControl: can be called as reserve's methods, which are: [disableTrade](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-disableTrade) and [enableTrade](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-enableTrade)
@@ -166,8 +166,8 @@ The following example show how to stop trade from the reserve and withdraw 1000 
   const adminAccount = web3.eth.accounts.privateKeyToAccount('adminAccountPrivateKey');
   const operatorAccount = web3.eth.accounts.privateKeyToAccount('operatorAccountPrivateKey');
   const alerterAccount = web3.eth.accounts.privateKeyToAccount('alerterAccountPrivateKey');
-  const receiverAddress = '0x69E3D8B2AE1613bEe2De17C5101E58CDae8a59D4' 
-  const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27"
+  const receiverAddress = '0x69E3D8B2AE1613bEe2De17C5101E58CDae8a59D4' ;
+  const KNCTokenAddress = '0x095c48fbaa566917474c48f745e7a430ffe7bc27';
 
   (async () => {
     // stop trade. 
