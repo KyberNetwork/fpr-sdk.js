@@ -496,10 +496,10 @@ export default class ConversionRatesContract extends BaseContract {
           accumulator.baseBuys.push(buyCompactData.base.toString())
           accumulator.baseSells.push(sellCompactData.base.toString())
         }
-        accumulator.compactBuys[val.address] = buyCompactData.compact.toString()
-        accumulator.compactSells[
-          val.address
-        ] = sellCompactData.compact.toString()
+        const buyCompact = buyCompactData.compact.toString()
+        accumulator.compactBuys[val.address] = buyCompact
+        const sellCompact = sellCompactData.compact.toString()
+        accumulator.compactSells[val.address] = sellCompact
 
         return Promise.resolve(accumulator)
       },
