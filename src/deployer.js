@@ -50,6 +50,8 @@ export default class Deployer {
     sanityRates = false,
     gasPrice
   ) {
+    const zeroAddr = '0x0000000000000000000000000000000000000000'
+
     if (!account) {
       throw new Error('missing account')
     }
@@ -170,7 +172,7 @@ export default class Deployer {
       reserveContract,
       network,
       conversionRatesContract.options.address,
-      !sanityRatesContract ? undefined : sanityRatesContract.options.address
+      !sanityRatesContract ? zeroAddr : sanityRatesContract.options.address
     )
     console.log(
       'setContractAddressesTx: ',
@@ -180,7 +182,7 @@ export default class Deployer {
     return new Addresses(
       reserveContract.options.address,
       conversionRatesContract.options.address,
-      !sanityRatesContract ? undefined : sanityRatesContract.options.address
+      !sanityRatesContract ? zeroAddr : sanityRatesContract.options.address
     )
   }
 }
