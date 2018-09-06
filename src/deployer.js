@@ -170,7 +170,9 @@ export default class Deployer {
       reserveContract,
       network,
       conversionRatesContract.options.address,
-      !sanityRatesContract ? undefined : sanityRatesContract.options.address
+      !sanityRatesContract
+        ? '0x0000000000000000000000000000000000000000'
+        : sanityRatesContract.options.address
     )
     console.log(
       'setContractAddressesTx: ',

@@ -146,8 +146,8 @@ describe('ConversionRatesContract', () => {
         await crc.setImbalanceStepFunction(
           { address: operator },
           token,
-          [new StepFunctionDataPoint(100000000000000000000, 0)],
-          [new StepFunctionDataPoint(100000000000000000000, 0)]
+          [new StepFunctionDataPoint('100000000000000000000', 0)],
+          [new StepFunctionDataPoint('100000000000000000000', 0)]
         )
       })
     )

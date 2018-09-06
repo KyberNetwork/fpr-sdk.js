@@ -493,11 +493,13 @@ export default class ConversionRatesContract extends BaseContract {
 
         if (buyCompactData.isBaseChanged || sellCompactData.isBaseChanged) {
           accumulator.tokens.push(val.address)
-          accumulator.baseBuys.push(buyCompactData.base)
-          accumulator.baseSells.push(sellCompactData.base)
+          accumulator.baseBuys.push(buyCompactData.base.toString())
+          accumulator.baseSells.push(sellCompactData.base.toString())
         }
-        accumulator.compactBuys[val.address] = buyCompactData.compact
-        accumulator.compactSells[val.address] = sellCompactData.compact
+        const buyCompact = buyCompactData.compact.toString()
+        accumulator.compactBuys[val.address] = buyCompact
+        const sellCompact = sellCompactData.compact.toString()
+        accumulator.compactSells[val.address] = sellCompact
 
         return Promise.resolve(accumulator)
       },
