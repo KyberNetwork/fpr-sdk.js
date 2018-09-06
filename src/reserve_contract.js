@@ -81,6 +81,8 @@ export default class ReserveContract extends BaseContract {
 
     if (sanity !== undefined) {
       validateAddress(sanity)
+    } else {
+      sanity = '0x0000000000000000000000000000000000000000'
     }
 
     const med = this.contract.methods.setContracts(network, conversion, sanity)
