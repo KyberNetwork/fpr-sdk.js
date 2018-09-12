@@ -4,6 +4,7 @@ import { BigNumber } from 'bignumber.js'
 import BaseContract from './base_contract'
 import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
 import { validateAddress } from './validate'
+import { assertOperator, assertAdmin } from './permission_assert'
 
 /**
  * CompactData is used to save gas on get, set rates operations.
@@ -330,7 +331,7 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Add a ERC20 token and its pricing configurations to reserve contract and
    * enable it for trading.
-   * @param {object} account - Web3 account
+   * @param {object} account - Web3 account, must be admin.
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
@@ -338,6 +339,7 @@ export default class ConversionRatesContract extends BaseContract {
 
   async addToken (account, token, tokenControlInfo, gasPrice) {
     validateAddress(token)
+    await assertAdmin(this, account.address)
     let tx = this.contract.methods.addToken(token)
     await tx.send({
       from: account.address,
@@ -370,7 +372,7 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Set adjustments for tokens' buy and sell rates depending on the net traded
    * amounts. Only operator can invoke.
-   * @param {object} account - Web3 account
+   * @param {object} account - Web3 account, must be operator
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
@@ -384,6 +386,7 @@ export default class ConversionRatesContract extends BaseContract {
     gasPrice = undefined
   ) {
     validateAddress(token)
+    await assertOperator(this, account.address)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -405,7 +408,7 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Set adjustments for tokens' buy and sell rates depending on the size of a
    * buy / sell order. Only operator can invoke.
-   * @param {object} account - Web3 account
+   * @param {object} account - Web3 account, must be operator
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
@@ -413,6 +416,7 @@ export default class ConversionRatesContract extends BaseContract {
    */
   async setQtyStepFunction (account, token, buy, sell, gasPrice) {
     validateAddress(token)
+    await assertOperator(this, account.address)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -464,12 +468,13 @@ export default class ConversionRatesContract extends BaseContract {
 
   /**
    * Set the buying rate for given token.
-   * @param {object} account - Web3 account
+   * @param {object} account - Web3 account, must be operator
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
   async setRate (account, rates, currentBlockNumber = 0, gasPrice) {
+    await assertOperator(this, account.address)
     const indices = await rates.reduce(async (acc, val) => {
       const accumulator = await acc.then()
       accumulator[val.address] = await this.getTokenIndices(val.address)

@@ -13,6 +13,7 @@ import ConversionRatesContract, {
 } from '../src/conversion_rates_contract'
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import { BigNumber } from 'bignumber.js'
+import { assertThrowAsync } from './reserve_contract.test'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
@@ -128,6 +129,33 @@ describe('ConversionRatesContract', () => {
 
     await crc.addOperator({ address: admin }, operator)
 
+    // should not be able to add Token from non-admin account
+    await assertThrowAsync(async () =>
+      crc.addToken(
+        { address: operator },
+        tokens[0],
+        new TokenControlInfo(2, 4000, 4000 * 12)
+      )
+    )
+
+    // should not be able to call write/set funcs from non-admin account
+    await assertThrowAsync(async () =>
+      crc.setQtyStepFunction(
+        { address: admin },
+        tokens[0],
+        [new StepFunctionDataPoint(0, 0)],
+        [new StepFunctionDataPoint(0, 0)]
+      )
+    )
+    await assertThrowAsync(async () =>
+      crc.setImbalanceStepFunction(
+        { address: admin },
+        tokens[0],
+        [new StepFunctionDataPoint('100000000000000000000', 0)],
+        [new StepFunctionDataPoint('100000000000000000000', 0)]
+      )
+    )
+
     await Promise.all(
       tokens.map(async token => {
         await crc.addToken(
@@ -152,6 +180,14 @@ describe('ConversionRatesContract', () => {
       })
     )
 
+    // should not be able to setRate from non operator account
+    await assertThrowAsync(async () =>
+      crc.setRate(
+        { address: admin },
+        [new RateSetting(tokens[0], buyRates[0], sellRates[0])],
+        (await web3.eth.getBlockNumber()) + 1
+      )
+    )
     await crc.setRate(
       { address: operator },
       [new RateSetting(tokens[0], buyRates[0], sellRates[0])],
