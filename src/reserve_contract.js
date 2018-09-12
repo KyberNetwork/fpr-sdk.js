@@ -3,6 +3,7 @@ import Web3 from 'web3'
 import reserveContractABI from '../contracts/KyberReserveContract.abi'
 import BaseContract from './base_contract'
 import { validateAddress } from './validate'
+import { assertAdmin, assertAlerter } from './permission_assert'
 
 /**
  * ReserveContract contains extended methods for KyberReserveContract
@@ -25,6 +26,7 @@ export default class ReserveContract extends BaseContract {
    * @return {object} - the tx object of send() command from this contract method
    */
   async enableTrade (account, gasPrice) {
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.enableTrade()
     return this.contract.methods.enableTrade().send({
       from: account.address,
@@ -42,6 +44,7 @@ export default class ReserveContract extends BaseContract {
    * @return {object} - the tx object of send() command from this contract method
    */
   async disableTrade (account, gasPrice) {
+    await assertAlerter(this, account.address)
     const med = this.contract.methods.disableTrade()
     return med.send({
       from: account.address,
@@ -78,7 +81,7 @@ export default class ReserveContract extends BaseContract {
   ) {
     validateAddress(network)
     validateAddress(conversion)
-
+    await assertAdmin(this, account.address)
     if (sanity !== undefined) {
       validateAddress(sanity)
     } else {
@@ -133,6 +136,7 @@ export default class ReserveContract extends BaseContract {
     withdrawAddress,
     gasPrice = undefined
   ) {
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.approveWithdrawAddress(
       tokenAddress,
       withdrawAddress,
@@ -161,6 +165,7 @@ export default class ReserveContract extends BaseContract {
     withdrawAddress,
     gasPrice = undefined
   ) {
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.approveWithdrawAddress(
       tokenAddress,
       withdrawAddress,
@@ -202,6 +207,7 @@ export default class ReserveContract extends BaseContract {
     toAddress,
     gasPrice = undefined
   ) {
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.withdraw(tokenAddress, amount, toAddress)
     return med.send({
       from: account.address,
