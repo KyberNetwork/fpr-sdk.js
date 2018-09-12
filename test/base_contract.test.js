@@ -57,7 +57,7 @@ describe('BaseContract', () => {
     const newAdmin = accounts[1]
     let admin, pendingAdmin
     // must not be able to add operator from non-admin account
-    await assertThrowAsync(() =>
+    await assertThrowAsync(async () =>
       baseContract.transferAdmin({ address: newAdmin }, newAdmin)
     )
 
@@ -95,7 +95,7 @@ describe('BaseContract', () => {
     operators = await baseContract.getOperators()
     assert.ok(!operators.includes(newOperator))
     // must not be able to add operator from non-admin account
-    await assertThrowAsync(() =>
+    await assertThrowAsync(async () =>
       baseContract.addOperator({ address: newOperator }, newOperator)
     )
 
@@ -127,7 +127,7 @@ describe('BaseContract', () => {
     assert.ok(!alerters.includes(newAlerter))
 
     // should not be able to change alerter from non admin address
-    await assertThrowAsync(() =>
+    await assertThrowAsync(async () =>
       baseContract.addAlerter({ address: newAlerter }, newAlerter)
     )
 
