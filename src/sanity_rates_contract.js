@@ -2,6 +2,7 @@ import SanityRatesContractABI from '../contracts/SanityRatesContract.abi'
 import BaseContract from './base_contract'
 import { validateAddress } from './validate'
 import Web3 from 'web3'
+import { assertOperator, assertAdmin } from './permission_assert'
 
 /**
  * SanityRatesContract represents the KyberNetwork sanity rates smart contract.
@@ -41,6 +42,7 @@ export default class SanityRatesContract extends BaseContract {
    * @returns {object} - the tx object of send() command from this contract method
    */
   async setSanityRates (account, srcs, rates, gasPrice) {
+    await assertOperator(this, account.address)
     const med = this.contract.methods.setSanityRates(srcs, rates)
     return med.send({
       from: account.address,
@@ -70,6 +72,7 @@ export default class SanityRatesContract extends BaseContract {
    * @returns {object} - the tx object of send() command from this contract method
    */
   async setReasonableDiff (account, addresses, diffs, gasPrice = undefined) {
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.setReasonableDiff(addresses, diffs)
     return med.send({
       from: account.address,
