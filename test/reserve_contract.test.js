@@ -12,7 +12,7 @@ import {
 const provider = ganache.provider()
 const web3 = new Web3(provider)
 
-const assertThrowAsync = async fn => {
+export const assertThrowAsync = async fn => {
   let dummy = () => {}
   try {
     await fn()
