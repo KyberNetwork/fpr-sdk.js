@@ -2,6 +2,7 @@ import Web3 from 'web3'
 
 import baseContractABI from '../contracts/base_contract_abi'
 import { validateAddress } from './validate'
+import { assertAdmin } from './permission_assert'
 
 /**
  * BaseContract contains common methods for all contracts of a KyberNetwork
@@ -50,6 +51,7 @@ export default class BaseContract {
    */
   async transferAdmin (account, address, gasPrice) {
     validateAddress(address)
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.transferAdmin(address)
     return med.send({
       from: account.address,
@@ -93,6 +95,7 @@ export default class BaseContract {
    */
   async addOperator (account, address, gasPrice) {
     validateAddress(address)
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.addOperator(address)
     return med.send({
       from: account.address,
@@ -111,6 +114,7 @@ export default class BaseContract {
    */
   async removeOperator (account, address, gasPrice) {
     validateAddress(address)
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.removeOperator(address)
     return med.send({
       from: account.address,
@@ -137,6 +141,7 @@ export default class BaseContract {
    */
   async addAlerter (account, address, gasPrice) {
     validateAddress(address)
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.addAlerter(address)
     return med.send({
       from: account.address,
@@ -155,6 +160,7 @@ export default class BaseContract {
    */
   async removeAlerter (account, address, gasPrice) {
     validateAddress(address)
+    await assertAdmin(this, account.address)
     const med = this.contract.methods.removeAlerter(address)
     return med.send({
       from: account.address,

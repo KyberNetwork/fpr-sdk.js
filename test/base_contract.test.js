@@ -4,6 +4,7 @@ import ganache from 'ganache-cli'
 
 import BaseContract from '../src/base_contract'
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
+import { assertThrowAsync } from './test_util'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
@@ -55,6 +56,10 @@ describe('BaseContract', () => {
     const currentAdmin = accounts[0]
     const newAdmin = accounts[1]
     let admin, pendingAdmin
+    // must not be able to add operator from non-admin account
+    await assertThrowAsync(async () =>
+      baseContract.transferAdmin({ address: newAdmin }, newAdmin)
+    )
 
     await baseContract.transferAdmin({ address: currentAdmin }, newAdmin)
     admin = await baseContract.admin()
@@ -89,6 +94,10 @@ describe('BaseContract', () => {
 
     operators = await baseContract.getOperators()
     assert.ok(!operators.includes(newOperator))
+    // must not be able to add operator from non-admin account
+    await assertThrowAsync(async () =>
+      baseContract.addOperator({ address: newOperator }, newOperator)
+    )
 
     await baseContract.addOperator({ address: currentAdmin }, newOperator)
     operators = await baseContract.getOperators()
@@ -116,6 +125,11 @@ describe('BaseContract', () => {
 
     alerters = await baseContract.getAlerters()
     assert.ok(!alerters.includes(newAlerter))
+
+    // should not be able to change alerter from non admin address
+    await assertThrowAsync(async () =>
+      baseContract.addAlerter({ address: newAlerter }, newAlerter)
+    )
 
     await baseContract.addAlerter({ address: currentAdmin }, newAlerter)
     alerters = await baseContract.getAlerters()

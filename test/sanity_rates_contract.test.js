@@ -4,7 +4,7 @@ import ganache from 'ganache-cli'
 import SanityRatesContract from '../src/sanity_rates_contract'
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import { default as ERC20TokenDeployer } from './deploy_erc20'
-
+import { assertThrowAsync } from './test_util'
 const provider = ganache.provider()
 
 let addresses
@@ -50,7 +50,16 @@ describe('SanityRatesContract', () => {
     )
     const accounts = await sanityRatesContract.web3.eth.getAccounts()
     const tokenAddr = await ERC20TokenDeployer(provider)
-    // sanityRates can only be set from operator
+    // must not be able to set sanity Rate from non operator account
+    await assertThrowAsync(async () =>
+      sanityRatesContract.setSanityRates(
+        { address: accounts[1] },
+        [tokenAddr],
+        [TestRate]
+      )
+    )
+
+    // add operator and the set rate should be successful
     assert.ok(
       await sanityRatesContract.addOperator(
         { address: accounts[0] },
