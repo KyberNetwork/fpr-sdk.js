@@ -4,6 +4,7 @@ import ganache from 'ganache-cli'
 
 import ReserveContract from '../src/reserve_contract'
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
+import { assertThrowAsync } from './test_util'
 import {
   default as ERC20TokenDeployer,
   exampleERC20Contract
@@ -11,19 +12,6 @@ import {
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
-
-export const assertThrowAsync = async fn => {
-  let dummy = () => {}
-  try {
-    await fn()
-  } catch (err) {
-    dummy = () => {
-      throw err
-    }
-  } finally {
-    assert.throws(dummy)
-  }
-}
 
 let addresses
 beforeEach(async () => {

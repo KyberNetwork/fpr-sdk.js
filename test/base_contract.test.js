@@ -4,7 +4,7 @@ import ganache from 'ganache-cli'
 
 import BaseContract from '../src/base_contract'
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
-import { assertThrowAsync } from './reserve_contract.test'
+import { assertThrowAsync } from './test_util'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)

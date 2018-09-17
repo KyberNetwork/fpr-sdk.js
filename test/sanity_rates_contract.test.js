@@ -4,7 +4,7 @@ import ganache from 'ganache-cli'
 import SanityRatesContract from '../src/sanity_rates_contract'
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import { default as ERC20TokenDeployer } from './deploy_erc20'
-import { assertThrowAsync } from './reserve_contract.test'
+import { assertThrowAsync } from './test_util'
 const provider = ganache.provider()
 
 let addresses

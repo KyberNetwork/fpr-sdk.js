@@ -13,7 +13,7 @@ import ConversionRatesContract, {
 } from '../src/conversion_rates_contract'
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
 import { BigNumber } from 'bignumber.js'
-import { assertThrowAsync } from './reserve_contract.test'
+import { assertThrowAsync } from './test_util'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
