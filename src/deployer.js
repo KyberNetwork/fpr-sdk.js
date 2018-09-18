@@ -29,7 +29,7 @@ export default class Deployer {
   /**
    * Create a deployer instance with given account parameter.
    * @param {object} provider - Web3 provider
-   * @param {number} [timeOutDuration=1] (optional) - the timeout in duration for every send. 
+   * @param {number} [timeOutDuration=900000] (optional) - the timeout in millisecond duration for every send. Default at 15 mins
    * After this duration, if the tx is not on any node, it is marked as lost
    */
   constructor (provider, timeOutDuration = 900000) {

@@ -32,7 +32,7 @@ export const monitorTx = async (promiseTx, web3ETH, timeoutMillis) => {
     // if there is no transaction with the tx, that mean it's lost. Otherwise treat it as pending.
     if (tx === null) {
       throw new Error(
-        `tx '${result}' can not be found in '${timeoutMillis}' seconds. It is now considered as lost`
+        `tx '${result}' can not be found in '${timeoutMillis}' milliseconds. It is now considered as lost`
       )
     } else {
       return promiseTx

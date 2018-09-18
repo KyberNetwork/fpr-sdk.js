@@ -3,6 +3,7 @@ import Web3 from 'web3'
 import baseContractABI from '../contracts/base_contract_abi'
 import { validateAddress } from './validate'
 import { assertAdmin } from './permission_assert'
+import { monitorTx } from './monitor_tx'
 
 /**
  * BaseContract contains common methods for all contracts of a KyberNetwork
@@ -13,16 +14,18 @@ export default class BaseContract {
    * Create new BaseContract instance.
    * @param {object} provider - Web3 provider
    * @param {string} address - address of smart contract.
+   * @param {number} [timeOutDuration=900000] (optional) - the timeout in millisecond duration for every send. Default at 15 mins
    */
-  constructor (provider, address) {
+  constructor (provider, address, timeOutDuration = 900000) {
     if (!provider) {
       throw new Error('missing provider')
     }
 
     validateAddress(address)
 
-    const web3 = new Web3(provider)
-    this.contract = new web3.eth.Contract(baseContractABI, address)
+    this.web3 = new Web3(provider)
+    this.contract = new this.web3.eth.Contract(baseContractABI, address)
+    this.timeOutDuration = timeOutDuration
   }
 
   /**
@@ -53,13 +56,17 @@ export default class BaseContract {
     validateAddress(address)
     await assertAdmin(this, account.address)
     const med = this.contract.methods.transferAdmin(address)
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
+    return monitorTx(
+      med.send({
         from: account.address,
-        gasPrice: gasPrice
-      })
-    })
+        gas: await med.estimateGas({
+          from: account.address,
+          gasPrice: gasPrice
+        })
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -70,13 +77,17 @@ export default class BaseContract {
    */
   async claimAdmin (account, gasPrice) {
     const med = this.contract.methods.claimAdmin()
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
+    return monitorTx(
+      med.send({
         from: account.address,
-        gasPrice: gasPrice
-      })
-    })
+        gas: await med.estimateGas({
+          from: account.address,
+          gasPrice: gasPrice
+        })
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -97,13 +108,17 @@ export default class BaseContract {
     validateAddress(address)
     await assertAdmin(this, account.address)
     const med = this.contract.methods.addOperator(address)
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
+    return monitorTx(
+      med.send({
         from: account.address,
-        gasPrice: gasPrice
-      })
-    })
+        gas: await med.estimateGas({
+          from: account.address,
+          gasPrice: gasPrice
+        })
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -116,13 +131,17 @@ export default class BaseContract {
     validateAddress(address)
     await assertAdmin(this, account.address)
     const med = this.contract.methods.removeOperator(address)
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
+    return monitorTx(
+      med.send({
         from: account.address,
-        gasPrice: gasPrice
-      })
-    })
+        gas: await med.estimateGas({
+          from: account.address,
+          gasPrice: gasPrice
+        })
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -143,13 +162,17 @@ export default class BaseContract {
     validateAddress(address)
     await assertAdmin(this, account.address)
     const med = this.contract.methods.addAlerter(address)
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
+    return monitorTx(
+      med.send({
         from: account.address,
-        gasPrice: gasPrice
-      })
-    })
+        gas: await med.estimateGas({
+          from: account.address,
+          gasPrice: gasPrice
+        })
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -162,12 +185,16 @@ export default class BaseContract {
     validateAddress(address)
     await assertAdmin(this, account.address)
     const med = this.contract.methods.removeAlerter(address)
-    return med.send({
-      from: account.address,
-      gas: await med.estimateGas({
+    return monitorTx(
+      med.send({
         from: account.address,
-        gasPrice: gasPrice
-      })
-    })
+        gas: await med.estimateGas({
+          from: account.address,
+          gasPrice: gasPrice
+        })
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 }
