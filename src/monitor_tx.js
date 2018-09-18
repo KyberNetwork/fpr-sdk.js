@@ -8,7 +8,9 @@ export const monitorTx = async (promiseTx, web3ETH, timeoutMillis) => {
     })
     // then set a timeOut
     const timeoutID = setTimeout(() => {
-      console.log(`tx ${txHash} timedOut`)
+      console.log(
+        `tx ${txHash} timedOut. Process to check if it's pending on node`
+      )
       return resolve(txHash)
     }, timeoutMillis)
 
@@ -29,6 +31,7 @@ export const monitorTx = async (promiseTx, web3ETH, timeoutMillis) => {
   if (typeof result === 'string') {
     // if the result is a txHash, that meant it was timedOut
     const tx = await web3ETH.getTransaction(result)
+    console.log(tx)
     // if there is no transaction with the tx, that mean it's lost. Otherwise treat it as pending.
     if (tx === null) {
       throw new Error(

@@ -3,7 +3,7 @@ import BaseContract from './base_contract'
 import { validateAddress } from './validate'
 import Web3 from 'web3'
 import { assertOperator, assertAdmin } from './permission_assert'
-import { monitorTx} from './monitor_tx'
+import { monitorTx } from './monitor_tx'
 
 /**
  * SanityRatesContract represents the KyberNetwork sanity rates smart contract.
@@ -17,10 +17,10 @@ export default class SanityRatesContract extends BaseContract {
    * @param {string} address - address of smart contract.
    */
   constructor (provider, address, timeOutDuration = 900000) {
-    super(provider, address,timeOutDuration)
+    super(provider, address, timeOutDuration)
     this.web3 = new Web3(provider)
     this.contract = new this.web3.eth.Contract(SanityRatesContractABI, address)
-    this.timeOutDuration= timeOutDuration
+    this.timeOutDuration = timeOutDuration
   }
 
   /**
@@ -47,13 +47,17 @@ export default class SanityRatesContract extends BaseContract {
   async setSanityRates (account, srcs, rates, gasPrice) {
     await assertOperator(this, account.address)
     const med = this.contract.methods.setSanityRates(srcs, rates)
-    return monitorTx(med.send({
-      from: account.address,
-      gas: await med.estimateGas({
-        from: account.address
+    return monitorTx(
+      med.send({
+        from: account.address,
+        gas: await med.estimateGas({
+          from: account.address
+        }),
+        gasPrice: gasPrice
       }),
-      gasPrice: gasPrice
-    }), this.web3.eth, this.timeOutDuration)
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -77,12 +81,16 @@ export default class SanityRatesContract extends BaseContract {
   async setReasonableDiff (account, addresses, diffs, gasPrice = undefined) {
     await assertAdmin(this, account.address)
     const med = this.contract.methods.setReasonableDiff(addresses, diffs)
-    return monitorTx(med.send({
-      from: account.address,
-      gas: await med.estimateGas({
-        from: account.address
+    return monitorTx(
+      med.send({
+        from: account.address,
+        gas: await med.estimateGas({
+          from: account.address
+        }),
+        gasPrice: gasPrice
       }),
-      gasPrice: gasPrice
-    }), this.web3.eth, this.timeOutDuration)
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 }
