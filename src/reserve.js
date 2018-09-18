@@ -31,7 +31,7 @@ export default class Reserve {
    * enableTrade allow the reserve to continue trading
    * @param {object} account - Admin account
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @return {object} - the tx object of send() command from this contract method
+   * @return {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   enableTrade (account, gasPrice) {
     return this.reserve.enableTrade(account, gasPrice)
@@ -40,7 +40,7 @@ export default class Reserve {
    * disableTrade stop the reserve from trading
    * @param {object} account - Alerter account
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @return {object} - the tx object of send() command from this contract method
+   * @return {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   disableTrade (account, gasPrice) {
     return this.reserve.disableTrade(account, gasPrice)
@@ -60,7 +60,7 @@ export default class Reserve {
    * @param {string} conversion - address of kyber network smart contract.
    * @param {string} sanity (optional) - address of sanity rates contract.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   setContracts (account, network, conversion, sanity, gasPrice = undefined) {
     return this.reserve.setContracts(
@@ -101,7 +101,7 @@ export default class Reserve {
    * @param {string} tokenAddress - contract address of the modifying token.
    * @param {string} withdrawAddress - address for withdrawal.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   approveWithdrawAddress (
     account,
@@ -123,7 +123,7 @@ export default class Reserve {
    * @param {string} tokenAddress - contract address of the modifying token.
    * @param {string} withdrawAddress - address for withdrawal.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   disapproveWithdrawAddress (
     account,
@@ -156,7 +156,7 @@ export default class Reserve {
    * @param {object} amount - amount to withdraw (BN|String|int), must be in wei.
    * @param {string} toAddress - address for withdrawal. Must be approved already.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   withdraw (account, tokenAddress, amount, toAddress, gasPrice = undefined) {
     return this.reserve.withdraw(
@@ -183,7 +183,7 @@ export default class Reserve {
    * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH weit
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   setSanityRates (account, srcs, rates, gasPrice) {
     if (!this.sanityRates) {
@@ -223,7 +223,7 @@ export default class Reserve {
    * @param {string[]} addresses - list of ERC20 token contract to set
    * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   setReasonableDiff (account, addresses, diffs, gasPrice) {
     if (!this.sanityRates) {
@@ -244,7 +244,7 @@ export default class Reserve {
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
 
   addToken (account, token, tokenControlInfo, gasPrice) {

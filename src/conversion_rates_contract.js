@@ -337,6 +337,7 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
 
   async addToken (account, token, tokenControlInfo, gasPrice) {
@@ -391,6 +392,7 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setImbalanceStepFunction (
     account,
@@ -431,6 +433,7 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setQtyStepFunction (account, token, buy, sell, gasPrice) {
     validateAddress(token)
@@ -494,6 +497,7 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setRate (account, rates, currentBlockNumber = 0, gasPrice) {
     await assertOperator(this, account.address)

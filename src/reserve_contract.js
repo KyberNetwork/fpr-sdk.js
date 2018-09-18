@@ -26,7 +26,7 @@ export default class ReserveContract extends BaseContract {
    * enableTrade allow the reserve to continue trading
    * @param {object} account - Admin account
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @return {object} - the tx object of send() command from this contract method
+   * @return {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async enableTrade (account, gasPrice) {
     await assertAdmin(this, account.address)
@@ -48,7 +48,7 @@ export default class ReserveContract extends BaseContract {
    * disableTrade stop the reserve from trading
    * @param {object} account - Alerter account
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @return {object} - the tx object of send() command from this contract method
+   * @return {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async disableTrade (account, gasPrice) {
     await assertAlerter(this, account.address)
@@ -81,7 +81,7 @@ export default class ReserveContract extends BaseContract {
    * @param {string} conversion - address of kyber network smart contract.
    * @param {string} sanity (optional) - address of sanity rates contract.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setContracts (
     account,
@@ -143,7 +143,7 @@ export default class ReserveContract extends BaseContract {
    * @param {string} tokenAddress - contract address of the modifying token.
    * @param {string} withdrawAddress - address for withdrawal.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async approveWithdrawAddress (
     account,
@@ -176,7 +176,7 @@ export default class ReserveContract extends BaseContract {
    * @param {string} tokenAddress - contract address of the modifying token.
    * @param {string} withdrawAddress - address for withdrawal.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async disapproveWithdrawAddress (
     account,
@@ -221,7 +221,7 @@ export default class ReserveContract extends BaseContract {
    * @param {object} amount - amount to withdraw (BN|String|int), must be in wei.
    * @param {string} toAddress - address for withdrawal. Must be approved already.
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async withdraw (
     account,

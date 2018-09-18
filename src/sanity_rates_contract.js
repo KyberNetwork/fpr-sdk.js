@@ -42,7 +42,7 @@ export default class SanityRatesContract extends BaseContract {
    * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH wei
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setSanityRates (account, srcs, rates, gasPrice) {
     await assertOperator(this, account.address)
@@ -76,7 +76,7 @@ export default class SanityRatesContract extends BaseContract {
    * @param {string[]} addresses - list of ERC20 token contract to set
    * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
-   * @returns {object} - the tx object of send() command from this contract method
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setReasonableDiff (account, addresses, diffs, gasPrice = undefined) {
     await assertAdmin(this, account.address)

@@ -46,7 +46,7 @@ export default class Deployer {
    * @param {string} [network=KyberNetworkAddress] - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @return {Addresses} - Deployed reserve addresses set.
+   * @return {Addresses} - Deployed reserve addresses set. If any transaction is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async deploy (
     account,
