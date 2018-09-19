@@ -1,7 +1,8 @@
 export const monitorTx = async (promiseTx, web3ETH, timeoutMillis) => {
-  const result = await new Promise(async (resolve, reject) => {
+  const timedOutPromise = await new Promise(async (resolve, reject) => {
     // first get TxHash
-    const txHash = await new Promise((resolve, reject) => {
+    console.log(Object.getOwnPropertyNames(promiseTx))
+    const txHash = await new Promise(resolve => {
       promiseTx.once('transactionHash', hash => {
         resolve(hash)
       })
@@ -22,20 +23,18 @@ export const monitorTx = async (promiseTx, web3ETH, timeoutMillis) => {
       },
       reason => {
         clearTimeout(timeoutID)
-        return reject(result)
+        return reject(reason)
       }
     )
   })
 
-  // if the result is a string, that meant it is a txHash
-  if (typeof result === 'string') {
-    // if the result is a txHash, that meant it was timedOut
-    const tx = await web3ETH.getTransaction(result)
-    console.log(tx)
+  // if the timedOutPromise is a string, that meant it is timedOut and a txHash was returned
+  if (typeof timedOutPromise === 'string') {
+    const tx = await web3ETH.getTransaction(timedOutPromise)
     // if there is no transaction with the tx, that mean it's lost. Otherwise treat it as pending.
     if (tx === null) {
       throw new Error(
-        `tx '${result}' can not be found in '${timeoutMillis}' milliseconds. It is now considered as lost`
+        `tx '${timedOutPromise}' can not be found in '${timeoutMillis}' milliseconds. It is now considered as lost`
       )
     } else {
       return promiseTx
