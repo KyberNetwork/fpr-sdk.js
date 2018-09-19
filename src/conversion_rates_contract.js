@@ -391,6 +391,12 @@ export default class ConversionRatesContract extends BaseContract {
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
     const ySell = sell.map(val => val.y)
+    if (yBuy>0) {
+      console.warn(`yBuy ${yBuy} is positive, which is contradicted to the logic of setImbalanceStepFunction`)
+    }
+    if (ySell>0) {
+      console.warn(`ySell ${ySell} is positive, which is contradicted to the logic of setImbalanceStepFunction`)
+    }
     let tx = this.contract.methods.setImbalanceStepFunction(
       token,
       xBuy,
@@ -421,7 +427,12 @@ export default class ConversionRatesContract extends BaseContract {
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
     const ySell = sell.map(val => val.y)
-
+    if (yBuy>0) {
+      console.warn(`yBuy ${yBuy} is positive, which is contradicted to the logic of setQtyStepFunction`)
+    }
+    if (ySell>0) {
+      console.warn(`ySell ${ySell} is positive, which is contradicted to the logic of setQtyStepFunction`)
+    }
     let tx = this.contract.methods.setQtyStepFunction(
       token,
       xBuy,
@@ -480,7 +491,7 @@ export default class ConversionRatesContract extends BaseContract {
       accumulator[val.address] = await this.getTokenIndices(val.address)
       return Promise.resolve(accumulator)
     }, Promise.resolve({}))
-
+    
     const data = await rates.reduce(
       async (acc, val) => {
         const accumulator = await acc.then()
