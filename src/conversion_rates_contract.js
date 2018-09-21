@@ -5,6 +5,7 @@ import BaseContract from './base_contract'
 import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
 import { validateAddress } from './validate'
 import { assertOperator, assertAdmin } from './permission_assert'
+import { monitorTx } from './monitor_tx'
 
 /**
  * CompactData is used to save gas on get, set rates operations.
@@ -291,12 +292,13 @@ export default class ConversionRatesContract extends BaseContract {
    * Create new ConversionRatesContract instance.
    * @param {object} provider - Web3 provider
    * @param {string} address - address of smart contract.
+   * @param {number} [timeOutDuration=900000] (optional) - the timeout in millisecond duration for every send. Default at 15 mins
    */
-  constructor (provider, address) {
-    super(provider, address)
-    const web3 = new Web3(provider)
-    this.contract = new web3.eth.Contract(conversionRatesABI, address)
-
+  constructor (provider, address, timeOutDuration = 900000) {
+    super(provider, address, timeOutDuration)
+    this.web3 = new Web3(provider)
+    this.contract = new this.web3.eth.Contract(conversionRatesABI, address)
+    this.timeOutDuration = this.timeOutDuration
     /**
      * getTokenIndices returns the index of given Token to use in setCompact
      * data call.
@@ -335,17 +337,22 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
 
   async addToken (account, token, tokenControlInfo, gasPrice) {
     validateAddress(token)
     await assertAdmin(this, account.address)
     let tx = this.contract.methods.addToken(token)
-    await tx.send({
-      from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPrice
-    })
+    await monitorTx(
+      tx.send({
+        from: account.address,
+        gas: await tx.estimateGas({ from: account.address }),
+        gasPrice: gasPrice
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
 
     tx = this.contract.methods.setTokenControlInfo(
       token,
@@ -353,18 +360,26 @@ export default class ConversionRatesContract extends BaseContract {
       tokenControlInfo.maxPerBlockImbalance,
       tokenControlInfo.maxTotalImbalance
     )
-    await tx.send({
-      from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPrice
-    })
+    await monitorTx(
+      tx.send({
+        from: account.address,
+        gas: await tx.estimateGas({ from: account.address }),
+        gasPrice: gasPrice
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
 
     tx = this.contract.methods.enableTokenTrade(token)
-    await tx.send({
-      from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPrice
-    })
+    await monitorTx(
+      tx.send({
+        from: account.address,
+        gas: await tx.estimateGas({ from: account.address }),
+        gasPrice: gasPrice
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
 
     return this.getTokenIndices(token)
   }
@@ -377,6 +392,7 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setImbalanceStepFunction (
     account,
@@ -408,11 +424,15 @@ export default class ConversionRatesContract extends BaseContract {
       xSell,
       ySell
     )
-    return tx.send({
-      from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPrice
-    })
+    return monitorTx(
+      tx.send({
+        from: account.address,
+        gas: await tx.estimateGas({ from: account.address }),
+        gasPrice: gasPrice
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -423,6 +443,7 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setQtyStepFunction (account, token, buy, sell, gasPrice) {
     validateAddress(token)
@@ -449,11 +470,15 @@ export default class ConversionRatesContract extends BaseContract {
       ySell
     )
 
-    return tx.send({
-      from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
-      gasPrice: gasPrice
-    })
+    return monitorTx(
+      tx.send({
+        from: account.address,
+        gas: await tx.estimateGas({ from: account.address }),
+        gasPrice: gasPrice
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 
   /**
@@ -491,6 +516,7 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method. If it is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async setRate (account, rates, currentBlockNumber = 0, gasPrice) {
     await assertOperator(this, account.address)
@@ -569,10 +595,14 @@ export default class ConversionRatesContract extends BaseContract {
     }
 
     const gas = await tx.estimateGas({ from: account.address })
-    return tx.send({
-      from: account.address,
-      gas,
-      gasPrice: gasPrice
-    })
+    return monitorTx(
+      tx.send({
+        from: account.address,
+        gas,
+        gasPrice: gasPrice
+      }),
+      this.web3.eth,
+      this.timeOutDuration
+    )
   }
 }

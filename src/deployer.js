@@ -7,6 +7,7 @@ import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
 import kyberReserveContractByteCode from '../contracts/KyberReserveContract'
 import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
 import sanityRatesContractByteCode from '../contracts/SanityRatesContract'
+import { monitorTx } from './monitor_tx'
 
 /**
  * KyberNetworkAddress is the smart contract address of KyberNetwork.</br>
@@ -28,12 +29,15 @@ export default class Deployer {
   /**
    * Create a deployer instance with given account parameter.
    * @param {object} provider - Web3 provider
+   * @param {number} [timeOutDuration=900000] (optional) - the timeout in millisecond duration for every send. Default at 15 mins
+   * After this duration, if the tx is not on any node, it is marked as lost
    */
-  constructor (provider) {
+  constructor (provider, timeOutDuration = 900000) {
     if (!provider) {
       throw new Error('provider is not set')
     }
     this.web3 = new Web3(provider)
+    this.timeOutDuration = timeOutDuration
   }
 
   /**
@@ -42,7 +46,7 @@ export default class Deployer {
    * @param {string} [network=KyberNetworkAddress] - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
-   * @return {Addresses} - Deployed reserve addresses set.
+   * @return {Addresses} - Deployed reserve addresses set. If any transaction is timed out and is not pending on any node, an error will be throw to indicate lost transaction
    */
   async deploy (
     account,
@@ -59,13 +63,17 @@ export default class Deployer {
         data: `0x${byteCode}`,
         arguments: args
       })
-      return dpl.send({
-        from: account.address,
-        gas: await dpl.estimateGas({
-          from: account.address
+      return monitorTx(
+        dpl.send({
+          from: account.address,
+          gas: await dpl.estimateGas({
+            from: account.address
+          }),
+          gasPrice: gasPrice
         }),
-        gasPrice: gasPrice
-      })
+        this.web3.eth,
+        this.timeOutDuration
+      )
     }
 
     const deployConversionRates = account => {
@@ -126,13 +134,17 @@ export default class Deployer {
       const setReserveAddressTx = await conversionRatesContract.methods.setReserveAddress(
         reserveAddress
       )
-      return setReserveAddressTx.send({
-        from: account.address,
-        gas: await setReserveAddressTx.estimateGas({
-          from: account.address
+      return monitorTx(
+        setReserveAddressTx.send({
+          from: account.address,
+          gas: await setReserveAddressTx.estimateGas({
+            from: account.address
+          }),
+          gasPrice: gasPrice
         }),
-        gasPrice: gasPrice
-      })
+        this.web3.eth,
+        this.timeOutDuration
+      )
     }
 
     const setReserveAddressTxResult = await setReserveAddressForConversionRates(
@@ -158,13 +170,17 @@ export default class Deployer {
         rateAddress,
         sanityAddress
       )
-      return setContractsTx.send({
-        from: account.address,
-        gas: await setContractsTx.estimateGas({
-          from: account.address
+      return monitorTx(
+        setContractsTx.send({
+          from: account.address,
+          gas: await setContractsTx.estimateGas({
+            from: account.address
+          }),
+          gasPrice: gasPrice
         }),
-        gasPrice: gasPrice
-      })
+        this.web3.eth,
+        this.timeOutDuration
+      )
     }
     const setContractAddressesTxResult = await setContractAddressesForReserve(
       reserveContract,
