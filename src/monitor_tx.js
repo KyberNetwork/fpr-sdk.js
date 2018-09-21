@@ -1,7 +1,6 @@
 export const monitorTx = async (promiseTx, web3ETH, timeoutMillis) => {
   const timedOutPromise = await new Promise(async (resolve, reject) => {
     // first get TxHash
-    console.log(Object.getOwnPropertyNames(promiseTx))
     const txHash = await new Promise(resolve => {
       promiseTx.once('transactionHash', hash => {
         resolve(hash)
@@ -12,18 +11,18 @@ export const monitorTx = async (promiseTx, web3ETH, timeoutMillis) => {
       console.log(
         `tx ${txHash} timedOut. Process to check if it's pending on node`
       )
-      return resolve(txHash)
+      resolve(txHash)
     }, timeoutMillis)
 
     // if promiseTx is done beforehand, clearTimeout and return promiseTx result
     promiseTx.then(
       result => {
         clearTimeout(timeoutID)
-        return resolve(result)
+        resolve(result)
       },
       reason => {
         clearTimeout(timeoutID)
-        return reject(reason)
+        reject(reason)
       }
     )
   })
