@@ -3,19 +3,17 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [reserve-sdk.js](#reserve-sdkjs)
-- [Installation](#installation)
-- [Documentation](#documentation)
-- [Usage](#usage)
-  - [Creating New Contract](#creating-new-contract)
-  - [Reserve Operations](#reserve-operations)
-    - [Contract States infos](#contract-states-infos)
-    - [Permission Control](#permission-control)
-    - [Control Rates](#control-rates)
-    - [Fund Secure](#fund-secure)
+  - [Installation](#installation)
+  - [Documentation](#documentation)
+  - [Usage](#usage)
+    - [Creating New Contract](#creating-new-contract)
+    - [Reserve Operations](#reserve-operations)
+      - [Contract States information](#contract-states-information)
+      - [Permission Control](#permission-control)
+      - [Control Rates](#control-rates)
+      - [Fund Secure](#fund-secure)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-test
 
 # reserve-sdk.js
 [![Build Status](https://travis-ci.com/KyberNetwork/reserve-sdk.js.svg?token=2kykYMd22vvW6D6VvzXS&branch=master)](https://travis-ci.com/KyberNetwork/reserve-sdk.js)
