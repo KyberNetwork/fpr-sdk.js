@@ -1,6 +1,6 @@
-import ReserveContract from './reserve_contract'
-import SanityRatesContract from './sanity_rates_contract'
-import ConversionRatesContract from './conversion_rates_contract'
+import ReserveContract from './reserve_contract.js'
+import SanityRatesContract from './sanity_rates_contract.js'
+import ConversionRatesContract from './conversion_rates_contract.js'
 
 /**
  * Reserve is the wrapper to call all methods related to

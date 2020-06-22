@@ -1,9 +1,9 @@
 import Web3 from 'web3'
 
-import reserveContractABI from '../contracts/KyberReserveContract.abi'
-import BaseContract from './base_contract'
-import { validateAddress } from './validate'
-import { assertAdmin, assertAlerter } from './permission_assert'
+import reserveContractABI from '../contracts/KyberReserveContract.abi.json'
+import BaseContract from './base_contract.js'
+import { validateAddress } from './validate.js'
+import { assertAdmin, assertAlerter } from './permission_assert.js'
 
 /**
  * ReserveContract contains extended methods for KyberReserveContract

@@ -1,8 +1,8 @@
-import SanityRatesContractABI from '../contracts/SanityRatesContract.abi'
-import BaseContract from './base_contract'
-import { validateAddress } from './validate'
+import SanityRatesContractABI from '../contracts/SanityRatesContract.abi.json'
+import BaseContract from './base_contract.js'
+import { validateAddress } from './validate.js'
 import Web3 from 'web3'
-import { assertOperator, assertAdmin } from './permission_assert'
+import { assertOperator, assertAdmin } from './permission_assert.js'
 
 /**
  * SanityRatesContract represents the KyberNetwork sanity rates smart contract.

@@ -1,10 +1,10 @@
 import Web3 from 'web3'
 import { BigNumber } from 'bignumber.js'
 
-import BaseContract from './base_contract'
-import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
-import { validateAddress } from './validate'
-import { assertOperator, assertAdmin } from './permission_assert'
+import BaseContract from './base_contract.js'
+import conversionRatesABI from '../contracts/ConversionRatesContract.abi.json'
+import { validateAddress } from './validate.js'
+import { assertOperator, assertAdmin } from './permission_assert.js'
 
 /**
  * CompactData is used to save gas on get, set rates operations.

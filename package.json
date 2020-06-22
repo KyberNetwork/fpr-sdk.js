@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "deploy": "node --experimental-modules --experimental-json-modules deploy.js",
     "test": "mocha --require babel-core/register --require babel-polyfill --timeout 10s",
     "format": "prettier-standard 'src/**/*.js' 'test/**/*.js'",
     "lint": "standard 'src/**/*.js' 'test/**/*.js'",
@@ -19,6 +20,7 @@
       "mocha": true
     }
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KyberNetwork/reserve-sdk.js.git"

@@ -1,8 +1,8 @@
 import Web3 from 'web3'
 
-import baseContractABI from '../contracts/base_contract_abi'
-import { validateAddress } from './validate'
-import { assertAdmin } from './permission_assert'
+import baseContractABI from '../contracts/base_contract_abi.json'
+import { validateAddress } from './validate.js'
+import { assertAdmin } from './permission_assert.js'
 
 /**
  * BaseContract contains common methods for all contracts of a KyberNetwork

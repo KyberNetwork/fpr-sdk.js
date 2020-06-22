@@ -1,12 +1,12 @@
 import Web3 from 'web3'
 
-import Addresses from './addresses'
-import conversionRatesByteCode from '../contracts/ConversionRatesContract'
-import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
-import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
-import kyberReserveContractByteCode from '../contracts/KyberReserveContract'
-import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
-import sanityRatesContractByteCode from '../contracts/SanityRatesContract'
+import Addresses from './addresses.js'
+import conversionRatesByteCode from '../contracts/ConversionRatesContract.js'
+import conversionRatesABI from '../contracts/ConversionRatesContract.abi.json'
+import kyberReserveContractABI from '../contracts/KyberReserveContract.abi.json'
+import kyberReserveContractByteCode from '../contracts/KyberReserveContract.js'
+import sanityRatesContractABI from '../contracts/SanityRatesContract.abi.json'
+import sanityRatesContractByteCode from '../contracts/SanityRatesContract.js'
 
 /**
  * KyberNetworkAddress is the smart contract address of KyberNetwork.</br>
