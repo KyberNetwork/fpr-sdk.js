@@ -4,7 +4,14 @@ Kyber FPR allows market makers to set up and manage a reserve pool of tokens for
 
 This SDK library provides convenient methods to deploy and operate a Kyber FPR reserve, allowing you to interact with KyberNetwork's reserve smart contracts as if they were JavaScript objects. 
 
+Walkthrough tutorial coming soon.
+
 *Software is currently in alpha, please use with care*
+
+## Requirements
+
+1. An Web3 Provider. To get started, you can get a free account at [Infura](https://infura.io)
+2. An Ethereum Account, with the corresponding private key or passphrase
 
 ## Installation
 
@@ -14,25 +21,22 @@ To install in your node program:
 
 ## Deployment 
 
-The Deployer allows you to easily deploy a smart contract to the Ethereum Network. 
+The deployer will deploy the required smart contracts to operate an FPR.
 
 ```js
-var FPR = require("@kyber.network/reserve-sdk")
+var FPR = require("kyber-fpr-sdk")
+var Web3 = require("web3")
 
-// requires a Ethereum Remote Node Provider 
-const provider = new Web3.providers.HttpProvider('ethereum-node-url')
-const dpl = new FPR.Deployer(provider)
+const provider = new Web3.providers.HttpProvider(NODE_URL)
+const deployer = new FPR.Deployer(provider)
 
-// initialize account from private key
-const account = dpl.web3.eth.accounts.privateKeyToAccount('private-key')
-// initialize account from keystore file
+// If using private key
+const account = deployer.web3.eth.accounts.privateKeyToAccount(TESTNET_PRIVATE_KEY)
+// If using a pass phrase
 // const account = dpl.web3.eth.accounts.decrypt(fs.readFileSync(), "your-keystore-passphrase");
 
-dpl.web3.eth.accounts.wallet.add(account)
-
-// You will need this address to initialize the reserve class later
-let addresses;
-dpl.deploy(account).then(addresses => {
+deployer.web3.eth.accounts.wallet.add(account)
+deployer.deploy(account).then(addresses => {
     console.log(addresses) 
 })
 ```
