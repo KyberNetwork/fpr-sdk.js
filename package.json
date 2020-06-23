@@ -34,7 +34,7 @@
     "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"
   },
   "bin": {
-    "deploy_fpr": "./bin/deploy_fpr.js"
+    "testnet_deploy": "./bin/testnet_deploy.js"
   },
   "homepage": "https://github.com/KyberNetwork/reserve-sdk.js#readme",
   "devDependencies": {
