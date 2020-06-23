@@ -1,12 +1,12 @@
 import Web3 from 'web3'
 
 import Addresses from './addresses.js'
-import conversionRatesByteCode from '../contracts/ConversionRatesContract.js'
+import conversionRatesByteCode from './contracts/ConversionRatesContract.js'
 import conversionRatesABI from '../abi/ConversionRatesContract.abi.json'
 import kyberReserveContractABI from '../abi/KyberReserveContract.abi.json'
-import kyberReserveContractByteCode from '../contracts/KyberReserveContract.js'
+import kyberReserveContractByteCode from './contracts/KyberReserveContract.js'
 import sanityRatesContractABI from '../abi/SanityRatesContract.abi.json'
-import sanityRatesContractByteCode from '../contracts/SanityRatesContract.js'
+import sanityRatesContractByteCode from './contracts/SanityRatesContract.js'
 
 /**
  * KyberNetworkAddress is the smart contract address of KyberNetwork.</br>
@@ -55,7 +55,6 @@ export default class Deployer {
     }
 
     const deployContract = async (account, jsonInterface, byteCode, args) => {
-      console.log(byteCode)
       const dpl = new this.web3.eth.Contract(jsonInterface).deploy({
         data: `0x${byteCode}`,
         arguments: args
