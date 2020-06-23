@@ -55,6 +55,7 @@ export default class Deployer {
     }
 
     const deployContract = async (account, jsonInterface, byteCode, args) => {
+      console.log(byteCode)
       const dpl = new this.web3.eth.Contract(jsonInterface).deploy({
         data: `0x${byteCode}`,
         arguments: args

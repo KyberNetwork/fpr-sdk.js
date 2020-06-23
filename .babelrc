@@ -1,8 +1,12 @@
 {
-  "presets": [
-    [ "env", {
-      "useBuiltIns": true,
-      "debug": true
-    }]
-  ]
+  "env": {
+    "development": {
+      "presets": ["env"],
+      "plugins": ["transform-runtime", "transform-es2015-modules-commonjs"]
+    },
+    "production": {
+      "presets": ["env"],
+      "plugins": ["transform-runtime", "transform-es2015-modules-commonjs"]
+    }
+  }
 }
