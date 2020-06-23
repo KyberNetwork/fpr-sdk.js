@@ -25,7 +25,8 @@
   },
   "author": "Diep Pham <diep@kyber.network>",
   "contributors": [
-    "Liem D. Nguyen <liem@kyber.network>"
+    "Liem D. Nguyen <liem@kyber.network>",
+    "Ming <ming@kyber.network>"
   ],
   "license": "MIT",
   "homepage": "https://github.com/KyberNetwork/fpr-sdk.js",
