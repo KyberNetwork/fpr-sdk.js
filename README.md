@@ -6,8 +6,6 @@ This SDK library provides convenient methods to deploy and operate a Kyber FPR r
 
 Walkthrough tutorial coming soon.
 
-*Software is currently in alpha, please use with care*
-
 ## Requirements
 
 1. An Web3 Provider. To get started, you can get a free account at [Infura](https://infura.io)
