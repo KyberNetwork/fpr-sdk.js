@@ -15,7 +15,7 @@ Walkthrough tutorial coming soon.
 
 To install in your node program:
 
-`npm install --save git@github.com:KyberNetwork/fpr-sdk.js.git`
+`npm install --save git@github.com:KyberNetwork/fpr-sdk.js.git#v2020`
 
 ## Deployment 
 
