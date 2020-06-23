@@ -32,7 +32,7 @@
     "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"
   },
   "bin": {
-    "testnet_deploy": "./bin/testnet_deploy.js"
+    "testnet_deploy": "./bin/testnet_deploy.mjs"
   },
   "homepage": "https://github.com/KyberNetwork/reserve-sdk.js#readme",
   "devDependencies": {
