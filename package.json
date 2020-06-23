@@ -1,5 +1,5 @@
 {
-  "name": "@kyber.network/kyber-fpr-sdk",
+  "name": "kyber-fpr-sdk",
   "version": "0.0.5",
   "description": "SDK to deploy and operate a Kyber FPR ",
   "main": "./dist/index.js",
