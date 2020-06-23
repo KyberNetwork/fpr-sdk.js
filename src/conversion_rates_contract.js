@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import { BigNumber } from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 
 import BaseContract from './base_contract.js'
 import conversionRatesABI from '../contracts/ConversionRatesContract.abi.json'

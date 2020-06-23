@@ -41,14 +41,14 @@
     "babel-preset-env": "^1.7.0",
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "ganache-cli": "^6.1.8",
+    "ganache-cli": "^6.9.1",
     "mocha": "^5.2.0",
     "prettier-standard": "^8.0.1",
     "standard": "^11.0.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "bignumber.js": "^7.2.1",
+    "bignumber.js": "^9.0.0",
     "web3": "^1.2.8"
   }
 }
