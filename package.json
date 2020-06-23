@@ -11,7 +11,9 @@
     "test": "mocha --require babel-core/register --require babel-polyfill --timeout 10s",
     "format": "prettier-standard 'src/**/*.js' 'test/**/*.js'",
     "lint": "standard 'src/**/*.js' 'test/**/*.js'",
-    "doc": "esdoc"
+    "doc": "esdoc",
+    "build": "BABEL_ENV=production babel src --out-dir dist",
+    "prepare": "npm run build"
   },
   "standard": {
     "env": {
