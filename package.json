@@ -31,9 +31,6 @@
   "bugs": {
     "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"
   },
-  "bin": {
-    "testnet_deploy": "./bin/testnet_deploy.mjs"
-  },
   "homepage": "https://github.com/KyberNetwork/reserve-sdk.js#readme",
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.10.3",
