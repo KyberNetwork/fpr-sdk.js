@@ -33,6 +33,9 @@
   "bugs": {
     "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"
   },
+  "bin": {
+    "deploy_fpr": "./bin/deploy_fpr.js"
+  },
   "homepage": "https://github.com/KyberNetwork/reserve-sdk.js#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
