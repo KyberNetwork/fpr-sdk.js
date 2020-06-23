@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 
-import baseContractABI from '../contracts/base_contract_abi.json'
+import baseContractABI from '../abi/base_contract_abi.json'
 import { validateAddress } from './validate.js'
 import { assertAdmin } from './permission_assert.js'
 

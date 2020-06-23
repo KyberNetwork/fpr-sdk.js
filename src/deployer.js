@@ -2,10 +2,10 @@ import Web3 from 'web3'
 
 import Addresses from './addresses.js'
 import conversionRatesByteCode from '../contracts/ConversionRatesContract.js'
-import conversionRatesABI from '../contracts/ConversionRatesContract.abi.json'
-import kyberReserveContractABI from '../contracts/KyberReserveContract.abi.json'
+import conversionRatesABI from '../abi/ConversionRatesContract.abi.json'
+import kyberReserveContractABI from '../abi/KyberReserveContract.abi.json'
 import kyberReserveContractByteCode from '../contracts/KyberReserveContract.js'
-import sanityRatesContractABI from '../contracts/SanityRatesContract.abi.json'
+import sanityRatesContractABI from '../abi/SanityRatesContract.abi.json'
 import sanityRatesContractByteCode from '../contracts/SanityRatesContract.js'
 
 /**

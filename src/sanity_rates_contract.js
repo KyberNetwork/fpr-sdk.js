@@ -1,4 +1,4 @@
-import SanityRatesContractABI from '../contracts/SanityRatesContract.abi.json'
+import SanityRatesContractABI from '../abi/SanityRatesContract.abi.json'
 import BaseContract from './base_contract.js'
 import { validateAddress } from './validate.js'
 import Web3 from 'web3'

@@ -3,9 +3,9 @@ import ganache from 'ganache-cli'
 import Web3 from 'web3'
 
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
-import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
-import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
-import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
+import conversionRatesABI from '../abi/ConversionRatesContract.abi'
+import kyberReserveContractABI from '../abi/KyberReserveContract.abi'
+import sanityRatesContractABI from '../abi/SanityRatesContract.abi'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)

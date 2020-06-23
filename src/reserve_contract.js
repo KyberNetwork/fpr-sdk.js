@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 
-import reserveContractABI from '../contracts/KyberReserveContract.abi.json'
+import reserveContractABI from '../abi/KyberReserveContract.abi.json'
 import BaseContract from './base_contract.js'
 import { validateAddress } from './validate.js'
 import { assertAdmin, assertAlerter } from './permission_assert.js'
