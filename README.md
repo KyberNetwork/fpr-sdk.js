@@ -17,27 +17,13 @@ To install in your node program:
 
 `npm install --save ssh://git@github.com:KyberNetwork/fpr-sdk.js.git#v2020`
 
-## Deployment 
+## Tutorial
 
-The deployer will deploy the required smart contracts to operate an FPR.
+To go through a step by step tutorial on how to get started, use [this](docs/tutorial.md)
 
-```js
-var FPR = require("kyber-fpr-sdk")
-var Web3 = require("web3")
+## Market Making Concepts 
 
-const provider = new Web3.providers.HttpProvider(NODE_URL)
-const deployer = new FPR.Deployer(provider)
-
-// If using private key
-const account = deployer.web3.eth.accounts.privateKeyToAccount(TESTNET_PRIVATE_KEY)
-// If using a pass phrase
-// const account = dpl.web3.eth.accounts.decrypt(fs.readFileSync(), "your-keystore-passphrase");
-
-deployer.web3.eth.accounts.wallet.add(account)
-deployer.deploy(account).then(addresses => {
-    console.log(addresses) 
-})
-```
+Terminolgies are explained here [this](docs/terminologies.md)
 
 ## Usage 
 
