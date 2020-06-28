@@ -1,3 +1,6 @@
+// Run `npm run build` to transpile changes into ./dist
+// Then run this file with node scripts/deploy.js
+
 var Deployer = require("../dist/deployer").default
 var Web3 = require("web3")
 
