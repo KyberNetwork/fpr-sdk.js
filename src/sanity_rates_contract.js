@@ -15,9 +15,9 @@ export default class SanityRatesContract extends BaseContract {
    * @param {object} provider - Web3 provider
    * @param {string} address - address of smart contract.
    */
-  constructor (provider, address) {
-    super(provider, address)
-    this.web3 = new Web3(provider)
+  constructor (web3, address) {
+    super(web3, address)
+    this.web3 = web3
     this.contract = new this.web3.eth.Contract(SanityRatesContractABI, address)
   }
 
