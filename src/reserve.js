@@ -13,16 +13,23 @@ export default class Reserve {
    * @param {object} provider - Web3 provider
    * @param {Addresses} addresses - addresses of the contracts
    */
-  constructor (provider, addresses) {
-    this.reserve = new ReserveContract(provider, addresses.reserve)
+  constructor (provider, addresses, web3) {
+    const web3 = new Web3(provider)
+    this.reserve = new ReserveContract(
+      provider, 
+      addresses.reserve,
+      web3
+    )
     this.conversionRates = new ConversionRatesContract(
       provider,
-      addresses.conversionRates
+      addresses.conversionRates,
+      web3
     )
     if (addresses.sanityRates) {
       this.sanityRates = new SanityRatesContract(
         provider,
-        addresses.sanityRates
+        addresses.sanityRates,
+        web3
       )
     }
   }

@@ -292,9 +292,9 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {object} provider - Web3 provider
    * @param {string} address - address of smart contract.
    */
-  constructor (provider, address) {
+  constructor (provider, address, web3) {
     super(provider, address)
-    const web3 = new Web3(provider)
+    this.web3 = web3
     this.contract = new web3.eth.Contract(conversionRatesABI, address)
 
     /**
