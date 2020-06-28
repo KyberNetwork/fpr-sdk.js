@@ -29,11 +29,11 @@ export default class Deployer {
    * Create a deployer instance with given account parameter.
    * @param {object} provider - Web3 provider
    */
-  constructor (provider) {
+  constructor (provider, web3) {
     if (!provider) {
       throw new Error('provider is not set')
     }
-    this.web3 = new Web3(provider)
+    this.web3 = web3
   }
 
   /**
