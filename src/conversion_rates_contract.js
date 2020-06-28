@@ -347,6 +347,8 @@ export default class ConversionRatesContract extends BaseContract {
       gasPrice: gasPrice
     })
 
+    console.log("Token Added...")
+
     var controlInfoTx = this.contract.methods.setTokenControlInfo(
       token,
       tokenControlInfo.minimalRecordResolution,
@@ -359,12 +361,16 @@ export default class ConversionRatesContract extends BaseContract {
       gasPrice: gasPrice
     })
 
+    console.log("Token Control Information Updated...")
+
     var enableTokenTx = this.contract.methods.enableTokenTrade(token)
     await enableTokenTx.send({
       from: account.address,
       gas: await enableTokenTx.estimateGas({ from: account.address }),
       gasPrice: gasPrice
     })
+
+    console.log("Token Enabled...")
 
     return this.getTokenIndices(token)
   }
