@@ -292,10 +292,10 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {object} provider - Web3 provider
    * @param {string} address - address of smart contract.
    */
-  constructor (provider, address, web3) {
-    super(provider, address)
+  constructor (web3, address) {
+    super(web3, address)
     this.web3 = web3
-    this.contract = new web3.eth.Contract(conversionRatesABI, address)
+    this.contract = new this.web3.eth.Contract(conversionRatesABI, address)
 
     /**
      * getTokenIndices returns the index of given Token to use in setCompact

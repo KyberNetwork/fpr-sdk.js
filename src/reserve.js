@@ -10,26 +10,23 @@ import ConversionRatesContract from './conversion_rates_contract.js'
 export default class Reserve {
   /**
    *
-   * @param {object} provider - Web3 provider
+   * @param {object} web3 - Web3 instance
    * @param {Addresses} addresses - addresses of the contracts
    */
-  constructor (provider, addresses, web3) {
-    const web3 = new Web3(provider)
+  constructor (web3, addresses) {
+    this.web3 = web3
     this.reserve = new ReserveContract(
-      provider, 
-      addresses.reserve,
-      web3
+      web3,
+      addresses.reserve
     )
     this.conversionRates = new ConversionRatesContract(
-      provider,
-      addresses.conversionRates,
-      web3
+      web3,
+      addresses.conversionRates
     )
     if (addresses.sanityRates) {
       this.sanityRates = new SanityRatesContract(
-        provider,
-        addresses.sanityRates,
-        web3
+        web3,
+        addresses.sanityRates
       )
     }
   }
