@@ -12,9 +12,13 @@ This SDK library provides convenient methods to deploy and operate a Kyber FPR r
 ## Installation
 
 To install this SDK:
-`mkdir fpr-bot`
-`npm init`
-`npm install --save https://git@github.com:KyberNetwork/fpr-sdk.js.git#v2020`
+
+```
+mkdir fpr-bot
+cd fpr-bot
+npm init
+npm install --save https://git@github.com:KyberNetwork/fpr-sdk.js.git#v2020
+```
 
 ## Walkthrough
 
