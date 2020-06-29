@@ -48,6 +48,6 @@
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "bignumber.js": "^9.0.0",
-    "web3": "^1.2.8"
+    "web3": "^1.2.9"
   }
 }
