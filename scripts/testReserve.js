@@ -2,8 +2,8 @@ var Reserve = require("../dist/reserve").default
 var Web3 = require("web3")
 
 var addresses = {
-    "reserve": "0x70c77F50b64664639F5fEDEc17C6BeCbd7e4DEad",
-    "conversionRates": "0x18acC1770784A5951E9800E96D11de7e1Beb54DE"
+    "reserve": "0x2d2868c4Bc3365a7050345EC509433E7502E72f5",
+    "conversionRates": "0x2fd0550FFa48A76A90d7DE168C711e05dF05cB05"
   }
 
 var tokenControlInfo = { 
