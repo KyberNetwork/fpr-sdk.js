@@ -14,7 +14,7 @@ var addresses = {
     }*/
  
 const tokenInfo = new TokenControlInfo(100000000000000,440000000000000000000n,920000000000000000000n)
-const KNCTokenAddress = "0x7b2810576aa1cce68f2b118cef1f36467c648f92"
+const FPRTokenAddress = "0x4aeEd3fe72B1fA4c2ef58c7C3159Dc7558F0Aa40"
 
 const provider = new Web3.providers.HttpProvider(process.env.ROPSTEN_NODE_URL)
 const web3 = new Web3(provider)
@@ -24,6 +24,6 @@ web3.eth.accounts.wallet.add(account)
 
 const reserveOperator = new Reserve(web3, addresses)
 
-reserveOperator.addToken(account, KNCTokenAddress, tokenInfo)
+reserveOperator.addToken(account, FPRTokenAddress, tokenInfo)
     .then( result => {console.log(result)})
     .catch( error => { console.log(error)})

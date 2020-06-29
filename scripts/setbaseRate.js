@@ -8,7 +8,7 @@ var addresses = {
     "reserve": "0x78Ad928a301Fa2f2Cc47a2598442e184eb57D029",
     "conversionRates": "0x2A1E2fE1610885B7342E01B7c574Ac25bbF84779"
   }
-const KNCTokenAddress = "0x7b2810576aa1cce68f2b118cef1f36467c648f92"
+const FPRTokenAddress = "0x4aeEd3fe72B1fA4c2ef58c7C3159Dc7558F0Aa40"
 
 const provider = new Web3.providers.HttpProvider(process.env.ROPSTEN_NODE_URL)
 const web3 = new Web3(provider)
@@ -21,7 +21,7 @@ const Breserve = new BaseContract(web3, addresses.conversionRates)
 
 web3.eth.accounts.wallet.add(account)
 web3.eth.accounts.wallet.add(operatorAccount)
-const rate =  new RateSetting (KNCTokenAddress, 4500000000000000,4700000000000000)
+const rate =  new RateSetting (FPRTokenAddress, 4500000000000000,4700000000000000)
 console.log(rate)
 
 //setRate is a only operator function hence adding operator to conversionrates
