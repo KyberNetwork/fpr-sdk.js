@@ -1,8 +1,8 @@
 language: node_js
 
 node_js:
-  - "6"
-  - "8"
+  - "12"
+  - "14"
 
 cache:
   directories:
@@ -10,7 +10,4 @@ cache:
 
 script:
   - npm install --dev
-  - npm run doc
-  - npm run lint
-  - npm run test
   - npm build
