@@ -21,7 +21,7 @@ const web3 = new Web3(provider)
 let addresses
 let accounts
 beforeEach(async () => {
-  const dpl = new Deployer(provider)
+  const dpl = new Deployer(web3)
   addresses = await dpl.deploy(
     { address: (await dpl.web3.eth.getAccounts())[0] },
     KyberNetworkAddress,
@@ -31,7 +31,7 @@ beforeEach(async () => {
 })
 
 describe('ConversionRatesContract', () => {
-  it('failed to create an instance if provider is not provided', () => {
+  it('failed to create an instance if instance is not provided', () => {
     assert.throws(() => {
       ConversionRatesContract(undefined, addresses.conversionRates)
     })
@@ -39,16 +39,16 @@ describe('ConversionRatesContract', () => {
 
   it('failed to create an instance if address is invalid', () => {
     assert.throws(() => {
-      ConversionRatesContract(provider, '')
+      ConversionRatesContract(web3, '')
     })
     assert.throws(() => {
-      ConversionRatesContract(provider, 'invalid-address')
+      ConversionRatesContract(web3, 'invalid-address')
     })
   })
 
   it('created an instance successfully', () => {
     const conversionRatesContract = new ConversionRatesContract(
-      provider,
+      web3,
       addresses.conversionRates
     )
     assert.ok(conversionRatesContract.contract)
@@ -118,14 +118,14 @@ describe('ConversionRatesContract', () => {
 
   it('could get and set rates', async () => {
     let tokens = []
-    tokens.push(await deployERC20Contract(provider))
-    tokens.push(await deployERC20Contract(provider))
+    tokens.push(await deployERC20Contract(web3))
+    tokens.push(await deployERC20Contract(web3))
     const buyRates = [100, 200]
     const sellRates = [300, 400]
 
     const admin = accounts[0]
     const operator = accounts[1]
-    const crc = new ConversionRatesContract(provider, addresses.conversionRates)
+    const crc = new ConversionRatesContract(web3, addresses.conversionRates)
 
     await crc.addOperator({ address: admin }, operator)
 
