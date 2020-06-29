@@ -1,17 +1,19 @@
 var Reserve = require("../dist/reserve").default
+var TokenControlInfo = require("../dist/conversion_rates_contract").TokenControlInfo
 var Web3 = require("web3")
 
 var addresses = {
-    "reserve": "0x2d2868c4Bc3365a7050345EC509433E7502E72f5",
-    "conversionRates": "0x2fd0550FFa48A76A90d7DE168C711e05dF05cB05"
+    "reserve": "0x78Ad928a301Fa2f2Cc47a2598442e184eb57D029",
+    "conversionRates": "0x2A1E2fE1610885B7342E01B7c574Ac25bbF84779"
   }
 
-var tokenControlInfo = { 
+/*var tokenControlInfo = { 
     "minimalRecordResolution" : "100000000000000" ,
     "maxPerBlockImbalance" : "2700000000000000000000",
     "maxTotalImbalance" : "3800000000000000000000" 
-    }
-
+    }*/
+ 
+const tokenInfo = new TokenControlInfo(100000000000000,440000000000000000000n,920000000000000000000n)
 const KNCTokenAddress = "0x7b2810576aa1cce68f2b118cef1f36467c648f92"
 
 const provider = new Web3.providers.HttpProvider(process.env.ROPSTEN_NODE_URL)
@@ -22,6 +24,6 @@ web3.eth.accounts.wallet.add(account)
 
 const reserveOperator = new Reserve(web3, addresses)
 
-reserveOperator.addToken(account, KNCTokenAddress, tokenControlInfo)
+reserveOperator.addToken(account, KNCTokenAddress, tokenInfo)
     .then( result => {console.log(result)})
     .catch( error => { console.log(error)})
