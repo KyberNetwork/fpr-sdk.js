@@ -11,3 +11,4 @@ cache:
 script:
   - npm install --dev
   - npm build
+  - npm run test
