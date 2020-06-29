@@ -12,6 +12,7 @@ const deployer = new Deployer(web3)
 
 deployer.web3.eth.accounts.wallet.add(account)
 deployer.deploy(account).then(addresses => {
-    console.log(addresses) 
-})
+    console.log(addresses)
+ })
+ 
 
