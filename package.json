@@ -1,7 +1,7 @@
 {
-  "name": "@kyber.network/reserve-sdk",
-  "version": "0.0.4",
-  "description": "JavaScript Reserve SDK",
+  "name": "kyber-fpr-sdk",
+  "version": "0.0.5",
+  "description": "SDK to deploy and operate a Kyber FPR ",
   "main": "./dist/index.js",
   "directories": {
     "test": "test"
@@ -21,31 +21,33 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KyberNetwork/reserve-sdk.js.git"
+    "url": "git+https://github.com/KyberNetwork/fpr-sdk.js.git"
   },
   "author": "Diep Pham <diep@kyber.network>",
   "contributors": [
-    "Liem D. Nguyen <liem@kyber.network>"
+    "Liem D. Nguyen <liem@kyber.network>",
+    "Ming <ming@kyber.network>"
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/KyberNetwork/reserve-sdk.js/issues"
-  },
-  "homepage": "https://github.com/KyberNetwork/reserve-sdk.js#readme",
+  "homepage": "https://github.com/KyberNetwork/fpr-sdk.js",
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.10.3",
     "babel-cli": "^6.26.0",
     "babel-minify": "^0.4.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "ganache-cli": "^6.1.8",
+    "ganache-cli": "^6.9.1",
     "mocha": "^5.2.0",
     "prettier-standard": "^8.0.1",
     "standard": "^11.0.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "bignumber.js": "^7.2.1",
-    "web3": "^1.0.0-beta.35"
+    "babel-runtime": "^6.26.0",
+    "bignumber.js": "^9.0.0",
+    "web3": "^1.2.9"
   }
 }

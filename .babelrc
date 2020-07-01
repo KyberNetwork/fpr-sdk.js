@@ -1,10 +1,12 @@
 {
   "env": {
     "development": {
-      "presets": ["env"]
+      "presets": ["env"],
+      "plugins": ["transform-runtime", "transform-es2015-modules-commonjs"]
     },
     "production": {
-      "presets": ["env", "minify"]
+      "presets": ["env"],
+      "plugins": ["transform-runtime", "transform-es2015-modules-commonjs"]
     }
   }
 }

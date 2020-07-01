@@ -1,6 +1,6 @@
-import ReserveContract from './reserve_contract'
-import SanityRatesContract from './sanity_rates_contract'
-import ConversionRatesContract from './conversion_rates_contract'
+import ReserveContract from './reserve_contract.js'
+import SanityRatesContract from './sanity_rates_contract.js'
+import ConversionRatesContract from './conversion_rates_contract.js'
 
 /**
  * Reserve is the wrapper to call all methods related to
@@ -10,18 +10,22 @@ import ConversionRatesContract from './conversion_rates_contract'
 export default class Reserve {
   /**
    *
-   * @param {object} provider - Web3 provider
+   * @param {object} web3 - Web3 instance
    * @param {Addresses} addresses - addresses of the contracts
    */
-  constructor (provider, addresses) {
-    this.reserve = new ReserveContract(provider, addresses.reserve)
+  constructor (web3, addresses) {
+    this.web3 = web3
+    this.reserve = new ReserveContract(
+      web3,
+      addresses.reserve
+    )
     this.conversionRates = new ConversionRatesContract(
-      provider,
+      web3,
       addresses.conversionRates
     )
     if (addresses.sanityRates) {
       this.sanityRates = new SanityRatesContract(
-        provider,
+        web3,
         addresses.sanityRates
       )
     }

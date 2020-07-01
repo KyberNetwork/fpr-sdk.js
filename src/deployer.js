@@ -1,12 +1,12 @@
 import Web3 from 'web3'
 
-import Addresses from './addresses'
-import conversionRatesByteCode from '../contracts/ConversionRatesContract'
-import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
-import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
-import kyberReserveContractByteCode from '../contracts/KyberReserveContract'
-import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
-import sanityRatesContractByteCode from '../contracts/SanityRatesContract'
+import Addresses from './addresses.js'
+import conversionRatesByteCode from './contracts/ConversionRatesContract.js'
+import conversionRatesABI from '../abi/ConversionRatesContract.abi.json'
+import kyberReserveContractABI from '../abi/KyberReserveContract.abi.json'
+import kyberReserveContractByteCode from './contracts/KyberReserveContract.js'
+import sanityRatesContractABI from '../abi/SanityRatesContract.abi.json'
+import sanityRatesContractByteCode from './contracts/SanityRatesContract.js'
 
 /**
  * KyberNetworkAddress is the smart contract address of KyberNetwork.</br>
@@ -29,11 +29,11 @@ export default class Deployer {
    * Create a deployer instance with given account parameter.
    * @param {object} provider - Web3 provider
    */
-  constructor (provider) {
-    if (!provider) {
+  constructor (web3) {
+    if (web3.currentProvider == null) {
       throw new Error('provider is not set')
     }
-    this.web3 = new Web3(provider)
+    this.web3 = web3
   }
 
   /**

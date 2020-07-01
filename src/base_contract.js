@@ -1,8 +1,8 @@
 import Web3 from 'web3'
 
-import baseContractABI from '../contracts/base_contract_abi'
-import { validateAddress } from './validate'
-import { assertAdmin } from './permission_assert'
+import baseContractABI from '../abi/base_contract_abi.json'
+import { validateAddress } from './validate.js'
+import { assertAdmin } from './permission_assert.js'
 
 /**
  * BaseContract contains common methods for all contracts of a KyberNetwork
@@ -11,17 +11,21 @@ import { assertAdmin } from './permission_assert'
 export default class BaseContract {
   /**
    * Create new BaseContract instance.
-   * @param {object} provider - Web3 provider
+   * @param {object} web3 - Web3 instance
    * @param {string} address - address of smart contract.
    */
-  constructor (provider, address) {
-    if (!provider) {
-      throw new Error('missing provider')
+  constructor (web3, address) {
+    if (!web3) {
+      throw new Error('missing web3 instance')
     }
+
+    if (web3.currentProvider == null ) {
+      throw new Error('web3 instance has no provider')
+    } 
 
     validateAddress(address)
 
-    const web3 = new Web3(provider)
+    this.web3 = web3
     this.contract = new web3.eth.Contract(baseContractABI, address)
   }
 

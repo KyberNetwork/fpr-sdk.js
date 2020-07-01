@@ -3,9 +3,9 @@ import ganache from 'ganache-cli'
 import Web3 from 'web3'
 
 import Deployer, { KyberNetworkAddress } from '../src/deployer'
-import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
-import kyberReserveContractABI from '../contracts/KyberReserveContract.abi'
-import sanityRatesContractABI from '../contracts/SanityRatesContract.abi'
+import conversionRatesABI from '../abi/ConversionRatesContract.abi'
+import kyberReserveContractABI from '../abi/KyberReserveContract.abi'
+import sanityRatesContractABI from '../abi/SanityRatesContract.abi'
 
 const provider = ganache.provider()
 const web3 = new Web3(provider)
@@ -16,7 +16,7 @@ describe('Deployer', () => {
   })
 
   it('failed to deploy with no account', async () => {
-    const dpl = new Deployer(provider)
+    const dpl = new Deployer(web3)
     try {
       await dpl.deploy(undefined, KyberNetworkAddress, false)
       assert.ok(false)
@@ -26,8 +26,8 @@ describe('Deployer', () => {
   })
 
   it('deployed successfully with default network address', async () => {
-    const dpl = new Deployer(provider)
-    const account = await getTestAccount(provider)
+    const dpl = new Deployer(web3)
+    const account = await getTestAccount(web3)
 
     const addresses = await dpl.deploy(account)
     assert.ok(addresses.reserve)
@@ -36,8 +36,8 @@ describe('Deployer', () => {
   })
 
   it('deployed successfully with no sanityRates contract', async () => {
-    const dpl = new Deployer(provider)
-    const account = await getTestAccount(provider)
+    const dpl = new Deployer(web3)
+    const account = await getTestAccount(web3)
 
     const addresses = await dpl.deploy(account, KyberNetworkAddress, false)
     assert.ok(addresses.reserve)
@@ -80,8 +80,8 @@ describe('Deployer', () => {
   })
 
   it('deployed successfully with sanityRates contract', async () => {
-    const dpl = new Deployer(provider)
-    const account = await getTestAccount(provider)
+    const dpl = new Deployer(web3)
+    const account = await getTestAccount(web3)
     const addresses = await dpl.deploy(account, KyberNetworkAddress, true)
     assert.ok(addresses.reserve)
     assert.ok(addresses.conversionRates)
@@ -132,7 +132,7 @@ describe('Deployer', () => {
   })
 })
 
-async function getTestAccount (provider) {
+async function getTestAccount (web3) {
   const accounts = provider.manager.state.accounts
   const testAddress = Object.keys(accounts)[0]
 

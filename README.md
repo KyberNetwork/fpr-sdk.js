@@ -59,33 +59,18 @@ Example for server side JavaScript application.
 ```js
 // requires a Ethereum Remote Node Provider likes: infura.io, etherscan.io...
 const provider = new Web3.providers.HttpProvider('ethereum-node')
-const dpl = new Deployer(provider)
+const web3 = new Web3(provider)
+const account = web3.eth.accounts.privateKeyToAccount('private-key')
+web3.eth.accounts.wallet.add(account)
 
-// initialize account from private key
-const account = dpl.web3.eth.accounts.privateKeyToAccount('private-key')
-// initialize account from keystore file
-// const account = dpl.web3.eth.accounts.decrypt(fs.readFileSync(), "your-keystore-passphrase");
-
-dpl.web3.eth.accounts.wallet.add(account)
+const dpl = new Deployer(web3)
 
 let addresses;
-(async () => addresses = await dpl.deploy(account))()
+(async () => { 
+  addresses = await dpl.deploy(account)}
+  console.log(addresses)
+  )()
 
-console.log(addresses)
-```
-
-Example for client side Javascript application, using Metamask.
-
-```js
-if (typeof window === "undefined" && typeof window.web3 === "undefined") {
-  throw new Error("metamask is not installed");
-}
-
-const dpl = new Deployer(window.web3.currentProvider);
-(async () => {
-  const account = (await web3.eth.getAccounts())[0];
-  await dpl.deploy(account);
-})();
 ```
 
 ### Reserve Operations
@@ -104,7 +89,7 @@ Reserve object allow users to make call to the smart contracts and query its sta
 The following example queries the sanityRatesContract's admin and the SanityRates contract:
 
 ```js
-const reserve = new Reserve(provider, addresses);
+const reserve = new Reserve(web3, addresses);
 const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27";
 const ETHTokenAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 
@@ -122,7 +107,7 @@ const ETHTokenAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 More on permission control at [setting permission](https://developer.kyber.network/docs/ReservesGuide#setting-permissions). To set permission with SDK, call to the contract that needs to change account's role with these methods from [baseContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html). The following example add Operator 0x0a4c79cE84202b03e95B7a692E5D728d83C44c76 to ConversionRates contract
 
 ```js
-const reserve = new Reserve(provider, addresses);
+const reserve = new Reserve(web3, addresses);
 
 (async () => {
   // admin operations
@@ -136,7 +121,7 @@ Control rates operations can be called directly as [reserve Object](https://doc.
 The following example set the base rate for KNC token.
 
 ```js
-const reserve = new Reserve(provider, addresses);
+const reserve = new Reserve(web3, addresses);
 const operatorAccount = web3.eth.accounts.privateKeyToAccount('operatorAccountPrivateKey');
 const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27";
 
@@ -162,7 +147,7 @@ To secure reserve's fund, there are two main operations:
 The following example show how to stop trade from the reserve and withdraw 1000 KNC from reserve to a receiver account to secure the fund: 
 
 ```js
-  const reserve = new Reserve(provider, addresses);
+  const reserve = new Reserve(web3, addresses);
   const adminAccount = web3.eth.accounts.privateKeyToAccount('adminAccountPrivateKey');
   const operatorAccount = web3.eth.accounts.privateKeyToAccount('operatorAccountPrivateKey');
   const alerterAccount = web3.eth.accounts.privateKeyToAccount('alerterAccountPrivateKey');
