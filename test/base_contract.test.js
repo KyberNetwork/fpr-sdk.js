@@ -11,7 +11,7 @@ const web3 = new Web3(provider)
 
 let addresses
 beforeEach(async () => {
-  const dpl = new Deployer(provider)
+  const dpl = new Deployer(web3)
   addresses = await dpl.deploy(
     { address: (await dpl.web3.eth.getAccounts())[0] },
     KyberNetworkAddress,
@@ -20,7 +20,7 @@ beforeEach(async () => {
 })
 
 describe('BaseContract', () => {
-  it('failed to create an instance if provider is not provided', () => {
+  it('failed to create an instance if instance is not provided', () => {
     assert.throws(() => {
       BaseContract(undefined, addresses.conversionRates)
     })
@@ -28,20 +28,20 @@ describe('BaseContract', () => {
 
   it('failed to create an instance if address is invalid', () => {
     assert.throws(() => {
-      BaseContract(provider, '')
+      BaseContract(web3, '')
     })
     assert.throws(() => {
-      BaseContract(provider, 'invalid-address')
+      BaseContract(web3, 'invalid-address')
     })
   })
 
   it('created an instance successfully', () => {
-    const baseContract = new BaseContract(provider, addresses.conversionRates)
+    const baseContract = new BaseContract(web3, addresses.conversionRates)
     assert.ok(baseContract.contract)
   })
 
   it('could view admin address', async () => {
-    const baseContract = new BaseContract(provider, addresses.conversionRates)
+    const baseContract = new BaseContract(web3, addresses.conversionRates)
     const admin = await baseContract.admin()
     const accounts = await web3.eth.getAccounts()
     assert.strictEqual(admin, accounts[0])
@@ -52,7 +52,7 @@ describe('BaseContract', () => {
 
   it('could transfer admin account', async () => {
     const accounts = await web3.eth.getAccounts()
-    const baseContract = new BaseContract(provider, addresses.conversionRates)
+    const baseContract = new BaseContract(web3, addresses.conversionRates)
     const currentAdmin = accounts[0]
     const newAdmin = accounts[1]
     let admin, pendingAdmin
@@ -78,7 +78,7 @@ describe('BaseContract', () => {
   })
 
   it('could get list of all operators', async () => {
-    const baseContract = new BaseContract(provider, addresses.conversionRates)
+    const baseContract = new BaseContract(web3, addresses.conversionRates)
     let operators
 
     operators = await baseContract.getOperators()
@@ -86,7 +86,7 @@ describe('BaseContract', () => {
   })
 
   it('could change operator address', async () => {
-    const baseContract = new BaseContract(provider, addresses.conversionRates)
+    const baseContract = new BaseContract(web3, addresses.conversionRates)
     const accounts = await web3.eth.getAccounts()
     const currentAdmin = accounts[0]
     const newOperator = accounts[1]
@@ -109,7 +109,7 @@ describe('BaseContract', () => {
   })
 
   it('could get list of all alerters', async () => {
-    const baseContract = new BaseContract(provider, addresses.conversionRates)
+    const baseContract = new BaseContract(web3, addresses.conversionRates)
     let alerters
 
     alerters = await baseContract.getAlerters()
@@ -117,7 +117,7 @@ describe('BaseContract', () => {
   })
 
   it('could change alerter address', async () => {
-    const baseContract = new BaseContract(provider, addresses.conversionRates)
+    const baseContract = new BaseContract(web3, addresses.conversionRates)
     const accounts = await web3.eth.getAccounts()
     const currentAdmin = accounts[0]
     const newAlerter = accounts[1]

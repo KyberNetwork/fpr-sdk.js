@@ -1,9 +1,9 @@
 import Web3 from 'web3'
 
-import reserveContractABI from '../contracts/KyberReserveContract.abi'
-import BaseContract from './base_contract'
-import { validateAddress } from './validate'
-import { assertAdmin, assertAlerter } from './permission_assert'
+import reserveContractABI from '../abi/KyberReserveContract.abi.json'
+import BaseContract from './base_contract.js'
+import { validateAddress } from './validate.js'
+import { assertAdmin, assertAlerter } from './permission_assert.js'
 
 /**
  * ReserveContract contains extended methods for KyberReserveContract
@@ -14,9 +14,9 @@ export default class ReserveContract extends BaseContract {
    * @param {object} provider - Web3 provider
    * @param {string} address - address of kyber reserve smart contract.
    */
-  constructor (provider, address) {
-    super(provider, address)
-    this.web3 = new Web3(provider)
+  constructor (web3, address) {
+    super(web3, address)
+    this.web3 = web3
     this.contract = new this.web3.eth.Contract(reserveContractABI, address)
   }
   /**

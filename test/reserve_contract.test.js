@@ -15,7 +15,7 @@ const web3 = new Web3(provider)
 
 let addresses
 beforeEach(async () => {
-  const dpl = new Deployer(provider)
+  const dpl = new Deployer(web3)
   addresses = await dpl.deploy(
     { address: (await dpl.web3.eth.getAccounts())[0] },
     KyberNetworkAddress,
@@ -24,7 +24,7 @@ beforeEach(async () => {
 })
 
 describe('ReserveContract', () => {
-  it('failed to create an instance if provider is not provided', () => {
+  it('failed to create an instance if instance is not provided', () => {
     assert.throws(() => {
       ReserveContract(undefined, addresses.reserve)
     })
@@ -32,20 +32,20 @@ describe('ReserveContract', () => {
 
   it('failed to create an instance if address is invalid', () => {
     assert.throws(() => {
-      ReserveContract(provider, '')
+      ReserveContract(web3, '')
     })
     assert.throws(() => {
-      ReserveContract(provider, 'invalid-address')
+      ReserveContract(web3, 'invalid-address')
     })
   })
 
   it('created an reserve contract instance successfully', () => {
-    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const reserveContract = new ReserveContract(web3, addresses.reserve)
     assert.ok(reserveContract.contract)
   })
 
   it('is able to alter trade status', async () => {
-    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const reserveContract = new ReserveContract(web3, addresses.reserve)
     const accounts = await reserveContract.web3.eth.getAccounts()
     const account = { address: accounts[0] }
     assert.ok(await reserveContract.enableTrade(account))
@@ -59,7 +59,7 @@ describe('ReserveContract', () => {
   })
 
   it('is able to setContracts addresses', async () => {
-    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const reserveContract = new ReserveContract(web3, addresses.reserve)
     const accounts = await web3.eth.getAccounts()
     // it should run Ok with valid addresses
     assert.ok(
@@ -108,9 +108,9 @@ describe('ReserveContract', () => {
 
   it('is able to change withdrawal approvement status', async () => {
     console.log('testing approval status...')
-    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const reserveContract = new ReserveContract(web3, addresses.reserve)
     const accounts = await web3.eth.getAccounts()
-    const tokenAddr = await ERC20TokenDeployer(provider)
+    const tokenAddr = await ERC20TokenDeployer(web3)
     assert.ok(
       await reserveContract.approveWithdrawAddress(
         { address: accounts[0] },
@@ -138,9 +138,9 @@ describe('ReserveContract', () => {
   it('is able to withdraw Token', async () => {
     console.log('testing token withdrawal...')
     const testAmount = 1000
-    const reserveContract = new ReserveContract(provider, addresses.reserve)
+    const reserveContract = new ReserveContract(web3, addresses.reserve)
     const accounts = await reserveContract.web3.eth.getAccounts()
-    const tokenAddr = await ERC20TokenDeployer(provider)
+    const tokenAddr = await ERC20TokenDeployer(web3)
     const tokenContract = new reserveContract.web3.eth.Contract(
       JSON.parse(exampleERC20Contract.abi),
       tokenAddr
@@ -198,8 +198,8 @@ describe('ReserveContract', () => {
   it('get the correct balance of a token in reserve', async () => {
     console.log('testing getBalance...')
     const testAmount = 1000
-    const reserveContract = new ReserveContract(provider, addresses.reserve)
-    const tokenAddr = await ERC20TokenDeployer(provider)
+    const reserveContract = new ReserveContract(web3, addresses.reserve)
+    const tokenAddr = await ERC20TokenDeployer(web3)
     const accounts = await reserveContract.web3.eth.getAccounts()
     const tokenContract = new reserveContract.web3.eth.Contract(
       JSON.parse(exampleERC20Contract.abi),

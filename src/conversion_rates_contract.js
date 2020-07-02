@@ -1,10 +1,10 @@
 import Web3 from 'web3'
-import { BigNumber } from 'bignumber.js'
+import BigNumber from 'bignumber.js'
 
-import BaseContract from './base_contract'
-import conversionRatesABI from '../contracts/ConversionRatesContract.abi'
-import { validateAddress } from './validate'
-import { assertOperator, assertAdmin } from './permission_assert'
+import BaseContract from './base_contract.js'
+import conversionRatesABI from '../abi/ConversionRatesContract.abi.json'
+import { validateAddress } from './validate.js'
+import { assertOperator, assertAdmin } from './permission_assert.js'
 
 /**
  * CompactData is used to save gas on get, set rates operations.
@@ -292,10 +292,10 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {object} provider - Web3 provider
    * @param {string} address - address of smart contract.
    */
-  constructor (provider, address) {
-    super(provider, address)
-    const web3 = new Web3(provider)
-    this.contract = new web3.eth.Contract(conversionRatesABI, address)
+  constructor (web3, address) {
+    super(web3, address)
+    this.web3 = web3
+    this.contract = new this.web3.eth.Contract(conversionRatesABI, address)
 
     /**
      * getTokenIndices returns the index of given Token to use in setCompact
@@ -340,31 +340,37 @@ export default class ConversionRatesContract extends BaseContract {
   async addToken (account, token, tokenControlInfo, gasPrice) {
     validateAddress(token)
     await assertAdmin(this, account.address)
-    let tx = this.contract.methods.addToken(token)
-    await tx.send({
+    let addTokenTx = this.contract.methods.addToken(token)
+    await addTokenTx.send({
       from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
+      gas: await addTokenTx.estimateGas({ from: account.address }),
       gasPrice: gasPrice
     })
 
-    tx = this.contract.methods.setTokenControlInfo(
+    console.log("Token Added...")
+
+    var controlInfoTx = this.contract.methods.setTokenControlInfo(
       token,
       tokenControlInfo.minimalRecordResolution,
       tokenControlInfo.maxPerBlockImbalance,
       tokenControlInfo.maxTotalImbalance
     )
-    await tx.send({
+    await controlInfoTx.send({
       from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
+      gas: await controlInfoTx.estimateGas({ from: account.address }),
       gasPrice: gasPrice
     })
 
-    tx = this.contract.methods.enableTokenTrade(token)
-    await tx.send({
+    console.log("Token Control Information Updated...")
+
+    var enableTokenTx = this.contract.methods.enableTokenTrade(token)
+    await enableTokenTx.send({
       from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
+      gas: await enableTokenTx.estimateGas({ from: account.address }),
       gasPrice: gasPrice
     })
+
+    console.log("Token Enabled...")
 
     return this.getTokenIndices(token)
   }
