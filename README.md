@@ -2,12 +2,12 @@
 
 This SDK allows market makers and developers to deploy, maintain and operate an on-chain Kyber Network [Fed Price Reserve](https://developer.kyber.network/docs/Reserves-Types/) using Javascript and node.
 
-## Information Ahout FPRs
-- [Reference implementation with walkthroughs](https://github.com/KyberNetwork/fpr-js-reference)
-- [FPR Primer](fpr-primer.md)
-- [Design advantages of FPRs](https://blog.kyber.network/kyber-fed-price-reserve-fpr-on-chain-market-making-for-professionals-7fea29ceac6c).
+## Useful Links
+- [Example Code with Walkthroughs](https://github.com/KyberNetwork/fpr-js-reference)
+- [Onchain Market Making Primer](fpr-primer.md)
+- [Kyber FPRs Explained](https://blog.kyber.network/kyber-fed-price-reserve-fpr-on-chain-market-making-for-professionals-7fea29ceac6c)
 - [Kyber Reserve Documentation](https://developer.kyber.network/docs/Reserves-FedPriceReserve/)
-- [API Docs](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/)
+- [API Documentation](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/)
 
 ## Installation
 
@@ -18,22 +18,22 @@ Install the package with:
 
 ## Usage
 
-There are 2 main classes:
+There are 2 main classes in this SDK.
 
-- [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class allows users to easily deploy new smart contracts. It needs only the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html)  to init.  After deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
+- [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class allows users to deploy new smart contracts. 
 
 - [Reserve](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) class which allows user to manage the key MM functions, including permission management, setting and controling quotes and fund security. 
 
 
 ## Deployer
 
-The [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class  provides an easy way of deploying a Reserve. It needs only the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html)  to init and after deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
+The [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class only needs the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html) to init. After deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
 
 
 ```js
-// requires a Ethereum Remote Node Provider likes: infura.io, etherscan.io...
+// ethereum Remote Node Provider, for example infura.io
 const provider = new Web3.providers.HttpProvider('ethereum-node-url')
-const dpl = new Deployer(provider)
+const web3 = new Web3(provider)
 
 // initialize account from private key
 const account = dpl.web3.eth.accounts.privateKeyToAccount('private-key')
@@ -41,6 +41,8 @@ const account = dpl.web3.eth.accounts.privateKeyToAccount('private-key')
 // const account = dpl.web3.eth.accounts.decrypt(fs.readFileSync(), "your-keystore-passphrase");
 
 dpl.web3.eth.accounts.wallet.add(account)
+
+const dpl = new Deployer(web3)
 
 let addresses;
 (async () =>  { 
