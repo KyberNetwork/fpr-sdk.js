@@ -29,7 +29,7 @@ describe('Deployer', () => {
     const dpl = new Deployer(web3)
     const account = await getTestAccount(web3)
 
-    const addresses = await dpl.deploy(account)
+    const addresses = await dpl.deploy(account.address)
     assert.ok(addresses.reserve)
     assert.ok(addresses.conversionRates)
     assert.strictEqual(addresses.sanityRates, undefined)
@@ -39,7 +39,7 @@ describe('Deployer', () => {
     const dpl = new Deployer(web3)
     const account = await getTestAccount(web3)
 
-    const addresses = await dpl.deploy(account, KyberNetworkAddress, false)
+    const addresses = await dpl.deploy(account.address, KyberNetworkAddress, false)
     assert.ok(addresses.reserve)
     assert.ok(addresses.conversionRates)
     assert.strictEqual(addresses.sanityRates, undefined)
@@ -82,7 +82,7 @@ describe('Deployer', () => {
   it('deployed successfully with sanityRates contract', async () => {
     const dpl = new Deployer(web3)
     const account = await getTestAccount(web3)
-    const addresses = await dpl.deploy(account, KyberNetworkAddress, true)
+    const addresses = await dpl.deploy(account.address, KyberNetworkAddress, true)
     assert.ok(addresses.reserve)
     assert.ok(addresses.conversionRates)
     assert.ok(addresses.sanityRates)

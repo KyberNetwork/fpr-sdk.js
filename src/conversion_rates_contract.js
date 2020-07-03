@@ -337,13 +337,13 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
 
-  async addToken (account, token, tokenControlInfo, gasPrice) {
+  async addToken (adminaccount, token, tokenControlInfo, gasPrice) {
     validateAddress(token)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     let addTokenTx = this.contract.methods.addToken(token)
     await addTokenTx.send({
-      from: account.address,
-      gas: await addTokenTx.estimateGas({ from: account.address }),
+      from: adminaccount,
+      gas: await addTokenTx.estimateGas({ from: adminaccount }),
       gasPrice: gasPrice
     })
 
@@ -356,8 +356,8 @@ export default class ConversionRatesContract extends BaseContract {
       tokenControlInfo.maxTotalImbalance
     )
     await controlInfoTx.send({
-      from: account.address,
-      gas: await controlInfoTx.estimateGas({ from: account.address }),
+      from: adminaccount,
+      gas: await controlInfoTx.estimateGas({ from: adminaccount }),
       gasPrice: gasPrice
     })
 
@@ -365,8 +365,8 @@ export default class ConversionRatesContract extends BaseContract {
 
     var enableTokenTx = this.contract.methods.enableTokenTrade(token)
     await enableTokenTx.send({
-      from: account.address,
-      gas: await enableTokenTx.estimateGas({ from: account.address }),
+      from: adminaccount,
+      gas: await enableTokenTx.estimateGas({ from: adminaccount }),
       gasPrice: gasPrice
     })
 
@@ -385,14 +385,14 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
   async setImbalanceStepFunction (
-    account,
+    operatoraccount,
     token,
     buy,
     sell,
     gasPrice = undefined
   ) {
     validateAddress(token)
-    await assertOperator(this, account.address)
+    await assertOperator(this, operatoraccount)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -415,8 +415,8 @@ export default class ConversionRatesContract extends BaseContract {
       ySell
     )
     return tx.send({
-      from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
+      from: operatoraccount,
+      gas: await tx.estimateGas({ from: operatoraccount }),
       gasPrice: gasPrice
     })
   }
@@ -430,9 +430,9 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setQtyStepFunction (account, token, buy, sell, gasPrice) {
+  async setQtyStepFunction (operatoraccount, token, buy, sell, gasPrice) {
     validateAddress(token)
-    await assertOperator(this, account.address)
+    await assertOperator(this, operatoraccount)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -456,8 +456,8 @@ export default class ConversionRatesContract extends BaseContract {
     )
 
     return tx.send({
-      from: account.address,
-      gas: await tx.estimateGas({ from: account.address }),
+      from: operatoraccount,
+      gas: await tx.estimateGas({ from: operatoraccount }),
       gasPrice: gasPrice
     })
   }
@@ -498,8 +498,8 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {number} [currentBlockNumber=0] - current block number
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setRate (account, rates, currentBlockNumber = 0, gasPrice) {
-    await assertOperator(this, account.address)
+  async setRate (operatoraccount, rates, currentBlockNumber = 0, gasPrice) {
+    await assertOperator(this, operatoraccount)
     const indices = await rates.reduce(async (acc, val) => {
       const accumulator = await acc.then()
       accumulator[val.address] = await this.getTokenIndices(val.address)
@@ -574,9 +574,9 @@ export default class ConversionRatesContract extends BaseContract {
       )
     }
 
-    const gas = await tx.estimateGas({ from: account.address })
+    const gas = await tx.estimateGas({ from: operatoraccount })
     return tx.send({
-      from: account.address,
+      from: operatoraccount,
       gas,
       gasPrice: gasPrice
     })

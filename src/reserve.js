@@ -37,8 +37,8 @@ export default class Reserve {
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  enableTrade (account, gasPrice) {
-    return this.reserve.enableTrade(account, gasPrice)
+  enableTrade (adminaccount, gasPrice) {
+    return this.reserve.enableTrade(adminaccount, gasPrice)
   }
   /**
    * disableTrade stop the reserve from trading
@@ -46,8 +46,8 @@ export default class Reserve {
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  disableTrade (account, gasPrice) {
-    return this.reserve.disableTrade(account, gasPrice)
+  disableTrade (alerteraccount, gasPrice) {
+    return this.reserve.disableTrade(alerteraccount, gasPrice)
   }
   /**
    * tradeEnabled return true if the reserve is tradeEnabled, false otherwise
@@ -66,9 +66,9 @@ export default class Reserve {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  setContracts (account, network, conversion, sanity, gasPrice = undefined) {
+  setContracts (adminaccount, network, conversion, sanity, gasPrice = undefined) {
     return this.reserve.setContracts(
-      account,
+      adminaccount,
       network,
       conversion,
       sanity,
@@ -108,13 +108,13 @@ export default class Reserve {
    * @returns {object} - the tx object of send() command from this contract method
    */
   approveWithdrawAddress (
-    account,
+    adminaccount,
     tokenAddress,
     withdrawAddress,
     gasPrice = undefined
   ) {
     return this.reserve.approveWithdrawAddress(
-      account,
+      adminaccount,
       tokenAddress,
       withdrawAddress,
       gasPrice
@@ -130,13 +130,13 @@ export default class Reserve {
    * @returns {object} - the tx object of send() command from this contract method
    */
   disapproveWithdrawAddress (
-    account,
+    adminaccount,
     tokenAddress,
     withdrawAddress,
     gasPrice = undefined
   ) {
     return this.reserve.disapproveWithdrawAddress(
-      account,
+      adminaccount,
       tokenAddress,
       withdrawAddress,
       gasPrice
@@ -162,9 +162,9 @@ export default class Reserve {
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  withdraw (account, tokenAddress, amount, toAddress, gasPrice = undefined) {
+  withdraw (adminaccount, tokenAddress, amount, toAddress, gasPrice = undefined) {
     return this.reserve.withdraw(
-      account,
+      adminaccount,
       tokenAddress,
       amount,
       toAddress,
@@ -189,11 +189,11 @@ export default class Reserve {
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  setSanityRates (account, srcs, rates, gasPrice) {
+  setSanityRates (operatoraccount, srcs, rates, gasPrice) {
     if (!this.sanityRates) {
       return undefined
     }
-    return this.sanityRates.setSanityRates(account, srcs, rates, gasPrice)
+    return this.sanityRates.setSanityRates(operatoraccount, srcs, rates, gasPrice)
   }
 
   /**
@@ -229,12 +229,12 @@ export default class Reserve {
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  setReasonableDiff (account, addresses, diffs, gasPrice) {
+  setReasonableDiff (adminaccount, addresses, diffs, gasPrice) {
     if (!this.sanityRates) {
       return undefined
     }
     return this.sanityRates.setReasonableDiff(
-      account,
+      adminaccount,
       addresses,
       diffs,
       gasPrice
@@ -251,9 +251,9 @@ export default class Reserve {
    * @returns {object} - the tx object of send() command from this contract method
    */
 
-  addToken (account, token, tokenControlInfo, gasPrice) {
+  addToken (adminaccount, token, tokenControlInfo, gasPrice) {
     return this.conversionRates.addToken(
-      account,
+      adminaccount,
       token,
       tokenControlInfo,
       gasPrice
@@ -269,9 +269,9 @@ export default class Reserve {
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  setImbalanceStepFunction (account, token, buy, sell, gasPrice) {
+  setImbalanceStepFunction (operatoraccount, token, buy, sell, gasPrice) {
     return this.conversionRates.setImbalanceStepFunction(
-      account,
+      operatoraccount,
       token,
       buy,
       sell,
@@ -288,9 +288,9 @@ export default class Reserve {
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  setQtyStepFunction (account, token, buy, sell, gasPrice) {
+  setQtyStepFunction (operatoraccount, token, buy, sell, gasPrice) {
     return this.conversionRates.setQtyStepFunction(
-      account,
+      operatoraccount,
       token,
       buy,
       sell,
@@ -330,9 +330,9 @@ export default class Reserve {
    * @param {number} [currentBlockNumber=0] - current block number
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  setRate (account, rates, currentBlockNumber = 0, gasPrice) {
+  setRate (operatoraccount, rates, currentBlockNumber = 0, gasPrice) {
     return this.conversionRates.setRate(
-      account,
+      operatoraccount,
       rates,
       currentBlockNumber,
       gasPrice

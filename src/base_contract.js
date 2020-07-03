@@ -53,14 +53,14 @@ export default class BaseContract {
    * @param {string} address - new admin address
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async transferAdmin (account, address, gasPrice) {
+  async transferAdmin (adminaccount, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.transferAdmin(address)
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminaccount,
         gasPrice: gasPrice
       })
     })
@@ -72,12 +72,12 @@ export default class BaseContract {
    * @param {object} account - the pending admin account
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async claimAdmin (account, gasPrice) {
+  async claimAdmin (newaccount, gasPrice) {
     const med = this.contract.methods.claimAdmin()
     return med.send({
-      from: account.address,
+      from: newaccount,
       gas: await med.estimateGas({
-        from: account.address,
+        from: newaccount,
         gasPrice: gasPrice
       })
     })
@@ -97,14 +97,14 @@ export default class BaseContract {
    * @param {string} address - address to remove from operators list.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async addOperator (account, address, gasPrice) {
+  async addOperator (adminaccount, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.addOperator(address)
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminaccount,
         gasPrice: gasPrice
       })
     })
@@ -116,14 +116,14 @@ export default class BaseContract {
    * @param {string} address - address to remove from operators list.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async removeOperator (account, address, gasPrice) {
+  async removeOperator (adminaccount, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.removeOperator(address)
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminaccount,
         gasPrice: gasPrice
       })
     })
@@ -143,14 +143,14 @@ export default class BaseContract {
    * @param {string} address - address to add to alerters list.
    * @param {number} gasPrice (string) - the gasPrice desired for the tx
    */
-  async addAlerter (account, address, gasPrice) {
+  async addAlerter (adminaccount, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.addAlerter(address)
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminaccount,
         gasPrice: gasPrice
       })
     })
@@ -162,14 +162,14 @@ export default class BaseContract {
    * @param {string} address - address to remove from alerters list.
    * @param {number} gasPrice (string) - the gasPrice desired for the tx
    */
-  async removeAlerter (account, address, gasPrice) {
+  async removeAlerter (adminaccount, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.removeAlerter(address)
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminaccount,
         gasPrice: gasPrice
       })
     })

@@ -25,13 +25,13 @@ export default class ReserveContract extends BaseContract {
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  async enableTrade (account, gasPrice) {
-    await assertAdmin(this, account.address)
+  async enableTrade (adminaccount, gasPrice) {
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.enableTrade()
     return this.contract.methods.enableTrade().send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address
+        from: adminaccount
       }),
       gasPrice: gasPrice
     })
@@ -43,13 +43,13 @@ export default class ReserveContract extends BaseContract {
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {object} - the tx object of send() command from this contract method
    */
-  async disableTrade (account, gasPrice) {
-    await assertAlerter(this, account.address)
+  async disableTrade (alerteraccount, gasPrice) {
+    await assertAlerter(this, alerteraccount)
     const med = this.contract.methods.disableTrade()
     return med.send({
-      from: account.address,
+      from: alerteraccount,
       gas: await med.estimateGas({
-        from: account.address
+        from: alerteraccount
       }),
       gasPrice: gasPrice
     })
@@ -73,7 +73,7 @@ export default class ReserveContract extends BaseContract {
    * @returns {object} - the tx object of send() command from this contract method
    */
   async setContracts (
-    account,
+    adminaccount,
     network,
     conversion,
     sanity,
@@ -81,7 +81,7 @@ export default class ReserveContract extends BaseContract {
   ) {
     validateAddress(network)
     validateAddress(conversion)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     if (sanity !== undefined) {
       validateAddress(sanity)
     } else {
@@ -90,9 +90,9 @@ export default class ReserveContract extends BaseContract {
 
     const med = this.contract.methods.setContracts(network, conversion, sanity)
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address
+        from: adminaccount
       }),
       gasPrice: gasPrice
     })
@@ -131,21 +131,21 @@ export default class ReserveContract extends BaseContract {
    * @returns {object} - the tx object of send() command from this contract method
    */
   async approveWithdrawAddress (
-    account,
+    adminaccount,
     tokenAddress,
     withdrawAddress,
     gasPrice = undefined
   ) {
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.approveWithdrawAddress(
       tokenAddress,
       withdrawAddress,
       true
     )
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address
+        from: adminaccount
       }),
       gasPrice: gasPrice
     })
@@ -160,21 +160,21 @@ export default class ReserveContract extends BaseContract {
    * @returns {object} - the tx object of send() command from this contract method
    */
   async disapproveWithdrawAddress (
-    account,
+    adminaccount,
     tokenAddress,
     withdrawAddress,
     gasPrice = undefined
   ) {
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.approveWithdrawAddress(
       tokenAddress,
       withdrawAddress,
       false
     )
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address
+        from: adminaccount
       }),
       gasPrice: gasPrice
     })
@@ -201,18 +201,18 @@ export default class ReserveContract extends BaseContract {
    * @returns {object} - the tx object of send() command from this contract method
    */
   async withdraw (
-    account,
+    adminaccount,
     tokenAddress,
     amount,
     toAddress,
     gasPrice = undefined
   ) {
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminaccount)
     const med = this.contract.methods.withdraw(tokenAddress, amount, toAddress)
     return med.send({
-      from: account.address,
+      from: adminaccount,
       gas: await med.estimateGas({
-        from: account.address
+        from: adminaccount
       }),
       gasPrice: gasPrice
     })

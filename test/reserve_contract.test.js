@@ -48,12 +48,12 @@ describe('ReserveContract', () => {
     const reserveContract = new ReserveContract(web3, addresses.reserve)
     const accounts = await reserveContract.web3.eth.getAccounts()
     const account = { address: accounts[0] }
-    assert.ok(await reserveContract.enableTrade(account))
+    assert.ok(await reserveContract.enableTrade(account.address))
     assert.strictEqual(await reserveContract.tradeEnabled(), true)
     // it cannot disableTrade from a non alerter account
-    await assertThrowAsync(() => reserveContract.disableTrade(account))
+    await assertThrowAsync(() => reserveContract.disableTrade(account.address))
     // it can disableTrade from an alerter account
-    await reserveContract.addAlerter(account, accounts[1])
+    await reserveContract.addAlerter(account.address, accounts[1])
     assert.ok(await reserveContract.disableTrade({ address: accounts[1] }))
     assert.strictEqual(await reserveContract.tradeEnabled(), false)
   })

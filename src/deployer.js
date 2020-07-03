@@ -27,11 +27,11 @@ export const KyberNetworkAddress = '0x91a502C678605fbCe581eae053319747482276b9'
 export default class Deployer {
   /**
    * Create a deployer instance with given account parameter.
-   * @param {object} provider - Web3 provider
+   * @param {object} web3 - Web3 instance
    */
   constructor (web3) {
     if (web3.currentProvider == null) {
-      throw new Error('provider is not set')
+      throw new Error('web3 is not provided')
     }
     this.web3 = web3
   }
@@ -39,14 +39,14 @@ export default class Deployer {
   /**
    * Deploy new reserve and pricing contracts.
    * @param {object} account - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
-   * @param {string} [network=KyberNetworkAddress] - Address of KyberNetwork smart contract.
+   * @param {string} [network] - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {Addresses} - Deployed reserve addresses set.
    */
   async deploy (
     adminAddress,
-    networkAddress,
+    network = KyberNetworkAddress,
     sanityRates = false,
     gasPrice
   ) {
