@@ -13,8 +13,7 @@ This SDK allows market makers and developers to deploy, maintain and operate an 
 
 Install the package with:
 
-    npm install --save https://github.com/KyberNetwork/fpr-sdk.js
-    
+    npm install --save kyber-fpr-sdk    
 
 ## Usage
 
