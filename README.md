@@ -25,7 +25,7 @@ There are 2 main classes in this SDK.
 - [Reserve](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) class allows users to manage the key market making functions, including permission management, setting and controling quotes and fund security. 
 
 
-## Deployer
+## Deployer Class
 
 The [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class only needs the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html) to init. After deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
 
@@ -52,7 +52,7 @@ let addresses;
 
 ```
 
-# Reserve Class
+## Reserve Class
 
 Reserve class allow users to make call to the smart contracts and query its state on the blockchain. 
 
