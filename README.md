@@ -22,7 +22,7 @@ There are 2 main classes in this SDK.
 
 - [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class allows users to deploy new smart contracts. 
 
-- [Reserve](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) class which allows user to manage the key MM functions, including permission management, setting and controling quotes and fund security. 
+- [Reserve](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) class allows users to manage the key market making functions, including permission management, setting and controling quotes and fund security. 
 
 
 ## Deployer
