@@ -13,7 +13,7 @@ let addresses
 beforeEach(async () => {
   const dpl = new Deployer(web3)
   addresses = await dpl.deploy(
-    { address: (await dpl.web3.eth.getAccounts())[0] },
+    (await dpl.web3.eth.getAccounts())[0],
     KyberNetworkAddress,
     true
   )
