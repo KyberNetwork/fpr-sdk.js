@@ -55,7 +55,7 @@ describe('SanityRatesContract', () => {
     // must not be able to set sanity Rate from non operator account
     await assertThrowAsync(async () =>
       sanityRatesContract.setSanityRates(
-        { address: accounts[1] },
+         accounts[1],
         [tokenAddr],
         [TestRate]
       )
@@ -64,13 +64,13 @@ describe('SanityRatesContract', () => {
     // add operator and the set rate should be successful
     assert.ok(
       await sanityRatesContract.addOperator(
-        { address: accounts[0] },
+        accounts[0],
         accounts[0]
       )
     )
     assert.ok(
       await sanityRatesContract.setSanityRates(
-        { address: accounts[0] },
+        accounts[0],
         [tokenAddr],
         [TestRate]
       )
@@ -93,7 +93,7 @@ describe('SanityRatesContract', () => {
     const tokenAddr = await ERC20TokenDeployer(web3)
     assert.ok(
       await sanityRatesContract.setReasonableDiff(
-        { address: accounts[0] },
+       accounts[0],
         [tokenAddr],
         [testDiff]
       )

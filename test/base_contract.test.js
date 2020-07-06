@@ -58,16 +58,16 @@ describe('BaseContract', () => {
     let admin, pendingAdmin
     // must not be able to add operator from non-admin account
     await assertThrowAsync(async () =>
-      baseContract.transferAdmin({ address: newAdmin }, newAdmin)
+      baseContract.transferAdmin(newAdmin, newAdmin)
     )
 
-    await baseContract.transferAdmin({ address: currentAdmin }, newAdmin)
+    await baseContract.transferAdmin(currentAdmin, newAdmin)
     admin = await baseContract.admin()
     assert.strictEqual(admin, currentAdmin)
     pendingAdmin = await baseContract.pendingAdmin()
     assert.strictEqual(pendingAdmin, newAdmin)
 
-    await baseContract.claimAdmin({ address: newAdmin })
+    await baseContract.claimAdmin(newAdmin)
     admin = await baseContract.admin()
     assert.strictEqual(admin, newAdmin)
     pendingAdmin = await baseContract.pendingAdmin()
@@ -96,14 +96,14 @@ describe('BaseContract', () => {
     assert.ok(!operators.includes(newOperator))
     // must not be able to add operator from non-admin account
     await assertThrowAsync(async () =>
-      baseContract.addOperator({ address: newOperator }, newOperator)
+      baseContract.addOperator(newOperator, newOperator)
     )
 
-    await baseContract.addOperator({ address: currentAdmin }, newOperator)
+    await baseContract.addOperator(currentAdmin, newOperator)
     operators = await baseContract.getOperators()
     assert.ok(operators.includes(newOperator))
 
-    await baseContract.removeOperator({ address: currentAdmin }, newOperator)
+    await baseContract.removeOperator(currentAdmin, newOperator)
     operators = await baseContract.getOperators()
     assert.ok(!operators.includes(newOperator))
   })
@@ -128,14 +128,14 @@ describe('BaseContract', () => {
 
     // should not be able to change alerter from non admin address
     await assertThrowAsync(async () =>
-      baseContract.addAlerter({ address: newAlerter }, newAlerter)
+      baseContract.addAlerter(newAlerter, newAlerter)
     )
 
-    await baseContract.addAlerter({ address: currentAdmin }, newAlerter)
+    await baseContract.addAlerter(currentAdmin, newAlerter)
     alerters = await baseContract.getAlerters()
     assert.ok(alerters.includes(newAlerter))
 
-    await baseContract.removeAlerter({ address: currentAdmin }, newAlerter)
+    await baseContract.removeAlerter(currentAdmin, newAlerter)
     alerters = await baseContract.getAlerters()
     assert.ok(!alerters.includes(newAlerter))
   })
