@@ -46,12 +46,15 @@ export default class Deployer {
    */
   async deploy (
     adminAddress,
-    network = KyberNetworkAddress,
+    network,
     sanityRates = false,
     gasPrice
   ) {
     if (!adminAddress) {
       throw new Error('missing admin address')
+    }
+    if (!network) {
+      throw new Error('missing network address')
     }
 
     const deployContract = async (adminAddress, jsonInterface, byteCode, args) => {
