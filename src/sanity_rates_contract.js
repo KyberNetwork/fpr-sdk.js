@@ -35,19 +35,19 @@ export default class SanityRatesContract extends BaseContract {
 
   /**
    * Set Sanity Rate for the contract
-   * @param {object} operatorAccount - address of operator account
+   * @param {object} operatorAddress - address of operator account
    * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH wei
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setSanityRates (operatorAccount, srcs, rates, gasPrice) {
-    await assertOperator(this, operatorAccount)
+  async setSanityRates (operatorAddress, srcs, rates, gasPrice) {
+    await assertOperator(this, operatorAddress)
     const med = this.contract.methods.setSanityRates(srcs, rates)
     return med.send({
-      from: operatorAccount,
+      from: operatorAddress,
       gas: await med.estimateGas({
-        from: operatorAccount
+        from: operatorAddress
       }),
       gasPrice: gasPrice
     })
@@ -65,19 +65,19 @@ export default class SanityRatesContract extends BaseContract {
 
   /**
    * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).
-   * @param {object} adminAccount - address of admin account
+   * @param {object} adminAddress - address of admin account
    * @param {string[]} addresses - list of ERC20 token contract to set
    * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setReasonableDiff (adminAccount, addresses, diffs, gasPrice = undefined) {
-    await assertAdmin(this, adminAccount)
+  async setReasonableDiff (adminAddress, addresses, diffs, gasPrice = undefined) {
+    await assertAdmin(this, adminAddress)
     const med = this.contract.methods.setReasonableDiff(addresses, diffs)
     return med.send({
-      from: adminAccount,
+      from: adminAddress,
       gas: await med.estimateGas({
-        from: adminAccount
+        from: adminAddress
       }),
       gasPrice: gasPrice
     })

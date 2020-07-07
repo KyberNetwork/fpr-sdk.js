@@ -38,84 +38,84 @@ export default class Deployer {
 
   /**
    * Deploy new reserve and pricing contracts.
-   * @param {object} account - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
+   * @param {object} adminAddress - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
    * @param {string} [network] - Address of KyberNetwork smart contract.
    * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @return {Addresses} - Deployed reserve addresses set.
    */
   async deploy (
-    adminAccount,
+    adminAddress,
     network = KyberNetworkAddress,
     sanityRates = false,
     gasPrice
   ) {
-    if (!adminAccount) {
+    if (!adminAddress) {
       throw new Error('missing admin address')
     }
 
-    const deployContract = async (adminAccount, jsonInterface, byteCode, args) => {
+    const deployContract = async (adminAddress, jsonInterface, byteCode, args) => {
       const dpl = new this.web3.eth.Contract(jsonInterface).deploy({
         data: `0x${byteCode}`,
         arguments: args
       })
       return dpl.send({
-        from: adminAccount,
+        from: adminAddress,
         gas: await dpl.estimateGas({
-          from: adminAccount
+          from: adminAddress
         }),
         gasPrice: gasPrice
       })
     }
 
-    const deployConversionRates = adminAccount => {
+    const deployConversionRates = adminAddress => {
       console.log(
         'Deploying conversion ... This might take a while for the tx to be mined'
       )
       return deployContract(
-        adminAccount,
+        adminAddress,
         conversionRatesABI,
         conversionRatesByteCode,
-        [adminAccount]
+        [adminAddress]
       )
     }
 
-    const deployReserve = (adminAccount, network, conversionAddress) => {
+    const deployReserve = (adminAddress, network, conversionAddress) => {
       console.log(
         'Deploying reserve ... This might take a while for the tx to be mined'
       )
-      const args = [network, conversionAddress, adminAccount]
+      const args = [network, conversionAddress, adminAddress]
       return deployContract(
-        adminAccount,
+        adminAddress,
         kyberReserveContractABI,
         kyberReserveContractByteCode,
         args
       )
     }
 
-    const deploySanityRates = adminAccount => {
+    const deploySanityRates = adminAddress => {
       console.log(
         'Deploying sanity ...This might take a while for the tx to be mined'
       )
 
       return deployContract(
-        adminAccount,
+        adminAddress,
         sanityRatesContractABI,
         sanityRatesContractByteCode,
-        [adminAccount]
+        [adminAddress]
       )
     }
 
     // All the contract must be deployed sequentially
-    const conversionRatesContract = await deployConversionRates(adminAccount)
+    const conversionRatesContract = await deployConversionRates(adminAddress)
     const reserveContract = await deployReserve(
-      adminAccount,
+      adminAddress,
       network,
       conversionRatesContract.options.address
     )
     let sanityRatesContract
     if (sanityRates) {
-      sanityRatesContract = await deploySanityRates(adminAccount)
+      sanityRatesContract = await deploySanityRates(adminAddress)
     }
 
     const setReserveAddressForConversionRates = async (
@@ -127,9 +127,9 @@ export default class Deployer {
         reserveAddress
       )
       return setReserveAddressTx.send({
-        from: adminAccount,
+        from: adminAddress,
         gas: await setReserveAddressTx.estimateGas({
-          from: adminAccount
+          from: adminAddress
         }),
         gasPrice: gasPrice
       })
@@ -159,9 +159,9 @@ export default class Deployer {
         sanityAddress
       )
       return setContractsTx.send({
-        from: adminAccount,
+        from: adminAddress,
         gas: await setContractsTx.estimateGas({
-          from: adminAccount
+          from: adminAddress
         }),
         gasPrice: gasPrice
       })

@@ -378,21 +378,21 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Set adjustments for tokens' buy and sell rates depending on the net traded
    * amounts. Only operator can invoke.
-   * @param {object} operatorAccount - address of the operator account
+   * @param {object} operatorAddress - address of the operator account
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
   async setImbalanceStepFunction (
-    operatorAccount,
+    operatorAddress,
     token,
     buy,
     sell,
     gasPrice = undefined
   ) {
     validateAddress(token)
-    await assertOperator(this, operatorAccount)
+    await assertOperator(this, operatorAddress)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -415,8 +415,8 @@ export default class ConversionRatesContract extends BaseContract {
       ySell
     )
     return tx.send({
-      from: operatorAccount,
-      gas: await tx.estimateGas({ from: operatorAccount }),
+      from: operatorAddress,
+      gas: await tx.estimateGas({ from: operatorAddress }),
       gasPrice: gasPrice
     })
   }
@@ -424,15 +424,15 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Set adjustments for tokens' buy and sell rates depending on the size of a
    * buy / sell order. Only operator can invoke.
-   * @param {object} operatorAccount - address of the operator account
+   * @param {object} operatorAddress - address of the operator account
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setQtyStepFunction (operatorAccount, token, buy, sell, gasPrice) {
+  async setQtyStepFunction (operatorAddress, token, buy, sell, gasPrice) {
     validateAddress(token)
-    await assertOperator(this, operatorAccount)
+    await assertOperator(this, operatorAddress)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -456,8 +456,8 @@ export default class ConversionRatesContract extends BaseContract {
     )
 
     return tx.send({
-      from: operatorAccount,
-      gas: await tx.estimateGas({ from: operatorAccount }),
+      from: operatorAddress,
+      gas: await tx.estimateGas({ from: operatorAddress }),
       gasPrice: gasPrice
     })
   }
@@ -493,13 +493,13 @@ export default class ConversionRatesContract extends BaseContract {
 
   /**
    * Set the buying rate for given token.
-   * @param {object} operatorAccount - address of the operator account
+   * @param {object} operatorAddress - address of the operator account
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setRate (operatorAccount, rates, currentBlockNumber = 0, gasPrice) {
-    await assertOperator(this, operatorAccount)
+  async setRate (operatorAddress, rates, currentBlockNumber = 0, gasPrice) {
+    await assertOperator(this, operatorAddress)
     const indices = await rates.reduce(async (acc, val) => {
       const accumulator = await acc.then()
       accumulator[val.address] = await this.getTokenIndices(val.address)
@@ -574,9 +574,9 @@ export default class ConversionRatesContract extends BaseContract {
       )
     }
 
-    const gas = await tx.estimateGas({ from: operatorAccount })
+    const gas = await tx.estimateGas({ from: operatorAddress })
     return tx.send({
-      from: operatorAccount,
+      from: operatorAddress,
       gas,
       gasPrice: gasPrice
     })
