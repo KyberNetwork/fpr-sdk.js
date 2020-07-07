@@ -23,7 +23,7 @@ let accounts
 beforeEach(async () => {
   const dpl = new Deployer(web3)
   addresses = await dpl.deploy(
-    { address: (await dpl.web3.eth.getAccounts())[0] },
+    (await dpl.web3.eth.getAccounts())[0],
     KyberNetworkAddress,
     false
   )
@@ -127,12 +127,12 @@ describe('ConversionRatesContract', () => {
     const operator = accounts[1]
     const crc = new ConversionRatesContract(web3, addresses.conversionRates)
 
-    await crc.addOperator({ address: admin }, operator)
+    await crc.addOperator(admin, operator)
 
     // should not be able to add Token from non-admin account
     await assertThrowAsync(async () =>
       crc.addToken(
-        { address: operator },
+        operator,
         tokens[0],
         new TokenControlInfo(2, 4000, 4000 * 12)
       )
@@ -141,7 +141,7 @@ describe('ConversionRatesContract', () => {
     // should not be able to call write/set funcs from non-admin account
     await assertThrowAsync(async () =>
       crc.setQtyStepFunction(
-        { address: admin },
+        admin,
         tokens[0],
         [new StepFunctionDataPoint(0, 0)],
         [new StepFunctionDataPoint(0, 0)]
@@ -149,7 +149,7 @@ describe('ConversionRatesContract', () => {
     )
     await assertThrowAsync(async () =>
       crc.setImbalanceStepFunction(
-        { address: admin },
+        admin ,
         tokens[0],
         [new StepFunctionDataPoint('100000000000000000000', 0)],
         [new StepFunctionDataPoint('100000000000000000000', 0)]
@@ -159,20 +159,20 @@ describe('ConversionRatesContract', () => {
     await Promise.all(
       tokens.map(async token => {
         await crc.addToken(
-          { address: admin },
+          admin,
           token,
           new TokenControlInfo(2, 4000, 4000 * 12)
         )
 
         await crc.setQtyStepFunction(
-          { address: operator },
+          operator,
           token,
           [new StepFunctionDataPoint(0, 0)],
           [new StepFunctionDataPoint(0, 0)]
         )
 
         await crc.setImbalanceStepFunction(
-          { address: operator },
+          operator,
           token,
           [new StepFunctionDataPoint('100000000000000000000', 0)],
           [new StepFunctionDataPoint('100000000000000000000', 0)]
@@ -183,13 +183,13 @@ describe('ConversionRatesContract', () => {
     // should not be able to setRate from non operator account
     await assertThrowAsync(async () =>
       crc.setRate(
-        { address: admin },
+        admin,
         [new RateSetting(tokens[0], buyRates[0], sellRates[0])],
         (await web3.eth.getBlockNumber()) + 1
       )
     )
     await crc.setRate(
-      { address: operator },
+      operator,
       [new RateSetting(tokens[0], buyRates[0], sellRates[0])],
       (await web3.eth.getBlockNumber()) + 1
     )
@@ -204,7 +204,7 @@ describe('ConversionRatesContract', () => {
     )
 
     await crc.setRate(
-      { address: operator },
+      operator,
       [new RateSetting(tokens[1], buyRates[1], sellRates[1])],
       (await web3.eth.getBlockNumber()) + 1
     )
@@ -219,7 +219,7 @@ describe('ConversionRatesContract', () => {
     )
 
     await crc.setRate(
-      { address: operator },
+      operator,
       tokens.map(
         (token, index) =>
           new RateSetting(token, buyRates[index] + 1, sellRates[index] + 2)
@@ -242,7 +242,7 @@ describe('ConversionRatesContract', () => {
     )
 
     await crc.setRate(
-      { address: operator },
+      operator,
       tokens.map(
         (token, index) =>
           new RateSetting(token, buyRates[index] + 1000, sellRates[index] + 2)
@@ -265,7 +265,7 @@ describe('ConversionRatesContract', () => {
     )
 
     await crc.setRate(
-      { address: operator },
+       operator,
       tokens.map(
         (token, index) =>
           new RateSetting(token, buyRates[index] + 500, sellRates[index] + 600)

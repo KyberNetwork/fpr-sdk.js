@@ -29,7 +29,7 @@ describe('Reserve', () => {
   it('created an reserve contract instance successfully', async () => {
     const dpl = new Deployer(web3)
     addresses = await dpl.deploy(
-      { address: (await dpl.web3.eth.getAccounts())[0] },
+     (await dpl.web3.eth.getAccounts())[0],
       kyberNetworkAddress,
       true
     )
@@ -42,7 +42,7 @@ describe('Reserve', () => {
   it('created an reserve contract instance successfully without sanity Rates', async () => {
     const dpl = new Deployer(web3)
     addresses = await dpl.deploy(
-      { address: (await dpl.web3.eth.getAccounts())[0] },
+     (await dpl.web3.eth.getAccounts())[0],
       kyberNetworkAddress,
       false
     )

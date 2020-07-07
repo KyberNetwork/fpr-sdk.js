@@ -49,18 +49,18 @@ export default class BaseContract {
 
   /**
    * transfer admin privilege to given address.
-   * @param {object} account - current admin account
+   * @param {object} adminAddress - current admin account
    * @param {string} address - new admin address
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async transferAdmin (account, address, gasPrice) {
+  async transferAdmin (adminAddress, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminAddress)
     const med = this.contract.methods.transferAdmin(address)
     return med.send({
-      from: account.address,
+      from: adminAddress,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminAddress,
         gasPrice: gasPrice
       })
     })
@@ -69,15 +69,15 @@ export default class BaseContract {
   /**
    * Claim admin privilege. The account address should be in already placed
    * in pendingAdmin for this to works.
-   * @param {object} account - the pending admin account
+   * @param {object} newAccount - the pending admin account
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async claimAdmin (account, gasPrice) {
+  async claimAdmin (newAccount, gasPrice) {
     const med = this.contract.methods.claimAdmin()
     return med.send({
-      from: account.address,
+      from: newAccount,
       gas: await med.estimateGas({
-        from: account.address,
+        from: newAccount,
         gasPrice: gasPrice
       })
     })
@@ -93,18 +93,18 @@ export default class BaseContract {
 
   /**
    * Add given address from operators list.
-   * @param {object} account - current admin account
+   * @param {object} adminAddress - current admin account
    * @param {string} address - address to remove from operators list.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async addOperator (account, address, gasPrice) {
+  async addOperator (adminAddress, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminAddress)
     const med = this.contract.methods.addOperator(address)
     return med.send({
-      from: account.address,
+      from: adminAddress,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminAddress,
         gasPrice: gasPrice
       })
     })
@@ -112,18 +112,18 @@ export default class BaseContract {
 
   /**
    * Remove given address from operators list.
-   * @param {object} account - current admin account
+   * @param {object} adminAddress - current admin account
    * @param {string} address - address to remove from operators list.
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async removeOperator (account, address, gasPrice) {
+  async removeOperator (adminAddress, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminAddress)
     const med = this.contract.methods.removeOperator(address)
     return med.send({
-      from: account.address,
+      from: adminAddress,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminAddress,
         gasPrice: gasPrice
       })
     })
@@ -139,18 +139,18 @@ export default class BaseContract {
 
   /**
    * Add new address to alerters list.
-   * @param {object} account - current admin account
+   * @param {object} adminAddress - current admin account
    * @param {string} address - address to add to alerters list.
    * @param {number} gasPrice (string) - the gasPrice desired for the tx
    */
-  async addAlerter (account, address, gasPrice) {
+  async addAlerter (adminAddress, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminAddress)
     const med = this.contract.methods.addAlerter(address)
     return med.send({
-      from: account.address,
+      from: adminAddress,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminAddress,
         gasPrice: gasPrice
       })
     })
@@ -158,18 +158,18 @@ export default class BaseContract {
 
   /**
    * Remove address from alerters list.
-   * @param {object} account - current admin account
+   * @param {object} adminAddress - current admin account
    * @param {string} address - address to remove from alerters list.
    * @param {number} gasPrice (string) - the gasPrice desired for the tx
    */
-  async removeAlerter (account, address, gasPrice) {
+  async removeAlerter (adminAddress, address, gasPrice) {
     validateAddress(address)
-    await assertAdmin(this, account.address)
+    await assertAdmin(this, adminAddress)
     const med = this.contract.methods.removeAlerter(address)
     return med.send({
-      from: account.address,
+      from: adminAddress,
       gas: await med.estimateGas({
-        from: account.address,
+        from: adminAddress,
         gasPrice: gasPrice
       })
     })

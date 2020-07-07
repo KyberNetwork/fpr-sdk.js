@@ -17,7 +17,7 @@ let addresses
 beforeEach(async () => {
   const dpl = new Deployer(web3)
   addresses = await dpl.deploy(
-    { address: (await dpl.web3.eth.getAccounts())[0] },
+   (await dpl.web3.eth.getAccounts())[0],
     KyberNetworkAddress,
     false
   )
@@ -47,14 +47,14 @@ describe('ReserveContract', () => {
   it('is able to alter trade status', async () => {
     const reserveContract = new ReserveContract(web3, addresses.reserve)
     const accounts = await reserveContract.web3.eth.getAccounts()
-    const account = { address: accounts[0] }
+    const account = accounts[0]
     assert.ok(await reserveContract.enableTrade(account))
     assert.strictEqual(await reserveContract.tradeEnabled(), true)
     // it cannot disableTrade from a non alerter account
     await assertThrowAsync(() => reserveContract.disableTrade(account))
     // it can disableTrade from an alerter account
     await reserveContract.addAlerter(account, accounts[1])
-    assert.ok(await reserveContract.disableTrade({ address: accounts[1] }))
+    assert.ok(await reserveContract.disableTrade(accounts[1]))
     assert.strictEqual(await reserveContract.tradeEnabled(), false)
   })
 
@@ -64,7 +64,7 @@ describe('ReserveContract', () => {
     // it should run Ok with valid addresses
     assert.ok(
       await reserveContract.setContracts(
-        { address: accounts[0] },
+        accounts[0],
         accounts[0],
         accounts[1],
         accounts[2]
@@ -79,7 +79,7 @@ describe('ReserveContract', () => {
     // it should throw if kybernetwork and conversionRate is not valid
     await assertThrowAsync(() =>
       reserveContract.setContracts(
-        { address: accounts[0] },
+        accounts[0],
         'random',
         'random',
         accounts[2]
@@ -88,7 +88,7 @@ describe('ReserveContract', () => {
     // it should run ok without sanity Rates
     assert.ok(
       await reserveContract.setContracts(
-        { address: accounts[0] },
+        accounts[0],
         accounts[0],
         accounts[1],
         undefined
@@ -98,7 +98,7 @@ describe('ReserveContract', () => {
     // it should throw an error if sanity rates address is invalid
     await assertThrowAsync(() =>
       reserveContract.setContracts(
-        { address: accounts[0] },
+        accounts[0],
         accounts[0],
         accounts[1],
         'invalid-address'
@@ -113,7 +113,7 @@ describe('ReserveContract', () => {
     const tokenAddr = await ERC20TokenDeployer(web3)
     assert.ok(
       await reserveContract.approveWithdrawAddress(
-        { address: accounts[0] },
+        accounts[0],
         tokenAddr,
         accounts[1]
       )
@@ -124,7 +124,7 @@ describe('ReserveContract', () => {
     )
     assert.ok(
       await reserveContract.disapproveWithdrawAddress(
-        { address: accounts[0] },
+        accounts[0],
         tokenAddr,
         accounts[1]
       )
@@ -158,7 +158,7 @@ describe('ReserveContract', () => {
     // should throw since accounts[1] is not approved yet
     await assertThrowAsync(() =>
       reserveContract.withdraw(
-        { address: accounts[0] },
+        accounts[0],
         tokenAddr,
         testAmount,
         accounts[1]
@@ -167,7 +167,7 @@ describe('ReserveContract', () => {
     // approve accounts[1] to receive testToken
     assert.ok(
       await reserveContract.approveWithdrawAddress(
-        { address: accounts[0] },
+      accounts[0],
         tokenAddr,
         accounts[1]
       )
@@ -178,12 +178,12 @@ describe('ReserveContract', () => {
     )
     // withdraw can only be called from operator..
     assert.ok(
-      await reserveContract.addOperator({ address: accounts[0] }, accounts[0])
+      await reserveContract.addOperator(accounts[0], accounts[0])
     )
     // after approval, testToken should be able to withdraw
     assert.ok(
       await reserveContract.withdraw(
-        { address: accounts[0] },
+       accounts[0],
         tokenAddr,
         testAmount,
         accounts[1]
