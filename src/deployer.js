@@ -45,77 +45,77 @@ export default class Deployer {
    * @return {Addresses} - Deployed reserve addresses set.
    */
   async deploy (
-    adminAddress,
+    adminAccount,
     network = KyberNetworkAddress,
     sanityRates = false,
     gasPrice
   ) {
-    if (!adminAddress) {
+    if (!adminAccount) {
       throw new Error('missing admin address')
     }
 
-    const deployContract = async (adminAddress, jsonInterface, byteCode, args) => {
+    const deployContract = async (adminAccount, jsonInterface, byteCode, args) => {
       const dpl = new this.web3.eth.Contract(jsonInterface).deploy({
         data: `0x${byteCode}`,
         arguments: args
       })
       return dpl.send({
-        from: adminAddress,
+        from: adminAccount,
         gas: await dpl.estimateGas({
-          from: adminAddress
+          from: adminAccount
         }),
         gasPrice: gasPrice
       })
     }
 
-    const deployConversionRates = adminAddress => {
+    const deployConversionRates = adminAccount => {
       console.log(
         'Deploying conversion ... This might take a while for the tx to be mined'
       )
       return deployContract(
-        adminAddress,
+        adminAccount,
         conversionRatesABI,
         conversionRatesByteCode,
-        [adminAddress]
+        [adminAccount]
       )
     }
 
-    const deployReserve = (adminAddress, network, conversionAddress) => {
+    const deployReserve = (adminAccount, network, conversionAddress) => {
       console.log(
         'Deploying reserve ... This might take a while for the tx to be mined'
       )
-      const args = [network, conversionAddress, adminAddress]
+      const args = [network, conversionAddress, adminAccount]
       return deployContract(
-        adminAddress,
+        adminAccount,
         kyberReserveContractABI,
         kyberReserveContractByteCode,
         args
       )
     }
 
-    const deploySanityRates = adminAddress => {
+    const deploySanityRates = adminAccount => {
       console.log(
         'Deploying sanity ...This might take a while for the tx to be mined'
       )
 
       return deployContract(
-        adminAddress,
+        adminAccount,
         sanityRatesContractABI,
         sanityRatesContractByteCode,
-        [adminAddress]
+        [adminAccount]
       )
     }
 
     // All the contract must be deployed sequentially
-    const conversionRatesContract = await deployConversionRates(adminAddress)
+    const conversionRatesContract = await deployConversionRates(adminAccount)
     const reserveContract = await deployReserve(
-      adminAddress,
+      adminAccount,
       network,
       conversionRatesContract.options.address
     )
     let sanityRatesContract
     if (sanityRates) {
-      sanityRatesContract = await deploySanityRates(adminAddress)
+      sanityRatesContract = await deploySanityRates(adminAccount)
     }
 
     const setReserveAddressForConversionRates = async (
@@ -127,9 +127,9 @@ export default class Deployer {
         reserveAddress
       )
       return setReserveAddressTx.send({
-        from: adminAddress,
+        from: adminAccount,
         gas: await setReserveAddressTx.estimateGas({
-          from: adminAddress
+          from: adminAccount
         }),
         gasPrice: gasPrice
       })
@@ -159,9 +159,9 @@ export default class Deployer {
         sanityAddress
       )
       return setContractsTx.send({
-        from: adminAddress,
+        from: adminAccount,
         gas: await setContractsTx.estimateGas({
-          from: adminAddress
+          from: adminAccount
         }),
         gasPrice: gasPrice
       })

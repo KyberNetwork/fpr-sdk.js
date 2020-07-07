@@ -35,19 +35,19 @@ export default class SanityRatesContract extends BaseContract {
 
   /**
    * Set Sanity Rate for the contract
-   * @param {object} account - operator account
+   * @param {object} operatorAccount - address of operator account
    * @param {string[]} srcs - list of source ERC20 token contract addresses
    * @param {uint[]} rates - list of Rates in ETH wei
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setSanityRates (operatoraccount, srcs, rates, gasPrice) {
-    await assertOperator(this, operatoraccount)
+  async setSanityRates (operatorAccount, srcs, rates, gasPrice) {
+    await assertOperator(this, operatorAccount)
     const med = this.contract.methods.setSanityRates(srcs, rates)
     return med.send({
-      from: operatoraccount,
+      from: operatorAccount,
       gas: await med.estimateGas({
-        from: operatoraccount
+        from: operatorAccount
       }),
       gasPrice: gasPrice
     })
@@ -65,19 +65,19 @@ export default class SanityRatesContract extends BaseContract {
 
   /**
    * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).
-   * @param {object} account - admin account
+   * @param {object} adminAccount - address of admin account
    * @param {string[]} addresses - list of ERC20 token contract to set
    * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    * @returns {object} - the tx object of send() command from this contract method
    */
-  async setReasonableDiff (adminaccount, addresses, diffs, gasPrice = undefined) {
-    await assertAdmin(this, adminaccount)
+  async setReasonableDiff (adminAccount, addresses, diffs, gasPrice = undefined) {
+    await assertAdmin(this, adminAccount)
     const med = this.contract.methods.setReasonableDiff(addresses, diffs)
     return med.send({
-      from: adminaccount,
+      from: adminAccount,
       gas: await med.estimateGas({
-        from: adminaccount
+        from: adminAccount
       }),
       gasPrice: gasPrice
     })

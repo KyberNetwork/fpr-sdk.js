@@ -21,7 +21,7 @@ describe('Deployer', () => {
       await dpl.deploy(undefined, KyberNetworkAddress, false)
       assert.ok(false)
     } catch (err) {
-      assert.strictEqual(err.message, 'missing account')
+      assert.strictEqual(err.message, 'missing admin address')
     }
   })
 

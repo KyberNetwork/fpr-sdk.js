@@ -331,19 +331,19 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Add a ERC20 token and its pricing configurations to reserve contract and
    * enable it for trading.
-   * @param {object} account - Web3 account, must be admin.
+   * @param {object} adminAccount - admin account address
    * @param {string} token - ERC20 token address
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
 
-  async addToken (adminaccount, token, tokenControlInfo, gasPrice) {
+  async addToken (adminAccount, token, tokenControlInfo, gasPrice) {
     validateAddress(token)
-    await assertAdmin(this, adminaccount)
+    await assertAdmin(this, adminAccount)
     let addTokenTx = this.contract.methods.addToken(token)
     await addTokenTx.send({
-      from: adminaccount,
-      gas: await addTokenTx.estimateGas({ from: adminaccount }),
+      from: adminAccount,
+      gas: await addTokenTx.estimateGas({ from: adminAccount }),
       gasPrice: gasPrice
     })
 
@@ -356,8 +356,8 @@ export default class ConversionRatesContract extends BaseContract {
       tokenControlInfo.maxTotalImbalance
     )
     await controlInfoTx.send({
-      from: adminaccount,
-      gas: await controlInfoTx.estimateGas({ from: adminaccount }),
+      from: adminAccount,
+      gas: await controlInfoTx.estimateGas({ from: adminAccount }),
       gasPrice: gasPrice
     })
 
@@ -365,8 +365,8 @@ export default class ConversionRatesContract extends BaseContract {
 
     var enableTokenTx = this.contract.methods.enableTokenTrade(token)
     await enableTokenTx.send({
-      from: adminaccount,
-      gas: await enableTokenTx.estimateGas({ from: adminaccount }),
+      from: adminAccount,
+      gas: await enableTokenTx.estimateGas({ from: adminAccount }),
       gasPrice: gasPrice
     })
 
@@ -378,21 +378,21 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Set adjustments for tokens' buy and sell rates depending on the net traded
    * amounts. Only operator can invoke.
-   * @param {object} account - Web3 account, must be operator
+   * @param {object} operatorAccount - address of the operator account
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
    */
   async setImbalanceStepFunction (
-    operatoraccount,
+    operatorAccount,
     token,
     buy,
     sell,
     gasPrice = undefined
   ) {
     validateAddress(token)
-    await assertOperator(this, operatoraccount)
+    await assertOperator(this, operatorAccount)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -415,8 +415,8 @@ export default class ConversionRatesContract extends BaseContract {
       ySell
     )
     return tx.send({
-      from: operatoraccount,
-      gas: await tx.estimateGas({ from: operatoraccount }),
+      from: operatorAccount,
+      gas: await tx.estimateGas({ from: operatorAccount }),
       gasPrice: gasPrice
     })
   }
@@ -424,15 +424,15 @@ export default class ConversionRatesContract extends BaseContract {
   /**
    * Set adjustments for tokens' buy and sell rates depending on the size of a
    * buy / sell order. Only operator can invoke.
-   * @param {object} account - Web3 account, must be operator
+   * @param {object} operatorAccount - address of the operator account
    * @param {string} token - ERC20 token address
    * @param {StepFunctionDataPoint[]} buy - array of buy step function configurations
    * @param {StepFunctionDataPoint[]} sell - array of sell step function configurations
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setQtyStepFunction (operatoraccount, token, buy, sell, gasPrice) {
+  async setQtyStepFunction (operatorAccount, token, buy, sell, gasPrice) {
     validateAddress(token)
-    await assertOperator(this, operatoraccount)
+    await assertOperator(this, operatorAccount)
     const xBuy = buy.map(val => val.x)
     const yBuy = buy.map(val => val.y)
     const xSell = sell.map(val => val.x)
@@ -456,8 +456,8 @@ export default class ConversionRatesContract extends BaseContract {
     )
 
     return tx.send({
-      from: operatoraccount,
-      gas: await tx.estimateGas({ from: operatoraccount }),
+      from: operatorAccount,
+      gas: await tx.estimateGas({ from: operatorAccount }),
       gasPrice: gasPrice
     })
   }
@@ -493,13 +493,13 @@ export default class ConversionRatesContract extends BaseContract {
 
   /**
    * Set the buying rate for given token.
-   * @param {object} account - Web3 account, must be operator
+   * @param {object} operatorAccount - address of the operator account
    * @param {RateSetting[]} rates - token address
    * @param {number} [currentBlockNumber=0] - current block number
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setRate (operatoraccount, rates, currentBlockNumber = 0, gasPrice) {
-    await assertOperator(this, operatoraccount)
+  async setRate (operatorAccount, rates, currentBlockNumber = 0, gasPrice) {
+    await assertOperator(this, operatorAccount)
     const indices = await rates.reduce(async (acc, val) => {
       const accumulator = await acc.then()
       accumulator[val.address] = await this.getTokenIndices(val.address)
@@ -574,9 +574,9 @@ export default class ConversionRatesContract extends BaseContract {
       )
     }
 
-    const gas = await tx.estimateGas({ from: operatoraccount })
+    const gas = await tx.estimateGas({ from: operatorAccount })
     return tx.send({
-      from: operatoraccount,
+      from: operatorAccount,
       gas,
       gasPrice: gasPrice
     })

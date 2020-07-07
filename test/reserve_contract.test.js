@@ -48,13 +48,13 @@ describe('ReserveContract', () => {
     const reserveContract = new ReserveContract(web3, addresses.reserve)
     const accounts = await reserveContract.web3.eth.getAccounts()
     const account = accounts[0]
-    assert.ok(await reserveContract.enableTrade(account.address))
+    assert.ok(await reserveContract.enableTrade(account))
     assert.strictEqual(await reserveContract.tradeEnabled(), true)
     // it cannot disableTrade from a non alerter account
-    await assertThrowAsync(() => reserveContract.disableTrade(account.address))
+    await assertThrowAsync(() => reserveContract.disableTrade(account))
     // it can disableTrade from an alerter account
-    await reserveContract.addAlerter(account.address, accounts[1])
-    assert.ok(await reserveContract.disableTrade({ address: accounts[1] }))
+    await reserveContract.addAlerter(account, accounts[1])
+    assert.ok(await reserveContract.disableTrade(accounts[1]))
     assert.strictEqual(await reserveContract.tradeEnabled(), false)
   })
 
@@ -178,7 +178,7 @@ describe('ReserveContract', () => {
     )
     // withdraw can only be called from operator..
     assert.ok(
-      await reserveContract.addOperator({ address: accounts[0] }, accounts[0])
+      await reserveContract.addOperator(accounts[0], accounts[0])
     )
     // after approval, testToken should be able to withdraw
     assert.ok(
