@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import reserveContractABI from '../abi/KyberReserveContract.abi.json'
 import BaseContract from './base_contract.js'
 import { validateAddress } from './validate.js'
-import { assertAdmin, assertAlerter } from './permission_assert.js'
+import { assertAdmin, assertAlerter, assertOperator } from './permission_assert.js'
 
 /**
  * ReserveContract contains extended methods for KyberReserveContract
@@ -193,7 +193,7 @@ export default class ReserveContract extends BaseContract {
 
   /**
    * withdraw an amount of token to specified account
-   * @param {object} adminAddress - address of admin account.
+   * @param {object} operatorAddress - address of operator account.
    * @param {string} tokenAddress - address of the token's smart contract. Must be deployed already.
    * @param {object} amount - amount to withdraw (BN|String|int), must be in wei.
    * @param {string} toAddress - address for withdrawal. Must be approved already.
@@ -201,18 +201,18 @@ export default class ReserveContract extends BaseContract {
    * @returns {object} - the tx object of send() command from this contract method
    */
   async withdraw (
-    adminAddress,
+    operatorAddress,
     tokenAddress,
     amount,
     toAddress,
     gasPrice = undefined
   ) {
-    await assertAdmin(this, adminAddress)
+    await assertOperator(this, operatorAddress)
     const med = this.contract.methods.withdraw(tokenAddress, amount, toAddress)
     return med.send({
-      from: adminAddress,
+      from: operatorAddress,
       gas: await med.estimateGas({
-        from: adminAddress
+        from: operatorAddress
       }),
       gasPrice: gasPrice
     })

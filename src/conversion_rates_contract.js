@@ -374,6 +374,35 @@ export default class ConversionRatesContract extends BaseContract {
 
     return this.getTokenIndices(token)
   }
+/**
+   * Add a ERC20 token and its pricing configurations to reserve contract and
+   * enable it for trading.
+   * @param {object} adminAccount - admin account address
+   * @param {string} token - ERC20 token address
+   * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   */
+  async setTokenControlInfo (adminAccount, token, tokenControlInfo, gasPrice) {
+    validateAddress(token)
+    await assertAdmin(this, adminAccount)
+
+    var controlInfoTx = this.contract.methods.setTokenControlInfo(
+      token,
+      tokenControlInfo.minimalRecordResolution,
+      tokenControlInfo.maxPerBlockImbalance,
+      tokenControlInfo.maxTotalImbalance
+    )
+    await controlInfoTx.send({
+      from: adminAccount,
+      gas: await controlInfoTx.estimateGas({ from: adminAccount }),
+      gasPrice: gasPrice
+    })
+
+    console.log("Token Control Information Updated...")
+
+    return this.getTokenIndices(token)
+  }
+
 
   /**
    * Set adjustments for tokens' buy and sell rates depending on the net traded

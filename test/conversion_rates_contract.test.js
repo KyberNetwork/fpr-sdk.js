@@ -137,6 +137,14 @@ describe('ConversionRatesContract', () => {
         new TokenControlInfo(2, 4000, 4000 * 12)
       )
     )
+    // should not be able to set TokenControlInfo from non-admin account
+    await assertThrowAsync(async () =>
+    crc.setTokenControlInfo(
+      operator,
+      tokens[0],
+      new TokenControlInfo(2, 4000, 4000 * 12)
+    )
+  )
 
     // should not be able to call write/set funcs from non-admin account
     await assertThrowAsync(async () =>
