@@ -382,11 +382,11 @@ export default class ConversionRatesContract extends BaseContract {
    * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
    * @param {number} gasPrice (optional) - the gasPrice desired for the tx
    */
-  async setTokenControlInfo (adminAccount, token, tokenControlInfo, gasPrice) {
+  async updateTokenControlInfo (adminAccount, token, tokenControlInfo, gasPrice) {
     validateAddress(token)
     await assertAdmin(this, adminAccount)
 
-    var controlInfoTx = this.contract.methods.setTokenControlInfo(
+    var controlInfoTx = this.contract.methods.updateTokenControlInfo(
       token,
       tokenControlInfo.minimalRecordResolution,
       tokenControlInfo.maxPerBlockImbalance,

@@ -268,8 +268,8 @@ export default class Reserve {
    * @returns {object} - the tx object of send() command from this contract method
    */
 
-  setTokenControlInfo(adminAddress, token, tokenControlInfo, gasPrice) {
-    return this.conversionRates.setTokenControlInfo(
+  updateTokenControlInfo(adminAddress, token, tokenControlInfo, gasPrice) {
+    return this.conversionRates.updateTokenControlInfo(
       adminAddress,
       token,
       tokenControlInfo,
