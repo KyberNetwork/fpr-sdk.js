@@ -386,7 +386,7 @@ export default class ConversionRatesContract extends BaseContract {
     validateAddress(token)
     await assertAdmin(this, adminAccount)
 
-    var controlInfoTx = this.contract.methods.updateTokenControlInfo(
+    var controlInfoTx = this.contract.methods.setTokenControlInfo(
       token,
       tokenControlInfo.minimalRecordResolution,
       tokenControlInfo.maxPerBlockImbalance,
