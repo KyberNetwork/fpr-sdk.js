@@ -259,7 +259,23 @@ export default class Reserve {
       gasPrice
     )
   }
+/**
+   * Add tokenControlInfo
+   * @param {object} adminccount - address of admin account
+   * @param {string} token - ERC20 token address
+   * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method
+   */
 
+  updateTokenControlInfo(adminAddress, token, tokenControlInfo, gasPrice) {
+    return this.conversionRates.updateTokenControlInfo(
+      adminAddress,
+      token,
+      tokenControlInfo,
+      gasPrice
+    )
+  }
   /**
    * Set adjustments for tokens' buy and sell rates depending on the net traded
    * amounts. Only operator can invoke.
