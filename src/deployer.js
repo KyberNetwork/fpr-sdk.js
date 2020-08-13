@@ -224,7 +224,6 @@ export default class Deployer {
     }
 
     let sanityRatesContract = await deploySanityRates(adminAddress)
-let address = sanityRatesContract.options.address
-    return address 
+    return sanityRatesContract 
   }
 }
