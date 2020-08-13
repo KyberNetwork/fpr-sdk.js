@@ -188,4 +188,43 @@ export default class Deployer {
       !sanityRatesContract ? undefined : sanityRatesContract.options.address
     )
   }
+  async deploySanityRates (
+    adminAddress,
+    gasPrice
+  ) {
+    if (!adminAddress) {
+      throw new Error('missing admin address')
+    }
+
+    const deployContract = async (adminAddress, jsonInterface, byteCode, args) => {
+      const dpl = new this.web3.eth.Contract(jsonInterface).deploy({
+        data: `0x${byteCode}`,
+        arguments: args
+      })
+      return dpl.send({
+        from: adminAddress,
+        gas: await dpl.estimateGas({
+          from: adminAddress
+        }),
+        gasPrice: gasPrice
+      })
+    }
+
+    const deploySanityRates = adminAddress => {
+      console.log(
+        'Deploying sanity ...This might take a while for the tx to be mined'
+      )
+
+      return deployContract(
+        adminAddress,
+        sanityRatesContractABI,
+        sanityRatesContractByteCode,
+        [adminAddress]
+      )
+    }
+
+    let sanityRatesContract = await deploySanityRates(adminAddress)
+
+    return sanityRatesContract
+  }
 }
