@@ -226,4 +226,15 @@ export default class ReserveContract extends BaseContract {
   getBalance (token) {
     return this.contract.methods.getBalance(token).call()
   }
+
+  async setTokenWallet(adminAddress, token, wallet, gasPrice = undefined) {
+    await assertAdmin(this, adminAddress);
+
+    const se = this.contract.methods.setTokenWallet(token, wallet)
+    return se.send({
+      from: adminAddress,
+      gas: await se.estimateGas({from: adminAddress}),
+      gasPrice: gasPrice
+    })
+  }
 }

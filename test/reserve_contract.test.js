@@ -146,6 +146,8 @@ describe('ReserveContract', () => {
       tokenAddr
     )
 
+    await reserveContract.approveWithdrawAddress(accounts[0],tokenAddr,addresses.reserve);
+    await reserveContract.setTokenWallet(accounts[0], tokenAddr, addresses.reserve);
     // send some token to reserve
     await tokenContract.methods
       .transfer(addresses.reserve, testAmount)
@@ -205,6 +207,9 @@ describe('ReserveContract', () => {
       JSON.parse(exampleERC20Contract.abi),
       tokenAddr
     )
+  
+    await reserveContract.approveWithdrawAddress(accounts[0],tokenAddr,addresses.reserve);
+    await reserveContract.setTokenWallet(accounts[0], tokenAddr, addresses.reserve)
     await tokenContract.methods
       .transfer(addresses.reserve, testAmount)
       .send({ from: accounts[0] })
