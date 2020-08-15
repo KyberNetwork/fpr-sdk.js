@@ -11,3 +11,4 @@ export { default as ReserveContract } from './reserve_contract.js'
 export { default as SanityRatesContract } from './sanity_rates_contract.js'
 
 export { default as Reserve } from './reserve.js'
+export { default as MultiHttpProvider } from "./multiple_http_provider.js"
