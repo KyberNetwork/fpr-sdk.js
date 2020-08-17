@@ -226,14 +226,19 @@ export default class ReserveContract extends BaseContract {
   getBalance (token) {
     return this.contract.methods.getBalance(token).call()
   }
-
-  async setTokenWallet(adminAddress, token, wallet, gasPrice = undefined) {
+  /**
+   * set different token wallet per token.
+   * @param {object} adminAddress - address of admin account.
+   * @param {string} tokenAddress - address of the token's smart contract.
+   * @param {object} walletAddress - address of wallet in which tokens are present.
+   */
+  async setTokenWallet(adminAddress, tokenAddress, walletAddress, gasPrice = undefined) {
     await assertAdmin(this, adminAddress);
 
-    const se = this.contract.methods.setTokenWallet(token, wallet)
-    return se.send({
+    const setWallet = this.contract.methods.setTokenWallet(tokenAddress, walletAddress)
+    return setWallet.send({
       from: adminAddress,
-      gas: await se.estimateGas({from: adminAddress}),
+      gas: await setWallet.estimateGas({from: adminAddress}),
       gasPrice: gasPrice
     })
   }
