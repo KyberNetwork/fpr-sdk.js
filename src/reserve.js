@@ -277,6 +277,22 @@ export default class Reserve {
     )
   }
   /**
+   * set different token wallet per token.
+   * @param {object} adminAddress - address of admin account.
+   * @param {string} tokenAddress - address of the token's smart contract.
+   * @param {object} walletAddress - address of wallet in which tokens are present.
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   */
+
+  setTokenWallet(adminAddress, tokenAddress, walletAddress, gasPrice) {
+    return this.reserve.setTokenWallet(
+      adminAddress,
+      tokenAddress,
+      walletAddress,
+      gasPrice
+    )
+  }
+  /**
    * Set adjustments for tokens' buy and sell rates depending on the net traded
    * amounts. Only operator can invoke.
    * @param {object} operatorAddress - address of operator account
