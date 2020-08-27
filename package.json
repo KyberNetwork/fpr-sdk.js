@@ -1,6 +1,6 @@
 {
   "name": "kyber-fpr-sdk",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "SDK to deploy and operate a Kyber FPR ",
   "main": "./dist/index.js",
   "directories": {
