@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/sanity_rates_contract.js | kyber-fpr-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK to deploy and operate a Kyber FPR "><meta property="twitter:card" content="summary"><meta property="twitter:title" content="kyber-fpr-sdk"><meta property="twitter:description" content="SDK to deploy and operate a Kyber FPR "></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/KyberNetwork/fpr-sdk.js"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addresses.js~Addresses.html">Addresses</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/base_contract.js~BaseContract.html">BaseContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactData.html">CompactData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactDataLocation.html">CompactDataLocation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~ConversionRatesContract.html">ConversionRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~RateSetting.html">RateSetting</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~StepFunctionDataPoint.html">StepFunctionDataPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~TokenControlInfo.html">TokenControlInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/deployer.js~Deployer.html">Deployer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve.js~Reserve.html">Reserve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve_contract.js~ReserveContract.html">ReserveContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sanity_rates_contract.js~SanityRatesContract.html">SanityRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCompactBulk">buildCompactBulk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAdmin">assertAdmin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAlerter">assertAlerter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertOperator">assertOperator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateAddress">validateAddress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-KyberNetworkAddress">KyberNetworkAddress</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contracts">contracts</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/sanity_rates_contract.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import SanityRatesContractABI from &apos;../abi/SanityRatesContract.abi.json&apos;
+import BaseContract from &apos;./base_contract.js&apos;
+import { validateAddress } from &apos;./validate.js&apos;
+import Web3 from &apos;web3&apos;
+import { assertOperator, assertAdmin } from &apos;./permission_assert.js&apos;
+
+/**
+ * SanityRatesContract represents the KyberNetwork sanity rates smart contract.
+ * It&apos;s purpose is to prevent unusual rates from conversion rates contract
+ * to be used.
+ */
+export default class SanityRatesContract extends BaseContract {
+  /**
+   * Create new SanityRatesContract instance.
+   * @param {object} provider - Web3 provider
+   * @param {string} address - address of smart contract.
+   */
+  constructor (web3, address) {
+    super(web3, address)
+    this.web3 = web3
+    this.contract = new this.web3.eth.Contract(SanityRatesContractABI, address)
+  }
+
+  /**
+   * Return the sanity Rate of a pair of token
+   * @param {string} src - ERC20 token contract address of source token
+   * @param {string} dest - ERC20 token contract address of destination token
+   * @returns {string} - the uint rate in strings format.
+   */
+  getSanityRate (src, dest) {
+    validateAddress(src)
+    validateAddress(dest)
+    return this.contract.methods.getSanityRate(src, dest).call()
+  }
+
+  /**
+   * Set Sanity Rate for the contract
+   * @param {object} operatorAddress - address of operator account
+   * @param {string[]} srcs - list of source ERC20 token contract addresses
+   * @param {uint[]} rates - list of Rates in ETH wei
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method
+   */
+  async setSanityRates (operatorAddress, srcs, rates, gasPrice) {
+    await assertOperator(this, operatorAddress)
+    const med = this.contract.methods.setSanityRates(srcs, rates)
+    return med.send({
+      from: operatorAddress,
+      gas: await med.estimateGas({
+        from: operatorAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+
+  /**
+   * resonableDiffInBps return the list of reasonableDiffs in basis points (bps)
+   * @param {string} address - ERC20 token contract address to query
+   * @returns {string} - the uint reasonable diff in string format
+   */
+  reasonableDiffInBps (address) {
+    validateAddress(address)
+    return this.contract.methods.reasonableDiffInBps(address).call()
+  }
+
+  /**
+   * setResonableDiff Set reasonable conversion rate difference in percentage (any conversion rate outside of this range is considered unreasonable).
+   * @param {object} adminAddress - address of admin account
+   * @param {string[]} addresses - list of ERC20 token contract to set
+   * @param {uint[]} diffs - list of diffs in bps (1 bps = 0.01%)
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method
+   */
+  async setReasonableDiff (adminAddress, addresses, diffs, gasPrice = undefined) {
+    await assertAdmin(this, adminAddress)
+    const med = this.contract.methods.setReasonableDiff(addresses, diffs)
+    return med.send({
+      from: adminAddress,
+      gas: await med.estimateGas({
+        from: adminAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Reserve#addToken",
+    "filePath": "src/reserve.js",
+    "lines": [
+      {
+        "lineNumber": 243,
+        "line": "  /**"
+      },
+      {
+        "lineNumber": 244,
+        "line": "   * Add a ERC20 token and its pricing configurations to reserve contract and"
+      },
+      {
+        "lineNumber": 245,
+        "line": "   * enable it for trading."
+      },
+      {
+        "lineNumber": 246,
+        "line": "   * @param {object} adminccount - address of admin account"
+      },
+      {
+        "lineNumber": 247,
+        "line": "   * @param {string} token - ERC20 token address"
+      },
+      {
+        "lineNumber": 248,
+        "line": "   * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo"
+      },
+      {
+        "lineNumber": 249,
+        "line": "   * @param {number} gasPrice (optional) - the gasPrice desired for the tx"
+      },
+      {
+        "lineNumber": 250,
+        "line": "   * @returns {object} - the tx object of send() command from this contract method"
+      },
+      {
+        "lineNumber": 251,
+        "line": "   */"
+      },
+      {
+        "lineNumber": 252,
+        "line": ""
+      },
+      {
+        "lineNumber": 253,
+        "line": "  addToken (adminAddress, token, tokenControlInfo, gasPrice) {"
+      }
+    ],
+    "codeParams": [
+      "adminAddress",
+      "token",
+      "tokenControlInfo",
+      "gasPrice"
+    ],
+    "docParams": [
+      "adminccount",
+      "token",
+      "tokenControlInfo",
+      "gasPrice"
+    ]
+  },
+  {
+    "name": "Reserve#updateTokenControlInfo",
+    "filePath": "src/reserve.js",
+    "lines": [
+      {
+        "lineNumber": 261,
+        "line": "/**"
+      },
+      {
+        "lineNumber": 262,
+        "line": "   * Add tokenControlInfo"
+      },
+      {
+        "lineNumber": 263,
+        "line": "   * @param {object} adminccount - address of admin account"
+      },
+      {
+        "lineNumber": 264,
+        "line": "   * @param {string} token - ERC20 token address"
+      },
+      {
+        "lineNumber": 265,
+        "line": "   * @param {TokenControlInfo} tokenControlInfo - https://developer.kyber.network/docs/VolumeImbalanceRecorder#settokencontrolinfo"
+      },
+      {
+        "lineNumber": 266,
+        "line": "   * @param {number} gasPrice (optional) - the gasPrice desired for the tx"
+      },
+      {
+        "lineNumber": 267,
+        "line": "   * @returns {object} - the tx object of send() command from this contract method"
+      },
+      {
+        "lineNumber": 268,
+        "line": "   */"
+      },
+      {
+        "lineNumber": 269,
+        "line": ""
+      },
+      {
+        "lineNumber": 270,
+        "line": "  updateTokenControlInfo(adminAddress, token, tokenControlInfo, gasPrice) {"
+      }
+    ],
+    "codeParams": [
+      "adminAddress",
+      "token",
+      "tokenControlInfo",
+      "gasPrice"
+    ],
+    "docParams": [
+      "adminccount",
+      "token",
+      "tokenControlInfo",
+      "gasPrice"
+    ]
+  },
+  {
+    "name": "ReserveContract#setTokenWallet",
+    "filePath": "src/reserve_contract.js",
+    "lines": [
+      {
+        "lineNumber": 228,
+        "line": "  /**"
+      },
+      {
+        "lineNumber": 229,
+        "line": "   * set different token wallet per token."
+      },
+      {
+        "lineNumber": 230,
+        "line": "   * @param {object} adminAddress - address of admin account."
+      },
+      {
+        "lineNumber": 231,
+        "line": "   * @param {string} tokenAddress - address of the token's smart contract."
+      },
+      {
+        "lineNumber": 232,
+        "line": "   * @param {object} walletAddress - address of wallet in which tokens are present."
+      },
+      {
+        "lineNumber": 233,
+        "line": "   */"
+      },
+      {
+        "lineNumber": 234,
+        "line": "  async setTokenWallet(adminAddress, tokenAddress, walletAddress, gasPrice = undefined) {"
+      }
+    ],
+    "codeParams": [
+      "adminAddress",
+      "tokenAddress",
+      "walletAddress",
+      "gasPrice"
+    ],
+    "docParams": [
+      "adminAddress",
+      "tokenAddress",
+      "walletAddress"
+    ]
+  }
+]

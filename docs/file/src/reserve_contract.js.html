@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/reserve_contract.js | kyber-fpr-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK to deploy and operate a Kyber FPR "><meta property="twitter:card" content="summary"><meta property="twitter:title" content="kyber-fpr-sdk"><meta property="twitter:description" content="SDK to deploy and operate a Kyber FPR "></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/KyberNetwork/fpr-sdk.js"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addresses.js~Addresses.html">Addresses</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/base_contract.js~BaseContract.html">BaseContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactData.html">CompactData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactDataLocation.html">CompactDataLocation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~ConversionRatesContract.html">ConversionRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~RateSetting.html">RateSetting</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~StepFunctionDataPoint.html">StepFunctionDataPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~TokenControlInfo.html">TokenControlInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/deployer.js~Deployer.html">Deployer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve.js~Reserve.html">Reserve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve_contract.js~ReserveContract.html">ReserveContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sanity_rates_contract.js~SanityRatesContract.html">SanityRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCompactBulk">buildCompactBulk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAdmin">assertAdmin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAlerter">assertAlerter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertOperator">assertOperator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateAddress">validateAddress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-KyberNetworkAddress">KyberNetworkAddress</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contracts">contracts</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/reserve_contract.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Web3 from &apos;web3&apos;
+
+import reserveContractABI from &apos;../abi/KyberReserveContract.abi.json&apos;
+import BaseContract from &apos;./base_contract.js&apos;
+import { validateAddress } from &apos;./validate.js&apos;
+import { assertAdmin, assertAlerter, assertOperator } from &apos;./permission_assert.js&apos;
+
+/**
+ * ReserveContract contains extended methods for KyberReserveContract
+ */
+export default class ReserveContract extends BaseContract {
+  /**
+   * Create new BaseContract instance.
+   * @param {object} provider - Web3 provider
+   * @param {string} address - address of kyber reserve smart contract.
+   */
+  constructor (web3, address) {
+    super(web3, address)
+    this.web3 = web3
+    this.contract = new this.web3.eth.Contract(reserveContractABI, address)
+  }
+  /**
+   * enableTrade allow the reserve to continue trading
+   * @param {object} adminAddress - address of Admin account
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @return {object} - the tx object of send() command from this contract method
+   */
+  async enableTrade (adminAddress, gasPrice) {
+    await assertAdmin(this, adminAddress)
+    const med = this.contract.methods.enableTrade()
+    return this.contract.methods.enableTrade().send({
+      from: adminAddress,
+      gas: await med.estimateGas({
+        from: adminAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+
+  /**
+   * disableTrade stop the reserve from trading
+   * @param {object} alerterAddress - address of Alerter account
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @return {object} - the tx object of send() command from this contract method
+   */
+  async disableTrade (alerterAddress, gasPrice) {
+    await assertAlerter(this, alerterAddress)
+    const med = this.contract.methods.disableTrade()
+    return med.send({
+      from: alerterAddress,
+      gas: await med.estimateGas({
+        from: alerterAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+
+  /**
+   * tradeEnabled return true if the reserve is tradeEnabled, false otherwise
+   * @return {boolean} - tradeEnabled status of the reserve
+   */
+  tradeEnabled () {
+    return this.contract.methods.tradeEnabled().call()
+  }
+
+  /**
+   * set Contract addresses for reserve contract.
+   * @param {object} adminAddress - address of admin account.
+   * @param {string} network - address of kyber network smart contract.
+   * @param {string} conversion - address of kyber network smart contract.
+   * @param {string} sanity (optional) - address of sanity rates contract.
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method
+   */
+  async setContracts (
+    adminAddress,
+    network,
+    conversion,
+    sanity,
+    gasPrice = undefined
+  ) {
+    validateAddress(network)
+    validateAddress(conversion)
+    await assertAdmin(this, adminAddress)
+    if (sanity !== undefined) {
+      validateAddress(sanity)
+    } else {
+      sanity = &apos;0x0000000000000000000000000000000000000000&apos;
+    }
+
+    const med = this.contract.methods.setContracts(network, conversion, sanity)
+    return med.send({
+      from: adminAddress,
+      gas: await med.estimateGas({
+        from: adminAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+
+  /**
+   * conversionRatesContract return the address of conversion rates of this reserve
+   * @return {string} - address of conversion rates contract
+   */
+  conversionRatesContract () {
+    return this.contract.methods.conversionRatesContract().call()
+  }
+
+  /**
+   * sanityRatesContract return the address of sanity rates of this reserve
+   * @return {string} - address of sanity rates contract
+   */
+  sanityRatesContract () {
+    return this.contract.methods.sanityRatesContract().call()
+  }
+
+  /**
+   * kyberNetwork return the address of kyberNetwork contract of this reserve
+   * @return {string} - address of kyberNetwork contract
+   */
+  kyberNetwork () {
+    return this.contract.methods.kyberNetwork().call()
+  }
+
+  /**
+   * approve withdraw address for a token on reserve.
+   * @param {object} adminAddress - address of admin account.
+   * @param {string} tokenAddress - contract address of the modifying token.
+   * @param {string} withdrawAddress - address for withdrawal.
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method
+   */
+  async approveWithdrawAddress (
+    adminAddress,
+    tokenAddress,
+    withdrawAddress,
+    gasPrice = undefined
+  ) {
+    await assertAdmin(this, adminAddress)
+    const med = this.contract.methods.approveWithdrawAddress(
+      tokenAddress,
+      withdrawAddress,
+      true
+    )
+    return med.send({
+      from: adminAddress,
+      gas: await med.estimateGas({
+        from: adminAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+
+  /**
+   * disapprove withdraw address for a token on reserve.
+   * @param {object} adminAddress - address of admin account.
+   * @param {string} tokenAddress - contract address of the modifying token.
+   * @param {string} withdrawAddress - address for withdrawal.
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method
+   */
+  async disapproveWithdrawAddress (
+    adminAddress,
+    tokenAddress,
+    withdrawAddress,
+    gasPrice = undefined
+  ) {
+    await assertAdmin(this, adminAddress)
+    const med = this.contract.methods.approveWithdrawAddress(
+      tokenAddress,
+      withdrawAddress,
+      false
+    )
+    return med.send({
+      from: adminAddress,
+      gas: await med.estimateGas({
+        from: adminAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+
+  /**
+   * check for approval status of a token address to a particular address
+   * @param {object} address - address to withdraw the token to
+   * @param {string} tokenAddress - address of the token&apos;s smart contract. Must be deployed already.
+   * @returns {boolean} - true for approved, false otherwise
+   */
+  approvedWithdrawAddresses (address, tokenAddress) {
+    const addressHash = Web3.utils.soliditySha3(tokenAddress, address)
+    return this.contract.methods.approvedWithdrawAddresses(addressHash).call()
+  }
+
+  /**
+   * withdraw an amount of token to specified account
+   * @param {object} operatorAddress - address of operator account.
+   * @param {string} tokenAddress - address of the token&apos;s smart contract. Must be deployed already.
+   * @param {object} amount - amount to withdraw (BN|String|int), must be in wei.
+   * @param {string} toAddress - address for withdrawal. Must be approved already.
+   * @param {number} [gasPrice=undefined] - the gasPrice desired for the tx
+   * @returns {object} - the tx object of send() command from this contract method
+   */
+  async withdraw (
+    operatorAddress,
+    tokenAddress,
+    amount,
+    toAddress,
+    gasPrice = undefined
+  ) {
+    await assertOperator(this, operatorAddress)
+    const med = this.contract.methods.withdraw(tokenAddress, amount, toAddress)
+    return med.send({
+      from: operatorAddress,
+      gas: await med.estimateGas({
+        from: operatorAddress
+      }),
+      gasPrice: gasPrice
+    })
+  }
+
+  /**
+   * Return balance of given token.
+   * @param {string} token - address of token to check balance.
+   * @return {number} - balance of given token
+   */
+  getBalance (token) {
+    return this.contract.methods.getBalance(token).call()
+  }
+  /**
+   * set different token wallet per token.
+   * @param {object} adminAddress - address of admin account.
+   * @param {string} tokenAddress - address of the token&apos;s smart contract.
+   * @param {object} walletAddress - address of wallet in which tokens are present.
+   */
+  async setTokenWallet(adminAddress, tokenAddress, walletAddress, gasPrice = undefined) {
+    await assertAdmin(this, adminAddress);
+
+    const setWallet = this.contract.methods.setTokenWallet(tokenAddress, walletAddress)
+    return setWallet.send({
+      from: adminAddress,
+      gas: await setWallet.estimateGas({from: adminAddress}),
+      gasPrice: gasPrice
+    })
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

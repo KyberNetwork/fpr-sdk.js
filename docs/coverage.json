@@ -1,0 +1,148 @@
+{
+  "coverage": "54.83%",
+  "expectCount": 155,
+  "actualCount": 85,
+  "files": {
+    "src/addresses.js": {
+      "expectCount": 11,
+      "actualCount": 2,
+      "undocumentLines": [
+        5,
+        9,
+        10,
+        13,
+        17,
+        18,
+        21,
+        25,
+        26
+      ]
+    },
+    "src/base_contract.js": {
+      "expectCount": 14,
+      "actualCount": 12,
+      "undocumentLines": [
+        28,
+        29
+      ]
+    },
+    "src/contracts/ConversionRatesContract.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        2
+      ]
+    },
+    "src/contracts/KyberReserveContract.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        2
+      ]
+    },
+    "src/contracts/SanityRatesContract.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        2
+      ]
+    },
+    "src/conversion_rates_contract.js": {
+      "expectCount": 62,
+      "actualCount": 19,
+      "undocumentLines": [
+        18,
+        22,
+        23,
+        26,
+        30,
+        31,
+        34,
+        38,
+        39,
+        139,
+        143,
+        144,
+        147,
+        151,
+        152,
+        155,
+        159,
+        160,
+        183,
+        184,
+        188,
+        189,
+        192,
+        196,
+        197,
+        215,
+        219,
+        220,
+        223,
+        227,
+        228,
+        231,
+        235,
+        236,
+        263,
+        267,
+        268,
+        271,
+        275,
+        276,
+        279,
+        297,
+        298
+      ]
+    },
+    "src/deployer.js": {
+      "expectCount": 6,
+      "actualCount": 4,
+      "undocumentLines": [
+        36,
+        191
+      ]
+    },
+    "src/permission_assert.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        14,
+        27
+      ]
+    },
+    "src/reserve.js": {
+      "expectCount": 30,
+      "actualCount": 26,
+      "undocumentLines": [
+        17,
+        18,
+        22,
+        27
+      ]
+    },
+    "src/reserve_contract.js": {
+      "expectCount": 17,
+      "actualCount": 15,
+      "undocumentLines": [
+        19,
+        20
+      ]
+    },
+    "src/sanity_rates_contract.js": {
+      "expectCount": 8,
+      "actualCount": 6,
+      "undocumentLines": [
+        20,
+        21
+      ]
+    },
+    "src/validate.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    }
+  }
+}

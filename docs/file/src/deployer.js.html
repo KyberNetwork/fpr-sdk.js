@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/deployer.js | kyber-fpr-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK to deploy and operate a Kyber FPR "><meta property="twitter:card" content="summary"><meta property="twitter:title" content="kyber-fpr-sdk"><meta property="twitter:description" content="SDK to deploy and operate a Kyber FPR "></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/KyberNetwork/fpr-sdk.js"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addresses.js~Addresses.html">Addresses</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/base_contract.js~BaseContract.html">BaseContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactData.html">CompactData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactDataLocation.html">CompactDataLocation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~ConversionRatesContract.html">ConversionRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~RateSetting.html">RateSetting</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~StepFunctionDataPoint.html">StepFunctionDataPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~TokenControlInfo.html">TokenControlInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/deployer.js~Deployer.html">Deployer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve.js~Reserve.html">Reserve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve_contract.js~ReserveContract.html">ReserveContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sanity_rates_contract.js~SanityRatesContract.html">SanityRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCompactBulk">buildCompactBulk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAdmin">assertAdmin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAlerter">assertAlerter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertOperator">assertOperator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateAddress">validateAddress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-KyberNetworkAddress">KyberNetworkAddress</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contracts">contracts</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/deployer.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Web3 from &apos;web3&apos;
+
+import Addresses from &apos;./addresses.js&apos;
+import conversionRatesByteCode from &apos;./contracts/ConversionRatesContract.js&apos;
+import conversionRatesABI from &apos;../abi/ConversionRatesContract.abi.json&apos;
+import kyberReserveContractABI from &apos;../abi/KyberReserveContract.abi.json&apos;
+import kyberReserveContractByteCode from &apos;./contracts/KyberReserveContract.js&apos;
+import sanityRatesContractABI from &apos;../abi/SanityRatesContract.abi.json&apos;
+import sanityRatesContractByteCode from &apos;./contracts/SanityRatesContract.js&apos;
+
+/**
+ * KyberNetworkAddress is the smart contract address of KyberNetwork.&lt;/br&gt;
+ * *Last updated*: 2018, August 31
+ * @type {string}
+ */
+export const KyberNetworkAddress = &apos;0x91a502C678605fbCe581eae053319747482276b9&apos;
+
+/**
+ * Deployer is used for deploying new KyberNetwork reserve contracts.
+ * It deployed all requires smart contracts for running a reserve:
+ * &lt;ul&gt;
+ *   &lt;li&gt;reserve&lt;/li&gt;
+ *   &lt;li&gt;conversionRates&lt;/li&gt;
+ *   &lt;li&gt;sanityRates (optional)&lt;/li&gt;
+ * &lt;/ul&gt;
+ */
+export default class Deployer {
+  /**
+   * Create a deployer instance with given account parameter.
+   * @param {object} web3 - Web3 instance
+   */
+  constructor (web3) {
+    if (web3.currentProvider == null) {
+      throw new Error(&apos;web3 is not provided&apos;)
+    }
+    this.web3 = web3
+  }
+
+  /**
+   * Deploy new reserve and pricing contracts.
+   * @param {object} adminAddress - Web3 account to create the smart contracts. This account is also set to be admin of the contracts
+   * @param {string} [network] - Address of KyberNetwork smart contract.
+   * @param {boolean} [sanityRates=false] - If true, sanityRates contract will be deployed.
+   * @param {number} gasPrice (optional) - the gasPrice desired for the tx
+   * @return {Addresses} - Deployed reserve addresses set.
+   */
+  async deploy (
+    adminAddress,
+    network,
+    sanityRates = false,
+    gasPrice
+  ) {
+    if (!adminAddress) {
+      throw new Error(&apos;missing admin address&apos;)
+    }
+    if (!network) {
+      throw new Error(&apos;missing network address&apos;)
+    }
+
+    const deployContract = async (adminAddress, jsonInterface, byteCode, args) =&gt; {
+      const dpl = new this.web3.eth.Contract(jsonInterface).deploy({
+        data: `0x${byteCode}`,
+        arguments: args
+      })
+      return dpl.send({
+        from: adminAddress,
+        gas: await dpl.estimateGas({
+          from: adminAddress
+        }),
+        gasPrice: gasPrice
+      })
+    }
+
+    const deployConversionRates = adminAddress =&gt; {
+      console.log(
+        &apos;Deploying conversion ... This might take a while for the tx to be mined&apos;
+      )
+      return deployContract(
+        adminAddress,
+        conversionRatesABI,
+        conversionRatesByteCode,
+        [adminAddress]
+      )
+    }
+
+    const deployReserve = (adminAddress, network, conversionAddress) =&gt; {
+      console.log(
+        &apos;Deploying reserve ... This might take a while for the tx to be mined&apos;
+      )
+      const args = [network, conversionAddress, adminAddress]
+      return deployContract(
+        adminAddress,
+        kyberReserveContractABI,
+        kyberReserveContractByteCode,
+        args
+      )
+    }
+
+    const deploySanityRates = adminAddress =&gt; {
+      console.log(
+        &apos;Deploying sanity ...This might take a while for the tx to be mined&apos;
+      )
+
+      return deployContract(
+        adminAddress,
+        sanityRatesContractABI,
+        sanityRatesContractByteCode,
+        [adminAddress]
+      )
+    }
+
+    // All the contract must be deployed sequentially
+    const conversionRatesContract = await deployConversionRates(adminAddress)
+    const reserveContract = await deployReserve(
+      adminAddress,
+      network,
+      conversionRatesContract.options.address
+    )
+    let sanityRatesContract
+    if (sanityRates) {
+      sanityRatesContract = await deploySanityRates(adminAddress)
+    }
+
+    const setReserveAddressForConversionRates = async (
+      conversionRatesContract,
+      reserveAddress
+    ) =&gt; {
+      console.log(&apos;linking reserveContractAddress to conversionRateContract...&apos;)
+      const setReserveAddressTx = await conversionRatesContract.methods.setReserveAddress(
+        reserveAddress
+      )
+      return setReserveAddressTx.send({
+        from: adminAddress,
+        gas: await setReserveAddressTx.estimateGas({
+          from: adminAddress
+        }),
+        gasPrice: gasPrice
+      })
+    }
+
+    const setReserveAddressTxResult = await setReserveAddressForConversionRates(
+      conversionRatesContract,
+      reserveContract.options.address
+    )
+    console.log(
+      &apos;setReserveAddressTx: &apos;,
+      setReserveAddressTxResult.transactionHash
+    )
+
+    const setContractAddressesForReserve = async (
+      reserveContract,
+      networkAddress,
+      rateAddress,
+      sanityAddress
+    ) =&gt; {
+      console.log(
+        &apos;linking network, rate and sanity contract address to reserveContract...&apos;
+      )
+      const setContractsTx = await reserveContract.methods.setContracts(
+        networkAddress,
+        rateAddress,
+        sanityAddress
+      )
+      return setContractsTx.send({
+        from: adminAddress,
+        gas: await setContractsTx.estimateGas({
+          from: adminAddress
+        }),
+        gasPrice: gasPrice
+      })
+    }
+    const setContractAddressesTxResult = await setContractAddressesForReserve(
+      reserveContract,
+      network,
+      conversionRatesContract.options.address,
+      !sanityRatesContract
+        ? &apos;0x0000000000000000000000000000000000000000&apos;
+        : sanityRatesContract.options.address
+    )
+    console.log(
+      &apos;setContractAddressesTx: &apos;,
+      setContractAddressesTxResult.transactionHash
+    )
+
+    return new Addresses(
+      reserveContract.options.address,
+      conversionRatesContract.options.address,
+      !sanityRatesContract ? undefined : sanityRatesContract.options.address
+    )
+  }
+  async deploySanityRates (
+    adminAddress,
+    gasPrice
+  ) {
+    if (!adminAddress) {
+      throw new Error(&apos;missing admin address&apos;)
+    }
+
+    const deployContract = async (adminAddress, jsonInterface, byteCode, args) =&gt; {
+      const dpl = new this.web3.eth.Contract(jsonInterface).deploy({
+        data: `0x${byteCode}`,
+        arguments: args
+      })
+      return dpl.send({
+        from: adminAddress,
+        gas: await dpl.estimateGas({
+          from: adminAddress
+        }),
+        gasPrice: gasPrice
+      })
+    }
+
+    const deploySanityRates = adminAddress =&gt; {
+      console.log(
+        &apos;Deploying sanity ...This might take a while for the tx to be mined&apos;
+      )
+
+      return deployContract(
+        adminAddress,
+        sanityRatesContractABI,
+        sanityRatesContractByteCode,
+        [adminAddress]
+      )
+    }
+
+    let sanityRatesContract = await deploySanityRates(adminAddress)
+    return sanityRatesContract.options.address
+    
+  }
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

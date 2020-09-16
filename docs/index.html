@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Home | kyber-fpr-sdk</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="SDK to deploy and operate a Kyber FPR "><meta property="twitter:card" content="summary"><meta property="twitter:title" content="kyber-fpr-sdk"><meta property="twitter:description" content="SDK to deploy and operate a Kyber FPR "></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/KyberNetwork/fpr-sdk.js"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/addresses.js~Addresses.html">Addresses</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/base_contract.js~BaseContract.html">BaseContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactData.html">CompactData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~CompactDataLocation.html">CompactDataLocation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~ConversionRatesContract.html">ConversionRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~RateSetting.html">RateSetting</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~StepFunctionDataPoint.html">StepFunctionDataPoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/conversion_rates_contract.js~TokenControlInfo.html">TokenControlInfo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/deployer.js~Deployer.html">Deployer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve.js~Reserve.html">Reserve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/reserve_contract.js~ReserveContract.html">ReserveContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sanity_rates_contract.js~SanityRatesContract.html">SanityRatesContract</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-buildCompactBulk">buildCompactBulk</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAdmin">assertAdmin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertAlerter">assertAlerter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assertOperator">assertOperator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateAddress">validateAddress</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-KyberNetworkAddress">KyberNetworkAddress</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contracts">contracts</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-byteCode">byteCode</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="kyber-fed-price-reserve-js-sdk">Kyber Fed Price Reserve JS SDK</h1><p>This SDK allows market makers and developers to deploy, maintain and operate an on-chain Kyber Network <a href="https://developer.kyber.network/docs/Reserves-Types/">Fed Price Reserve</a> using Javascript and node.</p>
+<h2 id="useful-links">Useful Links</h2><ul>
+<li><a href="https://github.com/KyberNetwork/fpr-js-reference">Example Code with Walkthroughs</a></li>
+<li><a href="fpr-primer.md">Onchain Market Making Primer</a></li>
+<li><a href="https://blog.kyber.network/kyber-fed-price-reserve-fpr-on-chain-market-making-for-professionals-7fea29ceac6c">Kyber FPRs Explained</a></li>
+<li><a href="https://developer.kyber.network/docs/Reserves-FedPriceReserve/">Kyber Reserve Documentation</a></li>
+<li><a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/">API Documentation</a></li>
+</ul>
+<h2 id="installation">Installation</h2><p>Install the package with:</p>
+<pre><code><code class="source-code prettyprint">npm install --save kyber-fpr-sdk    </code>
+</code></pre><h2 id="usage">Usage</h2><p>There are 2 main classes in this SDK.</p>
+<ul>
+<li><p><a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html">Deployer</a> class allows users to deploy new smart contracts. </p>
+</li>
+<li><p><a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html">Reserve</a> class allows users to manage the key market making functions, including permission management, setting and controling quotes and fund security. </p>
+</li>
+</ul>
+<h2 id="deployer-class">Deployer Class</h2><p>The <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html">Deployer</a> class only needs the <a href="https://web3js.readthedocs.io/en/1.0/web3.html">web3 provider</a> to init. After deployment, it returns a set of <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html">addresses</a> for required contracts. </p>
+<pre><code class="lang-js"><code class="source-code prettyprint">// ethereum Remote Node Provider, for example infura.io
+const provider = new Web3.providers.HttpProvider(&apos;ethereum-node-url&apos;)
+const web3 = new Web3(provider)
+
+// initialize account from private key
+const account = dpl.web3.eth.accounts.privateKeyToAccount(&apos;private-key&apos;)
+// initialize account from keystore file
+// const account = dpl.web3.eth.accounts.decrypt(fs.readFileSync(), &quot;your-keystore-passphrase&quot;);
+
+dpl.web3.eth.accounts.wallet.add(account)
+
+const dpl = new Deployer(web3)
+
+let addresses;
+(async () =&gt;  { 
+    addresses = await dpl.deploy(account)
+    console.log(addresses)
+})()
+</code>
+</code></pre>
+<h2 id="reserve-class">Reserve Class</h2><p>Reserve class allow users to make call to the smart contracts and query its state on the blockchain. </p>
+<ul>
+<li>Permission infos: calling through baseContract&apos;s methods: <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-admin">admin</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getAlerters">getAlerters</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getOperators">getOperators</a> and <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-pendingAdmin">pendingAdmin</a>. There are 3 contracts in Reserver object, all of these contracts came with these same methods. </li>
+<li>Smart Contract addresses info: can be called as reserve&apos;s methods, which are: <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-conversionRatesContract">conversionRatesContract</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-kyberNetwork">KyberNetwork</a>, and <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-sanityRatesContract">sanityRatesContract</a> for this reserve</li>
+<li>Rate infos: can be called as reserve&apos;s object methods, which are: <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBuyRates">getBuyRates</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSanityRate">getSanityRates</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSellRates">getSellRates</a>, and <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-reasonableDiffInBps">reasonableDiffInBps</a> </li>
+<li>Funds secure related infos: can be called as reserve&apos;s methods, which are: <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-tradeEnabled">tradeEnabled</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBalance">getBalance</a> and <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approvedWithdrawAddresses">approvedWithdrawAddresses</a></li>
+</ul>
+<p>The following example queries the sanityRatesContract&apos;s admin and the SanityRates contract:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">const reserve = new Reserve(web3, addresses);
+const KNCTokenAddress = &quot;0x095c48fbaa566917474c48f745e7a430ffe7bc27&quot;;
+const ETHTokenAddress = &quot;0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&quot;;
+
+(async () =&gt; {
+  // get sanityContract address
+  console.log(&apos;SanityRates contract address is &apos;, await reserve.sanityRates.admin())
+  const sanityRates = await reserve.getSanityRate(KNCTokenAddress, ETHTokenAddress)
+  console.log(&apos;SanityRates for KNC-ETH is &apos;, sanityRates)
+})();</code>
+</code></pre>
+<h4 id="permission-control">Permission Control</h4><p>More on permission control at <a href="https://developer.kyber.network/docs/ReservesGuide#setting-permissions">setting permission</a>. To set permission with SDK, call to the contract that needs to change account&apos;s role with these methods from <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html">baseContract</a>. The following example add Operator 0x0a4c79cE84202b03e95B7a692E5D728d83C44c76 to ConversionRates contract</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">const reserve = new Reserve(web3, addresses);
+
+(async () =&gt; {
+  // admin operations
+  await reserve.ConversionRates.addOperator(adminAccount, &apos;0x0a4c79cE84202b03e95B7a692E5D728d83C44c76&apos;);
+  console.log(await reserve.ConversionRates.getOperators())
+})();</code>
+</code></pre>
+<h4 id="control-rates">Control Rates</h4><p>Control rates operations can be called directly as <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html">reserve Object</a>&apos;s methods. There are 5 operations regarding set rates: <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setRate">setRate</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setSanityRates">setSanityRates</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setReasonableDiff">setReasonableDiff</a>, <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setQtyStepFunction">setQtyStepFuncion</a> and <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setImbalanceStepFunction">setImbalanceStepFunction</a>. More about the meaning of these operations can be viewed in <a href="https://developer.kyber.network/docs/ReservesGuide#step-3-setting-token-conversion-rates-prices">Kyber&apos;s Developer guide</a>.
+The following example set the base rate for KNC token.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">const reserve = new Reserve(web3, addresses);
+const operatorAccount = web3.eth.accounts.privateKeyToAccount(&apos;operatorAccountPrivateKey&apos;);
+const KNCTokenAddress = &quot;0x095c48fbaa566917474c48f745e7a430ffe7bc27&quot;;
+
+(async () =&gt; {
+  // create rateSetting object and set base buy/ sell rate.
+  rate = new RateSetting(KNCTokenAddress, 10000000, 1100000)
+  await reserve.setRate( 
+    operatorAccount,
+    [rate],
+    (await web3.eth.getBlockNumber()) + 1
+  )
+  // should log 10000000 and 1100000 as buy/sell rate
+  console.log(await reserve.getBuyRates(KNCTokenAddress, 1,await web3.eth.getBlockNumber()))
+  console.log(await reserve.getSellRates(KNCTokenAddress, 1,await web3.eth.getBlockNumber()))
+})();</code>
+</code></pre>
+<h4 id="fund-security">Fund Security</h4><p>To secure reserve&apos;s fund, there are two main operations:</p>
+<ul>
+<li>withdrawal management: can be called as reserve&apos;s methods, which are: <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approveWithdrawAddress">approveWithdrawAddress</a> and <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-withdraw">withdraw</a>.</li>
+<li>and trade managementControl: can be called as reserve&apos;s methods, which are: <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-disableTrade">disableTrade</a> and <a href="https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-enableTrade">enableTrade</a></li>
+</ul>
+<p>The following example show how to stop trade from the reserve and withdraw 1000 KNC from reserve to a receiver account to secure the fund: </p>
+<pre><code class="lang-js"><code class="source-code prettyprint">  const reserve = new Reserve(web3, addresses);
+  const adminAccount = web3.eth.accounts.privateKeyToAccount(&apos;adminAccountPrivateKey&apos;);
+  const operatorAccount = web3.eth.accounts.privateKeyToAccount(&apos;operatorAccountPrivateKey&apos;);
+  const alerterAccount = web3.eth.accounts.privateKeyToAccount(&apos;alerterAccountPrivateKey&apos;);
+  const receiverAddress = &apos;0x69E3D8B2AE1613bEe2De17C5101E58CDae8a59D4&apos; ;
+  const KNCTokenAddress = &apos;0x095c48fbaa566917474c48f745e7a430ffe7bc27&apos;;
+
+  (async () =&gt; {
+    // stop trade. 
+    await reserveContract.disableTrade(alerterAccount)
+    // approve receiver to receive KNC from this reserve
+    await reserveContract.approveWithdrawAddress(operatorAccount,KNCTokenAddress, receiverAddress)
+    if (await reserveContract.approvedWithdrawAddresses(receiverAddress, KNCTokenAddress) == true) {
+      await reserveContract.withdraw(adminAccount, KNCTokenAddress, 1000)
+    } else {
+      console.log(&apos;cannot withdraw KNC at this moment, please retry again later&apos;)
+    }
+  })();</code>
+</code></pre>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
