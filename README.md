@@ -6,7 +6,7 @@ This SDK allows market makers and developers to deploy, maintain and operate an 
 - [Example Code with Walkthroughs](https://github.com/KyberNetwork/kyber-pro/tree/master/tutorials/guides)
 - [Kyber FPRs Explained](https://blog.kyber.network/kyber-fed-price-reserve-fpr-on-chain-market-making-for-professionals-7fea29ceac6c)
 - [Kyber Reserve Documentation](https://developer.kyber.network/docs/Reserves-FedPriceReserve/)
-- [API Documentation](https://doc.esdoc.org/github.com/KyberNetwork/fpr-sdk.js/)
+- [API Documentation](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/)
 
 ## Installation
 
