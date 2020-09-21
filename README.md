@@ -6,7 +6,7 @@ This SDK allows market makers and developers to deploy, maintain and operate an 
 - [Example Code with Walkthroughs](https://github.com/KyberNetwork/kyber-pro/tree/master/tutorials/guides)
 - [Kyber FPRs Explained](https://blog.kyber.network/kyber-fed-price-reserve-fpr-on-chain-market-making-for-professionals-7fea29ceac6c)
 - [Kyber Reserve Documentation](https://developer.kyber.network/docs/Reserves-FedPriceReserve/)
-- [API Documentation](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/)
+- [API Documentation](https://fpr-sdk-js.knreserve.com/)
 
 ## Installation
 
@@ -18,14 +18,14 @@ Install the package with:
 
 There are 2 main classes in this SDK.
 
-- [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class allows users to deploy new smart contracts. 
+- [Deployer](https://fpr-sdk-js.knreserve.com/class/src/deployer.js~Deployer.html) class allows users to deploy new smart contracts. 
 
-- [Reserve](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html) class allows users to manage the key market making functions, including permission management, setting and controling quotes and fund security. 
+- [Reserve](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html) class allows users to manage the key market making functions, including permission management, setting and controling quotes and fund security. 
 
 
 ## Deployer Class
 
-The [Deployer](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/deployer.js~Deployer.html) class only needs the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html) to init. After deployment, it returns a set of [addresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/addresses.js~Addresses.html) for required contracts. 
+The [Deployer](https://fpr-sdk-js.knreserve.com/class/src/deployer.js~Deployer.html) class only needs the [web3 provider](https://web3js.readthedocs.io/en/1.0/web3.html) to init. After deployment, it returns a set of [addresses](https://fpr-sdk-js.knreserve.com/class/src/addresses.js~Addresses.html) for required contracts. 
 
 
 ```js
@@ -54,10 +54,10 @@ let addresses;
 
 Reserve class allow users to make call to the smart contracts and query its state on the blockchain. 
 
-- Permission infos: calling through baseContract's methods: [admin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-admin), [getAlerters](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getAlerters), [getOperators](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-getOperators) and [pendingAdmin](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html#instance-method-pendingAdmin). There are 3 contracts in Reserver object, all of these contracts came with these same methods. 
-- Smart Contract addresses info: can be called as reserve's methods, which are: [conversionRatesContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-conversionRatesContract), [KyberNetwork](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-kyberNetwork), and [sanityRatesContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-sanityRatesContract) for this reserve
-- Rate infos: can be called as reserve's object methods, which are: [getBuyRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBuyRates), [getSanityRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSanityRate), [getSellRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getSellRates), and [reasonableDiffInBps](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-reasonableDiffInBps) 
-- Funds secure related infos: can be called as reserve's methods, which are: [tradeEnabled](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-tradeEnabled), [getBalance](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-getBalance) and [approvedWithdrawAddresses](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approvedWithdrawAddresses)
+- Permission infos: calling through baseContract's methods: [admin](https://fpr-sdk-js.knreserve.com/class/src/base_contract.js~BaseContract.html#instance-method-admin), [getAlerters](https://fpr-sdk-js.knreserve.com/class/src/base_contract.js~BaseContract.html#instance-method-getAlerters), [getOperators](https://fpr-sdk-js.knreserve.com/class/src/base_contract.js~BaseContract.html#instance-method-getOperators) and [pendingAdmin](https://fpr-sdk-js.knreserve.com/class/src/base_contract.js~BaseContract.html#instance-method-pendingAdmin). There are 3 contracts in Reserver object, all of these contracts came with these same methods. 
+- Smart Contract addresses info: can be called as reserve's methods, which are: [conversionRatesContract](https://fpr-sdk-js.knreserve.com/class/src/conversion_rates_contract.js~ConversionRatesContract.html), [KyberNetwork](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-kyberNetwork), and [sanityRatesContract](https://fpr-sdk-js.knreserve.com/class/src/sanity_rates_contract.js~SanityRatesContract.html) for this reserve
+- Rate infos: can be called as reserve's object methods, which are: [getBuyRates](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-getBuyRates), [getSellRates](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-getSellRates), [getSanityRates](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-getSanityRate) and [reasonableDiffInBps](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-reasonableDiffInBps) 
+- Funds secure related infos: can be called as reserve's methods, which are: [tradeEnabled](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-tradeEnabled), [getBalance](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-getBalance) and [approvedWithdrawAddresses](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-approvedWithdrawAddresses)
 
 The following example queries the sanityRatesContract's admin and the SanityRates contract:
 
@@ -77,7 +77,7 @@ const ETHTokenAddress = "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
 
 #### Permission Control
 
-More on permission control at [setting permission](https://developer.kyber.network/docs/ReservesGuide#setting-permissions). To set permission with SDK, call to the contract that needs to change account's role with these methods from [baseContract](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/base_contract.js~BaseContract.html). The following example add Operator 0x0a4c79cE84202b03e95B7a692E5D728d83C44c76 to ConversionRates contract
+More on permission control at [permission groups](https://github.com/KyberNetwork/kyber-pro/blob/master/tutorials/guides/tutorial-mainnetStaging.md#permission-groups). To set permission with SDK, call to the contract that needs to change account's role with these methods from [baseContract](https://fpr-sdk-js.knreserve.com/class/src/base_contract.js~BaseContract.html). The following example add Operator 0x0a4c79cE84202b03e95B7a692E5D728d83C44c76 to ConversionRates contract
 
 ```js
 const reserve = new Reserve(web3, addresses);
@@ -90,7 +90,7 @@ const reserve = new Reserve(web3, addresses);
 ```
 
 #### Control Rates
-Control rates operations can be called directly as [reserve Object](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html)'s methods. There are 5 operations regarding set rates: [setRate](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setRate), [setSanityRates](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setSanityRates), [setReasonableDiff](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setReasonableDiff), [setQtyStepFuncion](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setQtyStepFunction) and [setImbalanceStepFunction](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-setImbalanceStepFunction). More about the meaning of these operations can be viewed in [Kyber's Developer guide](https://developer.kyber.network/docs/ReservesGuide#step-3-setting-token-conversion-rates-prices).
+Control rates operations can be called directly as [reserve Object](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html)'s methods. There are 5 operations regarding set rates: [setRate](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-setRate), [setSanityRates](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-setSanityRates), [setReasonableDiff](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-setReasonableDiff), [setQtyStepFuncion](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-setQtyStepFunction) and [setImbalanceStepFunction](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-setImbalanceStepFunction). More about the meaning of these operations can be viewed in [the onboarding tutorials](https://github.com/KyberNetwork/kyber-pro/blob/master/tutorials/guides/tutorial-walkthrough1.md#4-setting-base-rates-and-step-functions-for-token).
 The following example set the base rate for KNC token.
 
 ```js
@@ -114,8 +114,8 @@ const KNCTokenAddress = "0x095c48fbaa566917474c48f745e7a430ffe7bc27";
 
 #### Fund Security
 To secure reserve's fund, there are two main operations:
-- withdrawal management: can be called as reserve's methods, which are: [approveWithdrawAddress](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-approveWithdrawAddress) and [withdraw](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-withdraw).
-- and trade managementControl: can be called as reserve's methods, which are: [disableTrade](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-disableTrade) and [enableTrade](https://doc.esdoc.org/github.com/KyberNetwork/reserve-sdk.js/class/src/reserve.js~Reserve.html#instance-method-enableTrade)
+- withdrawal management: can be called as reserve's methods, which are: [approveWithdrawAddress](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-approveWithdrawAddress) and [withdraw](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-withdraw).
+- and trade managementControl: can be called as reserve's methods, which are: [disableTrade](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-disableTrade) and [enableTrade](https://fpr-sdk-js.knreserve.com/class/src/reserve.js~Reserve.html#instance-method-enableTrade)
 
 The following example show how to stop trade from the reserve and withdraw 1000 KNC from reserve to a receiver account to secure the fund: 
 
