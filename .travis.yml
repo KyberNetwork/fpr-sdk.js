@@ -19,7 +19,7 @@ deploy:
   - provider: gcs
     access_key_id: $GCS_ACCESS_KEY_ID
     secret_access_key: $GCS_SECRET_KEY_ID
-    bucket: docs.knreserve.com
+    bucket: fpr-sdk-js.knreserve.com
     local-dir: docs
     skip_cleanup: true
     on:
