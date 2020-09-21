@@ -1,14 +1,27 @@
+sudo: required
+
 language: node_js
 
 node_js:
-  - "11"
   - "12"
 
 cache:
   directories:
     - $HOME/.npm
 
-script:
-  - npm install --dev
-  - npm build
-  - npm run test
+script: 
+  - echo "npm test temporarily disabled"
+
+install:
+  - npm install --save-dev esdoc esdoc-standard-plugin && npm run doc
+
+deploy:
+  - provider: gcs
+    access_key_id: $GCS_ACCESS_KEY_ID
+    secret_access_key: $GCS_SECRET_KEY_ID
+    bucket: docs.knreserve.com
+    local-dir: docs
+    skip_cleanup: true
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH =~ ^master$
